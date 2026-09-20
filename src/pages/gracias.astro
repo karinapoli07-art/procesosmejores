@@ -1,0 +1,84 @@
+---
+// Página de confirmación: el formulario de /contacto (Netlify Forms) redirige acá.
+// No se indexa: Base.astro acepta la prop noindex y además queda fuera del sitemap
+// y bloqueada en robots.txt.
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import { contacto } from '../data/sitio';
+
+const mientras = [
+  { href: '/cursos', nombre: 'Cursos y fechas', texto: 'Cursos de auditor interno y de 5S, en vivo por Google Meet.' },
+  { href: '/blog', nombre: 'Blog', texto: 'Artículos sobre normas ISO y sistemas de gestión.' },
+  { href: '/nosotros', nombre: 'Nosotros', texto: 'Quién está detrás de Procesos Mejores y cómo trabajamos.' },
+];
+---
+<Base
+  title="Gracias por escribirnos | Procesos Mejores"
+  description="Recibimos tu consulta. Te vamos a contactar para coordinar una primera conversación. Mientras tanto, podés ver los próximos cursos o leer el blog."
+  noindex
+>
+  <PageHeader
+    eyebrow="Mensaje enviado"
+    title="Gracias. Recibimos tu consulta."
+    lead="Te vamos a contactar para coordinar una primera conversación y, si corresponde, un diagnóstico inicial."
+  >
+    <a class="btn btn--primary" href="/">Volver al inicio</a>
+    <a class="btn btn--ghost" href="/cursos">Ver próximos cursos</a>
+  </PageHeader>
+
+  <section class="section">
+    <div class="wrap thanks">
+      <div class="urgent">
+        <h2>¿Es urgente?</h2>
+        <p>Escribinos por WhatsApp o llamanos, y mencioná que ya completaste el formulario.</p>
+        <ul class="direct">
+          <li><a href={contacto.whatsapp} target="_blank" rel="noopener">Escribir por WhatsApp</a></li>
+          <li><a href={contacto.telefonoLink}>{contacto.telefono}</a></li>
+          <li><a href={`mailto:${contacto.email}`}>{contacto.email}</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h2>Mientras tanto</h2>
+        <ul class="links">
+          {mientras.map((m) => (
+            <li>
+              <a href={m.href}>
+                <span class="links-name">{m.nombre}</span>
+                <span class="links-text">{m.texto}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .thanks {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: 48px 72px; align-items: start;
+  }
+  @media (max-width: 860px) { .thanks { grid-template-columns: 1fr; } }
+  .thanks h2 { font-size: var(--step-1); margin-bottom: 16px; }
+
+  .urgent p { color: var(--muted); max-width: 44ch; }
+  .direct { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .direct a { font-weight: 500; overflow-wrap: anywhere; }
+
+  .links { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .links li { border-bottom: 1px solid var(--line); }
+  .links a {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 16px;
+    padding-block: 16px; text-decoration: none; color: var(--ink);
+  }
+  .links a::after {
+    content: '→'; grid-column: 2; grid-row: 1 / span 2; align-self: center;
+    color: var(--primary); transition: transform .15s ease;
+  }
+  .links a:hover::after { transform: translateX(3px); }
+  .links a:hover .links-name { color: var(--primary); }
+  .links-name { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; }
+  .links-text { color: var(--muted); font-size: 0.93rem; }
+</style>

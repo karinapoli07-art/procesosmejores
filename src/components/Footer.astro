@@ -1,0 +1,67 @@
+---
+import { contacto, servicios } from '../data/sitio';
+const anio = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap cols">
+    <div class="about">
+      <a class="brand" href="/">
+        <img src="/logo.png" alt="" width="32" height="32" loading="lazy" />
+        <span>Procesos Mejores</span>
+      </a>
+      <p>Consultoría y formación en sistemas de gestión. Buenos Aires, Argentina. Desde 2012.</p>
+    </div>
+
+    <nav aria-label="Servicios">
+      <h2>Servicios</h2>
+      <ul>
+        {servicios.map((s) => <li><a href={s.href}>{s.nombre}</a></li>)}
+      </ul>
+    </nav>
+
+    <div>
+      <h2>Contacto</h2>
+      <ul>
+        <li><a href={`mailto:${contacto.email}`}>{contacto.email}</a></li>
+        <li><a href={contacto.telefonoLink}>{contacto.telefono}</a></li>
+        <li><a href={contacto.whatsapp} target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><a href={contacto.linkedin} target="_blank" rel="noopener">LinkedIn</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap legal">
+    <p>© {anio} Procesos Mejores</p>
+    <a href="/privacidad">Política de privacidad</a>
+  </div>
+</footer>
+
+<style>
+  .site-footer { background: var(--ink); color: #c9d6de; padding-block: 64px 28px; font-size: 0.95rem; }
+  .cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; }
+  @media (max-width: 760px) { .cols { grid-template-columns: 1fr; gap: 32px; } }
+
+  .brand {
+    display: inline-flex; align-items: center; gap: 10px; margin-bottom: 14px;
+    color: #fff; text-decoration: none;
+    font-family: var(--font-display); font-weight: 600; font-size: 1.08rem;
+  }
+  .brand img { width: 32px; height: 32px; border-radius: 7px; }
+  .about p { max-width: 34ch; color: #9fb2be; }
+
+  h2 {
+    color: #fff; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase;
+    font-weight: 600; margin-bottom: 14px;
+  }
+  ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+  a { color: #dbe6ec; text-decoration: none; }
+  a:hover { color: #fff; text-decoration: underline; }
+
+  .legal {
+    display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+    margin-top: 48px; padding-top: 22px; border-top: 1px solid rgba(255, 255, 255, 0.12);
+    color: #8ea3b0; font-size: 0.875rem;
+  }
+  .legal p { margin: 0; }
+  .legal a { color: #b8c8d2; }
+</style>

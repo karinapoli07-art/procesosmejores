@@ -1,0 +1,294 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import CursoCard from '../../components/CursoCard.astro';
+import { contacto, formularios } from '../../data/sitio';
+import { obtenerCursos } from '../../lib/cursos';
+
+const cursos = obtenerCursos();
+const sitio = 'https://www.procesosmejores.com';
+
+const caracteristicas = [
+  {
+    titulo: 'Encuentros en vivo por Google Meet',
+    texto:
+      'Clases sincrónicas, en línea y en vivo. Tenés la comodidad de cursar a distancia y, al mismo tiempo, interacción real con el docente: podés preguntar, discutir casos y aprender de la experiencia de los demás participantes.',
+  },
+  {
+    titulo: 'Casos prácticos',
+    texto:
+      'Combinamos exposiciones técnicas con ejemplos de implementación y ejercicios de auditoría. La idea no es memorizar requisitos, sino entender qué busca cada uno y qué evidencia buscaría un auditor.',
+  },
+  {
+    titulo: 'Material de estudio que te quedás',
+    texto:
+      'Recibís material en formato digital, pensado para acompañar las clases y para conservarlo después como guía de consulta.',
+  },
+  {
+    titulo: 'Examen final en línea',
+    texto: 'Los cursos de auditor interno de ISO 9001 e ISO/IEC 27001 cierran con un examen en línea. En los demás, la evaluación se confirma en cada edición.',
+  },
+];
+
+const preguntas = [
+  {
+    pregunta: '¿Necesito conocimientos previos?',
+    respuesta: ['[TEXTO]'],
+  },
+  {
+    pregunta: 'Vivo fuera de Argentina. ¿Puedo participar?',
+    respuesta: ['[TEXTO]'],
+  },
+  {
+    pregunta: '¿Qué pasa si falto a un encuentro?',
+    respuesta: ['[TEXTO]'],
+    confirmar: true,
+  },
+  {
+    pregunta: '¿Cómo me inscribo y cómo pago?',
+    respuesta: ['[TEXTO]'],
+    confirmarPagos: true,
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${sitio}/` },
+      { '@type': 'ListItem', position: 2, name: 'Cursos', item: `${sitio}/cursos` },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Cursos de Procesos Mejores',
+    itemListElement: cursos.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: c.titulo,
+      url: `${sitio}/cursos`,
+    })),
+  },
+];
+---
+<Base
+  title="Cursos de auditor interno ISO en vivo | Procesos Mejores"
+  description="Cursos de auditor interno ISO 9001, ISO 14001, ISO 45001 e ISO/IEC 27001 en vivo por Google Meet, con casos prácticos y material de estudio digital."
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow="Formación"
+    title="Cursos de auditor interno, en vivo"
+    lead="Encuentros sincrónicos por Google Meet, con casos prácticos y material de estudio. Para profesionales de cualquier organización, desde cualquier país de habla hispana."
+    crumbs={[{ label: 'Cursos' }]}
+  >
+    <a class="btn btn--primary" href="#calendario">Ver próximas ediciones</a>
+    <a class="btn btn--ghost" href="#equipos">Capacitación para equipos</a>
+  </PageHeader>
+
+  <!-- ============ CALENDARIO ============ -->
+  <section class="section" id="calendario">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Calendario</p>
+        <h2>Próximas ediciones</h2>
+        <p>Publicamos las fechas de cada curso con anticipación. Si el que te interesa todavía no tiene fecha, anotate en la lista de espera y te avisamos cuando abra la inscripción.</p>
+      </div>
+      <div class="grid-3">
+        {cursos.map((c) => <CursoCard curso={c} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CÓMO SON ============ -->
+  <section class="section section--soft">
+    <div class="wrap como">
+      <div class="como-intro">
+        <p class="eyebrow">Cómo son nuestros cursos</p>
+        <h2>Capacitar es más que explicar una norma.</h2>
+        <p>
+          Buscamos que cada participante pueda comprender la norma, discutirla, aplicarla y llevarse
+          herramientas concretas para su trabajo. Por eso los cursos son en vivo y con grupos de
+          distintas organizaciones y sectores: se aprende del docente y también de los compañeros.
+        </p>
+        <a class="link-arrow" href="/testimonios">Qué dicen quienes cursaron</a>
+      </div>
+
+      <div class="como-detalle">
+        <ul class="rasgos">
+          {caracteristicas.map((c) => (
+            <li>
+              <h3>{c.titulo}</h3>
+              <p>{c.texto}</p>
+            </li>
+          ))}
+        </ul>
+
+        <div class="certificados">
+          <h3>Certificados</h3>
+          <dl>
+            <div>
+              <dt>Participación</dt>
+              <dd>Requiere una asistencia mínima del 75% de los encuentros.<!-- A CONFIRMAR: que el 75% aplique a todos los cursos; las fuentes sólo lo documentan para ISO 9001 e ISO/IEC 27001. --></dd>
+            </div>
+            <div>
+              <dt>Aprobación</dt>
+              <dd>En los cursos con examen, requiere cumplir con la asistencia mínima y aprobarlo.</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ IN COMPANY ============ -->
+  <section class="section" id="equipos">
+    <div class="wrap equipos">
+      <div class="equipos-copy">
+        <p class="eyebrow">In company</p>
+        <h2>Capacitación para tu equipo</h2>
+        <p>
+          Si varias personas de tu organización necesitan formarse, podemos dictar un curso sólo para
+          tu equipo, en tu empresa o en línea, o diseñar una capacitación a medida sobre las normas y
+          metodologías con las que trabajamos.
+        </p>
+        <!-- A CONFIRMAR: cantidad mínima de participantes y cómo se cotiza una capacitación in company. -->
+        <a class="btn btn--primary" href="/contacto?servicio=formacion#formulario">Consultar por una capacitación</a>
+      </div>
+      <ul class="equipos-lista">
+        <li>
+          <h3>Contenidos a medida</h3>
+          <p>Partimos de lo que tu equipo ya sabe y de lo que necesita para su trabajo: interpretar una norma, auditar, sostener un sistema de gestión o mejorar un proceso.</p>
+        </li>
+        <li>
+          <h3>Con ejemplos de tu realidad</h3>
+          <p>Los ejercicios pueden trabajarse sobre situaciones de tu propia organización, para que lo aprendido se aplique al día siguiente.</p>
+        </li>
+        <li>
+          <h3>En tu empresa o en línea</h3>
+          <p>Coordinamos la modalidad, las fechas y los horarios según la disponibilidad de tu equipo.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ PREGUNTAS FRECUENTES ============ -->
+  <section class="section section--soft" id="preguntas">
+    <div class="wrap faq">
+      <div class="faq-intro">
+        <p class="eyebrow">Preguntas frecuentes</p>
+        <h2>Antes de inscribirte</h2>
+        <p>¿Te queda alguna duda? Escribinos a <a href={`mailto:${contacto.email}`}>{contacto.email}</a> o por <a href={contacto.whatsapp} target="_blank" rel="noopener">WhatsApp</a>.</p>
+      </div>
+      <div class="faq-lista">
+        {preguntas.map((p) => (
+          <details>
+            <summary>{p.pregunta}</summary>
+            <div class="respuesta">
+              {p.confirmar && <Fragment set:html="<!-- A CONFIRMAR: si los encuentros se graban o cómo se recupera una clase a la que se faltó. -->" />}
+              {p.confirmarPagos && <Fragment set:html="<!-- A CONFIRMAR: que estos medios de pago apliquen a todos los cursos (la fuente es la página del curso ISO 27001). -->" />}
+              {p.respuesta.map((r) => <p>{r}</p>)}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LISTA DE ESPERA ============ -->
+  <section class="espera">
+    <div class="wrap espera-inner">
+      <div>
+        <h2>¿No encontrás la fecha que buscás?</h2>
+        <p>
+          Anotate en la lista de espera, indicá qué curso te interesa y te avisamos cuando abra la
+          inscripción. También podés contarnos qué curso te gustaría que sumemos.
+        </p>
+      </div>
+      <div class="espera-acciones">
+        <a class="btn btn--primary" href={formularios.listaDeEspera} target="_blank" rel="noopener">Anotarme en la lista de espera</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---------- Encabezado ---------- */
+  .btn--ghost { background: #fff; }
+
+  /* ---------- Calendario ---------- */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  @media (max-width: 980px) { .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) { .grid-3 { grid-template-columns: 1fr; } }
+
+  /* ---------- Cómo son ---------- */
+  .como { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 48px 80px; align-items: start; }
+  @media (max-width: 920px) { .como { grid-template-columns: 1fr; } }
+  .como-intro h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .como-intro p { max-width: 52ch; }
+
+  .rasgos { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .rasgos li { padding-block: 20px; border-bottom: 1px solid var(--line); }
+  .rasgos h3, .certificados h3 { font-size: 1.1rem; margin-bottom: 6px; }
+  .rasgos p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  .certificados {
+    margin-top: 32px; padding: 24px 28px;
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+    border-left: 3px solid var(--brand);
+  }
+  .certificados h3 { margin-bottom: 14px; }
+  .certificados dl { margin: 0; display: grid; gap: 10px; }
+  .certificados dl div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; font-size: 0.97rem; }
+  @media (max-width: 480px) { .certificados dl div { grid-template-columns: 1fr; gap: 2px; } }
+  .certificados dt { font-family: var(--font-display); font-weight: 600; color: var(--ink); }
+  .certificados dd { margin: 0; color: var(--text); }
+
+  /* ---------- In company ---------- */
+  .equipos { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 40px 80px; align-items: start; }
+  @media (max-width: 920px) { .equipos { grid-template-columns: 1fr; } }
+  .equipos-copy h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .equipos-copy p { max-width: 52ch; }
+  .equipos-copy .btn { margin-top: 8px; }
+  .equipos-lista { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .equipos-lista li { padding-block: 20px; border-bottom: 1px solid var(--line); }
+  .equipos-lista h3 { font-size: 1.1rem; margin-bottom: 6px; }
+  .equipos-lista p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  /* ---------- Preguntas ---------- */
+  .faq { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 32px 80px; align-items: start; }
+  @media (max-width: 920px) { .faq { grid-template-columns: 1fr; } }
+  .faq-intro h2 { font-size: var(--step-3); margin-bottom: 16px; }
+  .faq-intro p { color: var(--muted); max-width: 40ch; }
+  .faq-lista { border-top: 1px solid var(--line-strong); }
+  details { border-bottom: 1px solid var(--line); }
+  summary {
+    list-style: none; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    padding-block: 20px;
+    font-family: var(--font-display); font-weight: 600; font-size: 1.08rem; color: var(--ink);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: '+'; flex: none;
+    width: 28px; height: 28px; border-radius: 50%;
+    display: grid; place-items: center;
+    border: 1px solid var(--line-strong); background: #fff;
+    font-weight: 400; font-size: 1.1rem; line-height: 1; color: var(--primary);
+  }
+  details[open] summary::after { content: '−'; }
+  summary:hover { color: var(--primary); }
+  .respuesta { padding-bottom: 20px; max-width: 64ch; }
+  .respuesta p { color: var(--text); }
+  .respuesta p:last-child { margin-bottom: 0; }
+
+  /* ---------- Lista de espera ---------- */
+  .espera { padding-block: clamp(56px, 7vw, 96px); background: var(--primary-soft); }
+  .espera-inner { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 28px 56px; align-items: center; }
+  @media (max-width: 860px) { .espera-inner { grid-template-columns: 1fr; } }
+  .espera h2 { font-size: var(--step-3); max-width: 22ch; }
+  .espera p { margin: 16px 0 0; max-width: 58ch; }
+  .espera-acciones { display: flex; flex-wrap: wrap; gap: 12px; }
+</style>

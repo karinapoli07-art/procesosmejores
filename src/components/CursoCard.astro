@@ -1,0 +1,85 @@
+---
+// Tarjeta de curso. Renderiza los dos estados (abierto / lista de espera)
+// y un script en el navegador vuelve a decidir cuál mostrar según la fecha
+// de hoy, así un curso vencido nunca aparece como abierto.
+import type { Curso } from '../lib/cursos';
+import { fechaLarga } from '../lib/cursos';
+import { formularios } from '../data/sitio';
+
+interface Props { curso: Curso; }
+const { curso } = Astro.props;
+const abierto = curso.abierto;
+---
+<article class="curso" data-inicio={curso.inicio}>
+  <div class="top">
+    <p class="area">{curso.area}</p>
+    <span class="badge badge--abierto" data-estado="abierto" hidden={!abierto}>Inscripción abierta</span>
+    <span class="badge badge--espera" data-estado="espera" hidden={abierto}>Lista de espera</span>
+  </div>
+  <h3>{curso.titulo}</h3>
+  <p class="desc">{curso.descripcion}</p>
+
+  <div class="estado" data-estado="abierto" hidden={!abierto}>
+    <dl>
+      {curso.inicio && <div><dt>Inicio</dt><dd>{fechaLarga(curso.inicio)}</dd></div>}
+      {curso.sesiones && <div><dt>Encuentros</dt><dd>{curso.sesiones}</dd></div>}
+      {curso.horario && <div><dt>Horario</dt><dd>{curso.horario}</dd></div>}
+      {curso.horas > 0 && <div><dt>Duración</dt><dd>{curso.horas} horas</dd></div>}
+      {curso.modalidad && <div><dt>Modalidad</dt><dd>{curso.modalidad}</dd></div>}
+      {curso.precio && <div><dt>Precio</dt><dd>{curso.precio} {curso.precioNota}</dd></div>}
+    </dl>
+    <div class="acciones">
+      {curso.inscripcion && <a class="btn btn--primary btn--small" href={curso.inscripcion} target="_blank" rel="noopener">Inscribirme</a>}
+    </div>
+  </div>
+
+  <div class="estado" data-estado="espera" hidden={abierto}>
+    <p class="proxima">{curso.proximaEdicion || 'Próxima edición a confirmar'}</p>
+    <div class="acciones">
+      <a class="btn btn--ghost btn--small" href={formularios.listaDeEspera} target="_blank" rel="noopener">Avisame cuando abra</a>
+    </div>
+  </div>
+</article>
+
+<script>
+  // Revalida el estado de cada curso con la fecha del visitante.
+  const hoy = Date.now();
+  document.querySelectorAll<HTMLElement>('[data-inicio]').forEach((el) => {
+    const inicio = el.dataset.inicio;
+    const abierto = !!inicio && new Date(`${inicio}T23:59:59-03:00`).getTime() >= hoy;
+    el.querySelectorAll<HTMLElement>('[data-estado]').forEach((n) => {
+      n.hidden = (n.dataset.estado === 'abierto') !== abierto;
+    });
+  });
+</script>
+
+<style>
+  .curso {
+    display: flex; flex-direction: column; gap: 14px; height: 100%;
+    padding: 28px; background: #fff;
+    border: 1px solid var(--line); border-radius: var(--radius);
+  }
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .area { margin: 0; font-size: 0.85rem; color: var(--muted); }
+  .badge {
+    font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.02em;
+    padding: 5px 10px; border-radius: 999px; white-space: nowrap;
+  }
+  .badge--abierto { background: #e3f4ea; color: #146c3d; }
+  .badge--espera { background: var(--soft); color: var(--muted); border: 1px solid var(--line); }
+  .badge[hidden], .estado[hidden] { display: none; }
+
+  h3 { font-size: var(--step-1); }
+  h3 a { color: var(--ink); text-decoration: none; }
+  h3 a:hover { color: var(--primary); }
+  .desc { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  .estado { margin-top: auto; display: grid; gap: 18px; }
+  dl { margin: 0; display: grid; gap: 8px; padding-top: 16px; border-top: 1px solid var(--line); }
+  dl div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; font-size: 0.93rem; }
+  dt { color: var(--muted); }
+  dd { margin: 0; color: var(--ink); }
+  dd::first-letter { text-transform: uppercase; }
+  .proxima { margin: 0; padding-top: 16px; border-top: 1px solid var(--line); font-size: 0.95rem; color: var(--ink); }
+  .acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 20px; }
+</style>

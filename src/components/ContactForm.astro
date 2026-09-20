@@ -1,0 +1,84 @@
+---
+// Formulario corto de contacto / diagnóstico inicial.
+// Usa Netlify Forms: funciona automáticamente cuando el sitio se publica en
+// Netlify. En la vista previa local el envío no llega a ningún lado.
+import { servicios } from '../data/sitio';
+
+interface Props { servicio?: string; }
+const { servicio = '' } = Astro.props;
+---
+<form
+  class="form"
+  name="diagnostico"
+  method="POST"
+  action="/gracias"
+  data-netlify="true"
+  netlify-honeypot="empresa-web"
+>
+  <input type="hidden" name="form-name" value="diagnostico" />
+  <p class="visually-hidden"><label>No completar: <input name="empresa-web" tabindex="-1" autocomplete="off" /></label></p>
+
+  <div class="row">
+    <div class="field">
+      <label for="f-nombre">Nombre y apellido</label>
+      <input id="f-nombre" name="nombre" type="text" autocomplete="name" required />
+    </div>
+    <div class="field">
+      <label for="f-empresa">Empresa <span class="opt">(opcional)</span></label>
+      <input id="f-empresa" name="empresa" type="text" autocomplete="organization" />
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="field">
+      <label for="f-email">Email</label>
+      <input id="f-email" name="email" type="email" autocomplete="email" required />
+    </div>
+    <div class="field">
+      <label for="f-telefono">Teléfono <span class="opt">(opcional)</span></label>
+      <input id="f-telefono" name="telefono" type="tel" autocomplete="tel" />
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="f-servicio">¿En qué te podemos ayudar?</label>
+    <select id="f-servicio" name="servicio">
+      <option value="">Elegí una opción</option>
+      {servicios.map((s) => <option value={s.id} selected={s.id === servicio}>{s.nombre}</option>)}
+      <option value="otro" selected={servicio === 'otro'}>Otra consulta</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label for="f-mensaje">Contanos brevemente tu situación <span class="opt">(opcional)</span></label>
+    <textarea id="f-mensaje" name="mensaje" rows="4"></textarea>
+  </div>
+
+  <button class="btn btn--primary" type="submit">Enviar solicitud</button>
+  <p class="nota">Te contactamos para coordinar una primera conversación. No compartimos tus datos con terceros.</p>
+</form>
+
+<script>
+  // Preselecciona el servicio si la URL trae ?servicio=...
+  const valor = new URLSearchParams(location.search).get('servicio');
+  const select = document.querySelector<HTMLSelectElement>('#f-servicio');
+  if (valor && select && [...select.options].some((o) => o.value === valor)) select.value = valor;
+</script>
+
+<style>
+  .form { display: grid; gap: 18px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 620px) { .row { grid-template-columns: 1fr; } }
+  .field { display: grid; gap: 6px; }
+  label { font-family: var(--font-display); font-weight: 500; font-size: 0.95rem; color: var(--ink); }
+  .opt { font-weight: 400; color: var(--muted); }
+  input, select, textarea {
+    font: inherit; font-size: 1rem; color: var(--ink);
+    width: 100%; padding: 12px 14px; min-height: 48px;
+    background: #fff; border: 1px solid var(--line-strong); border-radius: 8px;
+  }
+  textarea { resize: vertical; min-height: 110px; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+  .btn { justify-self: start; }
+  .nota { margin: 0; font-size: 0.875rem; color: var(--muted); }
+</style>

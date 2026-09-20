@@ -1,0 +1,230 @@
+---
+import { servicios } from '../data/sitio';
+---
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href="/" aria-label="Procesos Mejores, inicio">
+      <img src="/logo.png" alt="" width="34" height="34" />
+      <span>Procesos Mejores</span>
+    </a>
+
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu">
+      <span class="visually-hidden">Abrir menú</span>
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+    </button>
+
+    <nav id="menu" class="nav" aria-label="Principal">
+      <ul>
+        <li class="has-sub">
+          <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="submenu-servicios">
+            Servicios
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" /></svg>
+          </button>
+          <!-- El contenedor arranca pegado al botón: el relleno de arriba hace
+               de puente, así el mouse nunca cruza un hueco sin superficie. -->
+          <div class="sub" id="submenu-servicios">
+            <ul>
+              {servicios.map((s) => (
+                <li><a href={s.href}>{s.nombre}</a></li>
+              ))}
+            </ul>
+          </div>
+        </li>
+        <li><a href="/cursos">Cursos</a></li>
+        <li><a href="/nosotros">Nosotros</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="/contacto">Contacto</a></li>
+      </ul>
+      <a class="btn btn--primary btn--small nav-cta" href="/contacto#formulario">Solicitar diagnóstico</a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector('.site-header');
+  const toggle = header?.querySelector('.menu-toggle');
+  const subToggle = header?.querySelector('.sub-toggle');
+  const subWrap = header?.querySelector('.has-sub');
+  const escritorio = window.matchMedia('(min-width: 921px)');
+
+  // --- Menú de celular ---
+  toggle?.addEventListener('click', () => {
+    const abierto = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', String(!abierto));
+    header?.classList.toggle('is-open', !abierto);
+  });
+
+  // --- Desplegable de servicios ---
+  // Intención, no posición: al salir esperamos un momento antes de cerrar,
+  // y si el mouse vuelve a entrar, cancelamos el cierre. Así se puede bajar
+  // en diagonal sin que se escape.
+  let cierre;
+  const abrir = () => {
+    clearTimeout(cierre);
+    subToggle?.setAttribute('aria-expanded', 'true');
+  };
+  const cerrar = (demora = 0) => {
+    clearTimeout(cierre);
+    cierre = window.setTimeout(() => subToggle?.setAttribute('aria-expanded', 'false'), demora);
+  };
+
+  subToggle?.addEventListener('click', () => {
+    const abierto = subToggle.getAttribute('aria-expanded') === 'true';
+    abierto ? cerrar() : abrir();
+  });
+
+  subWrap?.addEventListener('pointerenter', (e) => {
+    if (escritorio.matches && e.pointerType !== 'touch') abrir();
+  });
+  subWrap?.addEventListener('pointerleave', (e) => {
+    if (escritorio.matches && e.pointerType !== 'touch') cerrar(220);
+  });
+  // Con teclado: se mantiene abierto mientras el foco esté adentro.
+  subWrap?.addEventListener('focusin', abrir);
+  subWrap?.addEventListener('focusout', (e) => {
+    if (!subWrap.contains(e.relatedTarget)) cerrar();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && subToggle?.getAttribute('aria-expanded') === 'true') {
+      cerrar();
+      subToggle.focus();
+    }
+  });
+  document.addEventListener('pointerdown', (e) => {
+    if (!subWrap?.contains(e.target)) cerrar();
+  });
+
+  // Al elegir un destino se cierra todo.
+  header?.querySelectorAll('.nav a').forEach((a) =>
+    a.addEventListener('click', () => {
+      header.classList.remove('is-open');
+      toggle?.setAttribute('aria-expanded', 'false');
+      cerrar();
+    }),
+  );
+
+  // Línea inferior sólo cuando hay contenido pasando por debajo.
+  const alScrollear = () => header?.classList.toggle('is-scrolled', window.scrollY > 4);
+  alScrollear();
+  window.addEventListener('scroll', alScrollear, { passive: true });
+</script>
+
+<style>
+  .site-header {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255, 255, 255, 0.86);
+    backdrop-filter: blur(14px) saturate(150%);
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--base) var(--ease);
+  }
+  .site-header.is-scrolled { border-bottom-color: var(--line); }
+  @media (prefers-reduced-transparency: reduce) {
+    .site-header { background: var(--white); backdrop-filter: none; }
+  }
+  .bar { display: flex; align-items: center; gap: 24px; min-height: 68px; }
+
+  .brand {
+    display: inline-flex; align-items: center; gap: 11px;
+    text-decoration: none; color: var(--ink);
+    font-weight: 700; font-size: 1.08rem; letter-spacing: -0.015em;
+    margin-right: auto;
+  }
+  .brand img { width: 34px; height: 34px; border-radius: 3px; }
+
+  .nav { display: flex; align-items: center; gap: 22px; }
+  .nav > ul { display: flex; align-items: center; gap: 2px; list-style: none; margin: 0; padding: 0; }
+
+  .nav > ul a, .sub-toggle {
+    font-family: var(--font-sans);
+    font-weight: 400; font-size: 0.975rem;
+    color: var(--text); text-decoration: none;
+    padding: 9px 11px; border-radius: var(--radius);
+    background: none; border: 0; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+    position: relative;
+    transition: color var(--fast) var(--ease);
+  }
+  /* Subrayado que crece desde el centro. */
+  .nav > ul a::after, .sub-toggle::after {
+    content: ''; position: absolute; left: 11px; right: 11px; bottom: 4px;
+    height: 1px; background: var(--ink);
+    transform: scaleX(0); transform-origin: center;
+    transition: transform var(--base) var(--ease);
+  }
+  .nav > ul a:hover, .sub-toggle:hover { color: var(--ink); }
+  .nav > ul a:hover::after, .sub-toggle:hover::after { transform: scaleX(1); }
+
+  .sub-toggle svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 1.7; transition: transform var(--base) var(--ease); }
+  .sub-toggle[aria-expanded='true'] svg { transform: rotate(180deg); }
+
+  .nav a.nav-cta {
+    color: var(--white); background: var(--primary);
+    padding: 9px 15px; font-weight: 700;
+  }
+  .nav a.nav-cta::after { display: none; }
+  .nav a.nav-cta:hover { color: var(--white); background: var(--primary-dark); }
+
+  /* --- Desplegable --- */
+  .has-sub { position: relative; }
+  .sub {
+    position: absolute; top: 100%; left: 0;
+    padding-top: 9px;              /* puente: superficie continua, sin hueco */
+    min-width: 252px;
+    opacity: 0; visibility: hidden;
+    transform: translateY(-4px);
+    transform-origin: top left;    /* nace del botón que lo abrió */
+    transition: opacity var(--fast) var(--ease), transform var(--fast) var(--ease), visibility 0s linear var(--fast);
+  }
+  .sub-toggle[aria-expanded='true'] + .sub {
+    opacity: 1; visibility: visible; transform: none;
+    transition: opacity var(--base) var(--ease), transform var(--base) var(--ease), visibility 0s;
+  }
+  .sub ul {
+    list-style: none; margin: 0; padding: 6px;
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: 0 14px 34px -22px rgba(17, 26, 32, 0.45);
+  }
+  .sub a {
+    display: block; padding: 10px 12px; border-radius: 2px;
+    font-size: 0.945rem; color: var(--text); text-decoration: none;
+    transition: background-color var(--fast) var(--ease), color var(--fast) var(--ease);
+  }
+  .sub a:hover { background: var(--paper); color: var(--ink); }
+
+  /* --- Botón de celular --- */
+  .menu-toggle {
+    display: none;
+    width: 42px; height: 42px; border: 1px solid var(--line); border-radius: var(--radius);
+    background: var(--white); cursor: pointer; align-items: center; justify-content: center;
+    transition: transform var(--fast) var(--ease);
+  }
+  .menu-toggle:active { transform: scale(0.96); }
+  .menu-toggle svg { width: 21px; height: 21px; stroke: var(--ink); stroke-width: 1.7; fill: none; }
+
+  @media (max-width: 920px) {
+    .menu-toggle { display: inline-flex; }
+    .nav {
+      display: none;
+      position: absolute; left: 0; right: 0; top: 100%;
+      flex-direction: column; align-items: stretch; gap: 10px;
+      background: var(--white); border-bottom: 1px solid var(--line);
+      padding: 10px var(--gutter) 18px;
+    }
+    .site-header.is-open .nav { display: flex; }
+    .nav > ul { flex-direction: column; align-items: stretch; }
+    .nav > ul a, .sub-toggle { width: 100%; justify-content: space-between; padding: 12px 2px; font-size: 1.02rem; }
+    .nav > ul a::after, .sub-toggle::after { display: none; }
+    .sub {
+      position: static; opacity: 1; visibility: visible; transform: none;
+      padding-top: 0; min-width: 0;
+      display: none;
+    }
+    .sub-toggle[aria-expanded='true'] + .sub { display: block; }
+    .sub ul { border: 0; box-shadow: none; padding: 0 0 6px 14px; }
+    .sub a { padding: 10px 2px; }
+    .nav a.nav-cta { width: 100%; justify-content: center; padding: 13px 15px; }
+  }
+</style>

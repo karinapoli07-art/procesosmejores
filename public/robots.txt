@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Página de confirmación de envío del formulario: no aporta a la búsqueda.
+Disallow: /gracias
+
+Sitemap: https://www.procesosmejores.com/sitemap-index.xml
