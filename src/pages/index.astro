@@ -32,7 +32,7 @@ const jsonLd = [
 ---
 <Base
   title="Consultoría ISO y cursos de auditor interno | Procesos Mejores"
-  description="Implementación de normas ISO, inocuidad alimentaria, Lean Manufacturing y vCISO. Cursos de auditor interno en vivo. Consultora argentina, desde 2012."
+  description="Normas ISO, inocuidad alimentaria, Lean Manufacturing y vCISO. Cursos de auditor interno en vivo. Consultora argentina, desde 2012."
   jsonLd={jsonLd}
 >
   <!-- ============ PORTADA ============ -->
@@ -70,7 +70,7 @@ const jsonLd = [
           <div data-estado="espera" hidden>
             <h2>Nuevas ediciones en preparación</h2>
             <p>Mirá el calendario y anotate en la lista de espera del curso que te interese.</p>
-            <a class="link-arrow" href="/cursos">Ver calendario</a>
+            <a class="link-arrow" href="/cursos#calendario">Ver calendario</a>
           </div>
         </aside>
       )}
@@ -103,7 +103,7 @@ const jsonLd = [
               <ul class="chips">{s.normas.map((n) => <li class="chip">{n}</li>)}</ul>
             </div>
             <p>{s.resumen}</p>
-            <a class="link-arrow" href={s.href} aria-label={`Más sobre ${s.nombre}`}>Ver más</a>
+            <a class="link-arrow" href={s.href} aria-label={`Ver más sobre ${s.nombre}`}>Ver más</a>
           </li>
         ))}
       </ul>
@@ -145,7 +145,7 @@ const jsonLd = [
         <div>
           <p class="eyebrow">Formación</p>
           <h2>Cursos de auditor interno, en vivo.</h2>
-          <p>En vivo por Google Meet, con casos prácticos y material de estudio.</p>
+          <p>Por Google Meet, con casos prácticos y material de estudio.</p>
         </div>
         <a class="link-arrow" href="/cursos">Ver todos los cursos</a>
       </div>

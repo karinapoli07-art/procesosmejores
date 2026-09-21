@@ -142,7 +142,7 @@ const jsonLd = [
                 <p>{s.resumen}</p>
                 <ul class="chips">{s.normas.map((n) => <li class="chip">{n}</li>)}</ul>
               </div>
-              <a class="link-arrow" href={s.href} aria-label={`Ver el servicio ${s.nombre}`}>Ver servicio</a>
+              <a class="link-arrow" href={s.href} aria-label={`Ver servicio: ${s.nombre}`}>Ver servicio</a>
             </li>
           ))}
           {cursos.map((c) => (
@@ -154,7 +154,7 @@ const jsonLd = [
               <div class="rel-copy">
                 <p>{c.descripcion}</p>
               </div>
-              <a class="link-arrow" href={`/cursos#${c.slug}`} aria-label={`Ver el curso ${c.titulo}`}>Ver curso</a>
+              <a class="link-arrow" href={`/cursos#${c.slug}`} aria-label={`Ver curso: ${c.titulo}`}>Ver curso</a>
             </li>
           ))}
         </ul>
