@@ -83,10 +83,10 @@ const jsonLd = [
   <!-- ============ CREDENCIALES ============ -->
   <section class="facts" aria-label="Sobre Procesos Mejores">
     <ul class="wrap facts-list">
-      <li><strong>Desde 2012</strong></li>
-      <li><strong>Experiencia en Toyota</strong></li>
-      <li><strong>Cursos en vivo</strong></li>
-      <li><strong>Registrada en ROCS</strong></li>
+      <li><strong>Desde 2012</strong><span>Consultoría y formación en sistemas de gestión</span></li>
+      <li><strong>Experiencia en Toyota</strong><span>El fundador trabajó en Toyota Argentina</span></li>
+      <li><strong>Cursos en vivo</strong><span>Por Google Meet, con casos prácticos</span></li>
+      <li><strong>Registrada en ROCS</strong><span>Registro de Organizaciones Comprometidas con la Sostenibilidad (IRAM)</span></li>
     </ul>
   </section>
 
@@ -288,7 +288,7 @@ const jsonLd = [
   }
   @media (max-width: 920px) { .facts-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 480px) { .facts-list { grid-template-columns: 1fr; } }
-  .facts li { padding-left: 16px; border-left: 2px solid var(--brand); }
+  .facts li { display: grid; gap: 2px; align-content: start; padding-left: 16px; border-left: 2px solid var(--brand); }
   .facts strong { font-weight: 700; color: var(--ink); font-size: 1.0625rem; }
   .facts span { font-size: 0.9rem; color: var(--muted); line-height: 1.45; }
 
