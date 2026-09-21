@@ -1,8 +1,8 @@
 ---
 // Formulario corto de contacto / diagnóstico inicial.
-// Usa Netlify Forms: funciona automáticamente cuando el sitio se publica en
-// Netlify. En la vista previa local el envío no llega a ningún lado.
-import { servicios } from '../data/sitio';
+// Usa Netlify Forms: funciona cuando el sitio está publicado en Netlify. En la
+// vista local no se envía (el formulario lo avisa).
+import { servicios, contacto } from '../data/sitio';
 
 interface Props { servicio?: string; }
 const { servicio = '' } = Astro.props;
@@ -13,10 +13,12 @@ const { servicio = '' } = Astro.props;
   method="POST"
   action="/gracias/"
   data-netlify="true"
-  netlify-honeypot="empresa-web"
+  netlify-honeypot="bot-field"
 >
   <input type="hidden" name="form-name" value="diagnostico" />
-  <p class="visually-hidden"><label>No completar: <input name="empresa-web" tabindex="-1" autocomplete="off" /></label></p>
+  <!-- Trampa para robots: oculta del todo y con un nombre que el autocompletado no reconoce.
+       Si llega llena, Netlify descarta el envío. -->
+  <p hidden aria-hidden="true"><label>No completar: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
 
   <div class="row">
     <div class="field">
@@ -54,11 +56,50 @@ const { servicio = '' } = Astro.props;
     <textarea id="f-mensaje" name="mensaje" rows="4"></textarea>
   </div>
 
+  <p class="form-error" data-error role="alert" hidden>
+    No pudimos enviar tu mensaje. Probá de nuevo en un rato, o escribinos por
+    <a href={contacto.whatsapp} target="_blank" rel="noopener">WhatsApp</a> o a
+    <a href={`mailto:${contacto.email}`}>{contacto.email}</a>.
+  </p>
+  <p class="form-aviso" data-local hidden>
+    En la vista local el formulario no se envía: funciona en el sitio publicado en Netlify.
+  </p>
+
   <button class="btn btn--primary" type="submit">Enviar solicitud</button>
   <p class="nota">Te contactamos para coordinar una primera conversación. No vendemos ni compartimos tus datos con terceros sin tu consentimiento, salvo que la ley lo exija.</p>
 </form>
 
 <script>
+  // Envío con fetch: si Netlify lo recibe, va a /gracias/; si falla, avisa y ofrece WhatsApp
+  // y email. Sin JavaScript el formulario se envía igual, de la forma común.
+  document.querySelectorAll<HTMLFormElement>('form[name="diagnostico"]').forEach((form) => {
+    const boton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    const error = form.querySelector<HTMLElement>('[data-error]');
+    const local = form.querySelector<HTMLElement>('[data-local]');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (error) error.hidden = true;
+      if (['localhost', '127.0.0.1'].includes(location.hostname)) {
+        if (local) local.hidden = false;
+        return;
+      }
+      const texto = boton?.textContent ?? 'Enviar solicitud';
+      if (boton) { boton.disabled = true; boton.textContent = 'Enviando…'; }
+      try {
+        const respuesta = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: new URLSearchParams(new FormData(form) as any).toString(),
+        });
+        if (!respuesta.ok) throw new Error(String(respuesta.status));
+        location.href = form.getAttribute('action') || '/gracias/';
+      } catch {
+        if (error) error.hidden = false;
+        if (boton) { boton.disabled = false; boton.textContent = texto; }
+      }
+    });
+  });
+
   // Preselecciona el servicio si la URL trae ?servicio=...
   const valor = new URLSearchParams(location.search).get('servicio');
   const select = document.querySelector<HTMLSelectElement>('#f-servicio');
@@ -81,4 +122,9 @@ const { servicio = '' } = Astro.props;
   input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
   .btn { justify-self: start; }
   .nota { margin: 0; font-size: 0.875rem; color: var(--muted); }
+  .form-error, .form-aviso { margin: 0; padding: 12px 14px; border-radius: 8px; font-size: 0.95rem; }
+  .form-error { background: #fdf2f2; border: 1px solid #efc4c4; color: #8a1f1f; }
+  .form-error a { color: inherit; }
+  .form-aviso { background: var(--paper); border: 1px solid var(--line); color: var(--text); }
+  .btn:disabled { opacity: 0.7; cursor: progress; }
 </style>
