@@ -6,12 +6,14 @@ import TestimonioCard from '../components/TestimonioCard.astro';
 import CtaDiagnostico from '../components/CtaDiagnostico.astro';
 import { servicios, pasos, testimonios, empresasParticipantes, contacto } from '../data/sitio';
 import { obtenerCursos, proximoCurso, fechaLarga } from '../lib/cursos';
+import { obtenerNotas } from '../lib/blog';
 import rodrigo from '../assets/rodrigo.png';
 import rodrigoClase from '../assets/rodrigo-clase.jpg';
 
 const cursos = obtenerCursos().slice(0, 3);
 const proximo = proximoCurso();
 const destacados = testimonios.filter((t) => t.destacado);
+const notas = obtenerNotas().slice(0, 2);
 
 // Íconos de línea de cada servicio (24×24, trazo del color del texto).
 const trazo = (d: string) =>
@@ -233,6 +235,29 @@ const jsonLd = [
     </div>
   </section>
 
+  <!-- ============ NOTAS DEL BLOG ============ -->
+  <section class="section notas-sec" id="notas">
+    <div class="wrap">
+      <div class="section-head section-head--row">
+        <div>
+          <p class="eyebrow">Blog</p>
+          <h2>Notas sobre sistemas de gestión.</h2>
+        </div>
+        <a class="link-arrow" href="/blog">Ver todas las notas</a>
+      </div>
+      <ul class="notas">
+        {notas.map((n) => (
+          <li class="nota">
+            <ul class="chips">{n.etiquetas.slice(0, 2).map((e) => <li class="chip">{e}</li>)}</ul>
+            <h3><a href={`/blog/${n.slug}`}>{n.titulo}</a></h3>
+            <p>{n.descripcion}</p>
+            <span class="link-arrow" aria-hidden="true">Leer nota</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
   <CtaDiagnostico />
 </Base>
 
@@ -363,6 +388,21 @@ const jsonLd = [
   .testi-foto { margin: 0; }
   .testi-foto img { width: 100%; max-width: 240px; border-radius: 12px; border: 1px solid var(--line); }
   .testi-foto figcaption { margin-top: 8px; font-size: var(--step--2); color: var(--muted); }
+  .notas-sec { border-top: 1px solid var(--line); }
+  .notas { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  @media (max-width: 760px) { .notas { grid-template-columns: 1fr; } }
+  .nota {
+    position: relative; display: grid; gap: 14px; align-content: start; padding: 28px;
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    transition: border-color var(--base) var(--ease);
+  }
+  .nota:hover { border-color: var(--primary); }
+  .nota h3 { font-size: var(--step-1); }
+  .nota h3 a { color: var(--ink); text-decoration: none; }
+  .nota h3 a::after { content: ''; position: absolute; inset: 0; }
+  .nota:hover h3 a { color: var(--primary); }
+  .nota p { margin: 0; color: var(--muted); }
+  .nota:hover .link-arrow::after { transform: translateX(4px); }
   .participants { margin-top: 36px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
   .participants p { margin: 0; font-size: 0.9rem; color: var(--muted); }
   .participants ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
