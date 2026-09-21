@@ -17,7 +17,7 @@ const normas = [
   {
     codigo: 'ISO 9001',
     tema: 'Gestión de la calidad',
-    que: 'Ordena los procesos para entregar de forma consistente lo que el cliente pide y cumplir los requisitos legales que aplican. Es la norma de sistemas de gestión más difundida y la base de muchas otras.',
+    que: 'Ordena los procesos para entregar de forma consistente lo que el cliente pide y cumplir los requisitos legales aplicables. Es la norma de sistemas de gestión más difundida y la base de muchas otras.',
     para: 'Cualquier organización, de cualquier rubro y tamaño, que quiera trabajar con procesos claros o que necesite certificar por pedido de sus clientes.',
     curso: 'iso-9001',
   },
@@ -116,7 +116,7 @@ const faqs = [
 const lecturas = [
   {
     href: '/blog/iso-9001-e-iso-27001',
-    titulo: 'ISO 9001 + ISO 27001: un sistema de calidad como base para la seguridad de la información',
+    titulo: '¿ISO 9001 ayuda a implementar ISO/IEC 27001?',
     texto: 'Qué se puede reutilizar del sistema de gestión de la calidad y qué hay que sumar para un SGSI.',
   },
   {
@@ -177,7 +177,7 @@ const jsonLd = [
     lead="Calidad, ambiente, seguridad y salud en el trabajo, energía y organizaciones educativas. Te acompañamos en la gestión de riesgos y el cumplimiento normativo, desde el diagnóstico hasta la auditoría de certificación."
     crumbs={[{ label: 'Servicios', href: '/#servicios' }, { label: servicio.nombre }]}
   >
-    <a class="btn btn--primary" href={consultar}>Solicitar diagnóstico</a>
+    <a class="btn btn--primary" href={consultar}>Solicitar diagnóstico inicial</a>
     <a class="btn btn--ghost btn--white" href="/cursos">Ver cursos</a>
   </PageHeader>
 
@@ -204,7 +204,7 @@ const jsonLd = [
           </p>
           <p>
             La certificación es voluntaria. La otorga un organismo certificador independiente después de
-            auditar el sistema, y sirve para demostrarlo ante terceros: clientes, licitaciones, casas matrices.
+            auditar el sistema, y sirve para demostrar la conformidad con la norma ante terceros: clientes, licitaciones, casas matrices.
             Muchas organizaciones certifican porque se lo piden; otras implementan la norma sin certificar,
             para trabajar mejor.
           </p>
@@ -213,7 +213,7 @@ const jsonLd = [
 
       <div class="pdca-block">
         <p class="pdca-label">
-          Todas comparten la misma lógica: el ciclo PDCA de W. Edwards Deming, y una estructura común de requisitos.
+          Todas comparten la misma lógica: el ciclo PDCA (PHVA, en castellano) de W. Edwards Deming y una estructura común de requisitos.
         </p>
         <ol class="pdca">
           {pdca.map((p) => (
@@ -263,7 +263,7 @@ const jsonLd = [
         <p>
           <strong>¿Seguridad de la información?</strong>
           ISO/IEC 27001 la trabajamos desde el servicio de <a href="/servicios/vciso">vCISO</a>: gobierno,
-          gestión de riesgos y cumplimiento, sin sumar un puesto full time.
+          gestión de riesgos y cumplimiento, sin sumar un puesto de tiempo completo.
         </p>
         <p>
           <strong>¿Industria de alimentos?</strong>
@@ -365,7 +365,7 @@ const jsonLd = [
           Además, los organismos certificadores pueden ofrecer auditorías integradas, con honorarios menores que
           si cada norma se auditara por separado.
         </p>
-        <a class="link-arrow" href="/blog/iso-9001-e-iso-27001">Leer: ISO 9001 + ISO 27001</a>
+        <a class="link-arrow" href="/blog/iso-9001-e-iso-27001">Leer: ISO 9001 e ISO/IEC 27001</a>
       </div>
 
       <div class="integ-lists">

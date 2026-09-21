@@ -40,7 +40,7 @@ export const servicios = [
     id: 'vciso',
     href: '/servicios/vciso',
     nombre: 'vCISO',
-    resumen: 'Un responsable externo de seguridad de la información, sin sumar un puesto full time.',
+    resumen: 'Un responsable externo de seguridad de la información, sin sumar un puesto de tiempo completo.',
     normas: ['ISO/IEC 27001', 'Ley 25.326'],
   },
   {
