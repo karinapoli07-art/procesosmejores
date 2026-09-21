@@ -7,6 +7,7 @@ import CtaDiagnostico from '../components/CtaDiagnostico.astro';
 import { servicios, pasos, testimonios, empresasParticipantes, contacto } from '../data/sitio';
 import { obtenerCursos, proximoCurso, fechaLarga } from '../lib/cursos';
 import rodrigo from '../assets/rodrigo.png';
+import rodrigoClase from '../assets/rodrigo-clase.jpg';
 
 const cursos = obtenerCursos().slice(0, 3);
 const proximo = proximoCurso();
@@ -173,9 +174,15 @@ const jsonLd = [
   <!-- ============ TESTIMONIOS ============ -->
   <section class="section section--soft">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Lo que dicen quienes cursaron</p>
-        <h2>Aprender del docente y también de los compañeros.</h2>
+      <div class="testi-head">
+        <div class="section-head">
+          <p class="eyebrow">Lo que dicen quienes cursaron</p>
+          <h2>Aprender del docente y también de los compañeros.</h2>
+        </div>
+        <figure class="testi-foto">
+          <Image src={rodrigoClase} alt="Rodrigo Arizmendi con un micrófono, explicando frente a un grupo" width={240} widths={[240, 289]} sizes="240px" />
+          <figcaption>Rodrigo Arizmendi, en clase.</figcaption>
+        </figure>
       </div>
       <div class="grid-3">
         {destacados.map((t) => <TestimonioCard {...t} />)}
@@ -350,6 +357,12 @@ const jsonLd = [
   .section-head--row { max-width: none; display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
   .section-head--row > div { max-width: 660px; }
 
+  .testi-head { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 24px 56px; align-items: end; margin-bottom: clamp(30px, 4vw, 48px); }
+  .testi-head .section-head { margin-bottom: 0; }
+  @media (max-width: 760px) { .testi-head { grid-template-columns: 1fr; } }
+  .testi-foto { margin: 0; }
+  .testi-foto img { width: 100%; max-width: 240px; border-radius: 12px; border: 1px solid var(--line); }
+  .testi-foto figcaption { margin-top: 8px; font-size: var(--step--2); color: var(--muted); }
   .participants { margin-top: 36px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
   .participants p { margin: 0; font-size: 0.9rem; color: var(--muted); }
   .participants ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
