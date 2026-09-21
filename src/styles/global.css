@@ -161,6 +161,10 @@ a:hover { color: var(--primary-dark); }
 /* Datos: cifras alineadas, sin cambiar de familia. */
 .dato { font-size: var(--step--1); font-variant-numeric: tabular-nums; }
 
+/* Aparición al hacer scroll (la clase la pone un script en Base.astro). */
+.reveal { opacity: 0; transform: translateY(18px); transition: opacity 700ms var(--ease), transform 700ms var(--ease); }
+.reveal.is-visible { opacity: 1; transform: none; }
+
 /* ---------- Utilidades ---------- */
 .visually-hidden {
   position: absolute !important; width: 1px; height: 1px; overflow: hidden;
