@@ -10,10 +10,20 @@ const url = 'https://www.procesosmejores.com/contacto';
 // Texto visible del perfil de LinkedIn, sin protocolo ni barra final.
 const linkedinTexto = contacto.linkedin.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
 
+// A CONFIRMAR: Rodrigo todavía no validó estos tres pasos.
 const despues = [
-  { titulo: '[TEXTO]', texto: '[TEXTO]' },
-  { titulo: '[TEXTO]', texto: '[TEXTO]' },
-  { titulo: '[TEXTO]', texto: '[TEXTO]' },
+  {
+    titulo: 'Leemos tu consulta',
+    texto: 'Revisamos lo que nos contaste y, si falta algún dato, te lo pedimos.',
+  },
+  {
+    titulo: 'Coordinamos una primera conversación',
+    texto: 'Te contactamos para entender tu situación: qué necesitás, con qué alcance y en qué plazos.',
+  },
+  {
+    titulo: 'Si corresponde, un diagnóstico inicial',
+    texto: 'Relevamos cómo trabajás hoy y qué te piden la norma, tus clientes o la ley. Con eso armamos una propuesta de trabajo.',
+  },
 ];
 
 const jsonLd = [
@@ -141,17 +151,38 @@ const jsonLd = [
       <div class="faq">
         <details>
           <summary>No sé bien qué norma necesito. ¿Puedo consultar igual?</summary>
-          <div class="answer"><p>[TEXTO]</p></div>
+          <div class="answer">
+            <p>
+              Sí. Contanos qué te pide tu cliente, el mercado o la ley, y cómo trabajan hoy. En la primera
+              conversación vemos juntos por dónde conviene empezar.
+            </p>
+          </div>
         </details>
 
         <details>
           <summary>Quiero inscribirme a un curso. ¿Es por acá?</summary>
-          <div class="answer"><p>[TEXTO]</p></div>
+          <div class="answer">
+            <p>
+              No hace falta: cada curso con fecha tiene su botón de inscripción en la <a href="/cursos">página de cursos</a>.
+              Si el que te interesa todavía no tiene fecha, anotate en la
+              <a href={formularios.listaDeEspera} target="_blank" rel="noopener">lista de espera</a> y te avisamos cuando abra la inscripción.
+            </p>
+            <p>
+              Si lo que buscás es una capacitación a medida para tu equipo, usá el formulario de esta página
+              y elegí <a href="/contacto?servicio=formacion#formulario">Formación</a>.
+            </p>
+          </div>
         </details>
 
         <details>
           <summary>¿Qué hacen con los datos que envío?</summary>
-          <div class="answer"><p>[TEXTO]</p></div>
+          <div class="answer">
+            <p>
+              Los usamos sólo para responder tu consulta y no los compartimos con terceros. Podés pedirnos
+              en cualquier momento que los corrijamos o los borremos. El detalle está en la
+              <a href="/privacidad">política de privacidad</a>.
+            </p>
+          </div>
         </details>
       </div>
     </div>
@@ -170,10 +201,6 @@ const jsonLd = [
     position: relative; padding: clamp(20px, 4vw, 36px);
     background: var(--white); border: 1px solid var(--line); border-radius: 14px;
     scroll-margin-top: 96px;
-  }
-  .form-panel::before {
-    content: ''; position: absolute; left: 28px; right: 28px; top: -1px; height: 3px;
-    background: var(--brand); border-radius: 0 0 3px 3px;
   }
   .form-panel h2 { font-size: var(--step-2); }
   .form-intro { color: var(--muted); margin: 12px 0 28px; max-width: 60ch; }
