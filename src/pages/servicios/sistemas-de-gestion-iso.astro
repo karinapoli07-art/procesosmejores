@@ -1,7 +1,601 @@
 ---
-import Base from "../../layouts/Base.astro";
-import Proximamente from "../../components/Proximamente.astro";
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import CtaDiagnostico from '../../components/CtaDiagnostico.astro';
+import { servicios, pasos } from '../../data/sitio';
+import { obtenerCursos } from '../../lib/cursos';
+
+const servicio = servicios.find((s) => s.id === 'iso')!;
+const consultar = '/contacto?servicio=iso#formulario';
+const sitio = 'https://www.procesosmejores.com';
+const url = `${sitio}${servicio.href}`;
+
+// Títulos reales de los cursos relacionados (salen de src/content/cursos).
+const cursos = new Map(obtenerCursos().map((c) => [c.slug, c]));
+
+const normas = [
+  {
+    codigo: 'ISO 9001',
+    tema: 'Gestión de la calidad',
+    que: 'Ordena los procesos para entregar de forma consistente lo que el cliente pide y cumplir los requisitos legales que aplican. Es la norma de sistemas de gestión más difundida y la base de muchas otras.',
+    para: 'Cualquier organización, de cualquier rubro y tamaño, que quiera trabajar con procesos claros o que necesite certificar por pedido de sus clientes.',
+    curso: 'iso-9001',
+  },
+  {
+    codigo: 'ISO 14001',
+    tema: 'Gestión ambiental',
+    que: 'Identifica los aspectos ambientales de la actividad y las obligaciones de cumplimiento legal, y fija objetivos para reducir los impactos. En 2026 se publicó una nueva edición.',
+    para: 'Organizaciones que necesitan demostrar control ambiental ante clientes, autoridades o la comunidad.',
+    curso: 'iso-14001-2026',
+  },
+  {
+    codigo: 'ISO 45001',
+    tema: 'Seguridad y salud en el trabajo',
+    que: 'Previene lesiones y enfermedades laborales a partir de la identificación de peligros, la evaluación de riesgos y la participación de los trabajadores. Reemplazó a OHSAS 18001.',
+    para: 'Organizaciones que quieren gestionar la seguridad de su gente como un sistema, más allá del cumplimiento de la legislación.',
+    curso: 'iso-45001',
+  },
+  {
+    codigo: 'ISO 50001',
+    tema: 'Gestión de la energía',
+    que: 'Parte de una revisión energética: usos significativos, línea de base e indicadores de desempeño. Con eso se planifican y se miden las mejoras en el uso de la energía.',
+    para: 'Organizaciones donde la energía es un costo o un impacto relevante: plantas industriales, edificios, logística.',
+    curso: '',
+  },
+  {
+    codigo: 'ISO 21001',
+    tema: 'Organizaciones educativas',
+    que: 'Lleva la lógica de los sistemas de gestión a la enseñanza: necesidades de estudiantes y otros beneficiarios, diseño de la oferta educativa y evaluación del aprendizaje.',
+    para: 'Escuelas, institutos, universidades, centros de formación profesional y áreas de capacitación de empresas.',
+    curso: '',
+  },
+];
+
+const pdca = [
+  { letra: 'P', titulo: 'Planificar', texto: 'Definir qué se quiere lograr, a partir del contexto, los riesgos y los requisitos.' },
+  { letra: 'H', titulo: 'Hacer', texto: 'Implementar lo planificado en los procesos de todos los días.' },
+  { letra: 'V', titulo: 'Verificar', texto: 'Medir, auditar y comprobar si se alcanzaron los objetivos.' },
+  { letra: 'A', titulo: 'Actuar', texto: 'Cerrar la brecha entre lo planificado y lo logrado, y mejorar.' },
+];
+
+const compartido = [
+  'Análisis de contexto y partes interesadas',
+  'Control de la información documentada',
+  'Auditoría interna',
+  'Acciones correctivas',
+  'Competencias y capacitación',
+  'Objetivos y seguimiento',
+  'Revisión por la dirección',
+];
+
+const propio = [
+  { norma: 'ISO 9001', foco: 'Requisitos del cliente y conformidad de productos y servicios.' },
+  { norma: 'ISO 14001', foco: 'Aspectos ambientales y obligaciones de cumplimiento.' },
+  { norma: 'ISO 45001', foco: 'Peligros, riesgos laborales y participación de los trabajadores.' },
+  { norma: 'ISO 50001', foco: 'Revisión energética, línea de base e indicadores.' },
+  { norma: 'ISO/IEC 27001', foco: 'Activos de información, evaluación de riesgos y controles del Anexo A.' },
+];
+
+const faqs = [
+  {
+    q: '¿Ustedes certifican?',
+    a: [
+      'No. La certificación la otorga un organismo certificador independiente, que audita el sistema y emite el certificado. Quien asesora en la implementación no puede certificar a la misma organización: así se protege la imparcialidad del proceso.',
+      'Nosotros acompañamos la implementación y la preparación: hacemos la auditoría interna previa, formamos a tus auditores internos y estamos con tu equipo durante la auditoría externa.',
+    ],
+  },
+  {
+    q: '¿Hay que tener todo documentado?',
+    a: [
+      'No. Las normas actuales piden información documentada en puntos concretos, como el alcance, la política, los objetivos y los registros de auditorías y acciones correctivas. El resto lo decide cada organización según su tamaño, la complejidad de sus procesos y la competencia de su gente.',
+      'Preferimos pocos documentos que se usan antes que manuales que nadie lee.',
+    ],
+  },
+  {
+    q: '¿Sirve para una pyme?',
+    a: [
+      'Sí. Las normas ISO de sistemas de gestión se aplican a organizaciones de cualquier tamaño y rubro. Los requisitos son los mismos; lo que cambia es cómo se cumplen. En una pyme el sistema suele ser más simple y estar más cerca de la operación, y eso es una ventaja.',
+    ],
+  },
+  {
+    q: '¿Cuánto lleva llegar a la certificación?',
+    a: [
+      'Depende del tamaño de la organización, del alcance y de cuánto hay hecho. Lo definimos en el diagnóstico, con un plan por etapas.',
+      'Tené en cuenta que el organismo certificador normalmente pide ver el sistema funcionando, con registros, y con al menos una auditoría interna y una revisión por la dirección completas antes de la auditoría de certificación.',
+    ],
+  },
+  {
+    q: '¿Qué pasa después de certificar?',
+    a: [
+      'El certificado tiene una vigencia de tres años, con auditorías de seguimiento periódicas, normalmente anuales, y una auditoría de recertificación al final del ciclo.',
+      'Podemos acompañar el mantenimiento del sistema, las auditorías internas y la actualización cuando se publica una nueva edición de la norma, como pasó con ISO 14001 en 2026.',
+    ],
+  },
+];
+
+const lecturas = [
+  {
+    href: '/blog/iso-9001-e-iso-27001',
+    titulo: 'ISO 9001 + ISO 27001: un sistema de calidad como base para la seguridad de la información',
+    texto: 'Qué se puede reutilizar del sistema de gestión de la calidad y qué hay que sumar para un SGSI.',
+  },
+  {
+    href: '/blog/enmienda-cambio-climatico-iso-9001',
+    titulo: 'La enmienda de cambio climático en ISO 9001 y otras normas',
+    texto: 'Qué cambió en los requisitos de contexto y partes interesadas, y qué tienen que hacer las organizaciones certificadas.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Sistemas de gestión ISO',
+    serviceType: 'Consultoría en sistemas de gestión ISO',
+    description:
+      'Implementación, mantenimiento y auditoría de sistemas de gestión ISO 9001, ISO 14001, ISO 45001, ISO 50001 e ISO 21001, con foco en la gestión de riesgos y el cumplimiento normativo.',
+    url,
+    areaServed: 'AR',
+    provider: { '@type': 'ProfessionalService', name: 'Procesos Mejores', url: `${sitio}/` },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Normas de sistemas de gestión',
+      itemListElement: normas.map((n) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: `${n.codigo}: ${n.tema.toLowerCase()}`, description: n.que },
+      })),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${sitio}/` },
+      { '@type': 'ListItem', position: 2, name: 'Servicios', item: `${sitio}/#servicios` },
+      { '@type': 'ListItem', position: 3, name: servicio.nombre, item: url },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a.join(' ') },
+    })),
+  },
+];
 ---
-<Base title="Sistemas de gestión ISO | Procesos Mejores" description="Sección en preparación." noindex>
-  <Proximamente />
+<Base
+  title="Consultoría ISO 9001, 14001, 45001 y 50001 | Procesos Mejores"
+  description="Implementación, mantenimiento y auditoría de sistemas de gestión ISO 9001, 14001, 45001, 50001 y 21001. Gestión de riesgos y cumplimiento normativo."
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow="Consultoría"
+    title="Sistemas de gestión ISO"
+    lead="Calidad, ambiente, seguridad y salud en el trabajo, energía y organizaciones educativas. Te acompañamos en la gestión de riesgos y el cumplimiento normativo, desde el diagnóstico hasta la auditoría de certificación."
+    crumbs={[{ label: 'Servicios', href: '/#servicios' }, { label: servicio.nombre }]}
+  >
+    <a class="btn btn--primary" href={consultar}>Solicitar diagnóstico</a>
+    <a class="btn btn--ghost btn--white" href="/cursos">Ver cursos</a>
+  </PageHeader>
+
+  <!-- ============ LO BÁSICO ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="intro">
+        <div>
+          <p class="eyebrow">Lo básico</p>
+          <h2>¿Qué son las normas ISO y para qué sirven?</h2>
+        </div>
+        <div class="intro-copy">
+          <p>
+            ISO es la Organización Internacional de Normalización. Publica normas acordadas entre países,
+            y algunas de ellas son normas de <strong>sistemas de gestión</strong>: definen qué tiene que tener
+            una organización para manejar de forma ordenada un tema, como la calidad de lo que entrega, su
+            impacto ambiental, la seguridad de su gente o el uso de la energía.
+          </p>
+          <p>
+            Las normas no dicen cómo hacer cada cosa. Fijan requisitos, y cada organización decide cómo
+            cumplirlos según su tamaño y su actividad. En el fondo son herramientas de gestión de riesgos y
+            cumplimiento normativo: obligan a mirar el contexto, identificar lo que puede salir mal, cumplir con
+            la ley y con los clientes, medir y corregir.
+          </p>
+          <p>
+            La certificación es voluntaria. La otorga un organismo certificador independiente después de
+            auditar el sistema, y sirve para demostrarlo ante terceros: clientes, licitaciones, casas matrices.
+            Muchas organizaciones certifican porque se lo piden; otras implementan la norma sin certificar,
+            para trabajar mejor.
+          </p>
+        </div>
+      </div>
+
+      <div class="pdca-block">
+        <p class="pdca-label">
+          Todas comparten la misma lógica: el ciclo PDCA de W. Edwards Deming, y una estructura común de requisitos.
+        </p>
+        <ol class="pdca">
+          {pdca.map((p) => (
+            <li>
+              <span class="pdca-n" aria-hidden="true">{p.letra}</span>
+              <h3>{p.titulo}</h3>
+              <p>{p.texto}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TABLERO DE NORMAS ============ -->
+  <section class="section section--soft" id="normas">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Normas</p>
+        <h2>Las normas con las que trabajamos.</h2>
+        <p>Cada una aborda un tema distinto. Se implementan solas o integradas en un mismo sistema. Si no sabés cuál necesitás, lo vemos en el diagnóstico.</p>
+      </div>
+
+      <ul class="normas">
+        {normas.map((n) => {
+          const curso = n.curso ? cursos.get(n.curso) : undefined;
+          return (
+            <li class="norma">
+              <h3>
+                <span class="norma-codigo">{n.codigo}</span>
+                <span class="norma-tema">{n.tema}</span>
+              </h3>
+              <div class="norma-texto">
+                <p>{n.que}</p>
+                <p class="norma-para"><span>Para quién</span>{n.para}</p>
+              </div>
+              <div class="norma-acciones">
+                <a class="btn btn--ghost btn--small btn--white" href={consultar} aria-label={`Consultar por ${n.codigo}`}>Consultar</a>
+                {curso && <a class="link-arrow norma-curso" href={`/cursos#${curso.slug}`}>Curso de auditor interno</a>}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+
+      <div class="otras">
+        <p>
+          <strong>¿Seguridad de la información?</strong>
+          ISO/IEC 27001 la trabajamos desde el servicio de <a href="/servicios/vciso">vCISO</a>: gobierno,
+          gestión de riesgos y cumplimiento, sin sumar un puesto full time.
+        </p>
+        <p>
+          <strong>¿Industria de alimentos?</strong>
+          BPM, ISO 22000 y FSSC 22000 tienen su propia página: <a href="/servicios/inocuidad-alimentaria">Inocuidad alimentaria</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PARA QUIÉN / QUÉ TE LLEVÁS / CUÁNTO DURA ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">El servicio</p>
+        <h2>Para quién es, qué te llevás y cuánto dura.</h2>
+      </div>
+
+      <div class="cols">
+        <div class="col">
+          <h3>Para quién es</h3>
+          <ul class="list">
+            <li>Organizaciones que tienen que certificar por primera vez, por pedido de un cliente, una licitación o una casa matriz.</li>
+            <li>Organizaciones ya certificadas que quieren un sistema más simple y útil, o que tienen que actualizarse a una nueva edición de la norma.</li>
+            <li>Organizaciones que quieren ordenar sus procesos y sus riesgos sin certificar por ahora.</li>
+          </ul>
+          <p class="col-note">Trabajamos con empresas de distintos rubros y tamaños.</p>
+        </div>
+
+        <div class="col">
+          <h3>Qué te llevás</h3>
+          <ul class="list">
+            <li>Un diagnóstico con brechas y prioridades.</li>
+            <li>Procesos, documentación y registros hechos a medida de tu operación, no una plantilla.</li>
+            <li>Riesgos, oportunidades y requisitos legales identificados, con criterio para mantenerlos al día.</li>
+            <li>Auditores internos formados dentro de tu equipo.</li>
+            <li>El sistema preparado para la auditoría de certificación.</li>
+          </ul>
+        </div>
+
+        <div class="col">
+          <h3>Cuánto dura</h3>
+          <!-- A CONFIRMAR: si Rodrigo quiere dar un rango orientativo de duración (por ejemplo, para una pyme que parte de cero con una sola norma). Mientras tanto, redacción neutra. -->
+          <p>
+            Depende del tamaño de la organización, del alcance (qué procesos, sitios y normas) y del punto de
+            partida. No es lo mismo empezar de cero que ordenar un sistema existente o sumar una segunda norma.
+          </p>
+          <p>
+            Lo definimos en el diagnóstico: sale un plan por etapas, con responsables y plazos acordados con la
+            dirección antes de empezar.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CÓMO TRABAJAMOS ============ -->
+  <section class="section section--soft">
+    <div class="wrap method">
+      <div class="method-intro">
+        <p class="eyebrow">Cómo trabajamos</p>
+        <h2>Con tu equipo, no para tu equipo.</h2>
+        <p>
+          Un sistema de gestión que sólo entiende el consultor deja de funcionar cuando el consultor se va.
+          Por eso las personas que lo van a sostener participan desde el diagnóstico: definen los procesos,
+          escriben lo que hace falta escribir y se forman como auditores internos.
+        </p>
+        <p>El objetivo es que, cuando terminemos, el sistema siga funcionando sin nosotros.</p>
+        <a class="link-arrow" href="/cursos">Ver cursos de auditor interno</a>
+      </div>
+      <ol class="steps">
+        {pasos.map((p, i) => (
+          <li>
+            <span class="step-n" aria-hidden="true">{i + 1}</span>
+            <div>
+              <h3>{p.titulo}</h3>
+              <p>{p.texto}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ SISTEMAS INTEGRADOS ============ -->
+  <section class="section" id="integracion">
+    <div class="wrap integ">
+      <div class="integ-copy">
+        <p class="eyebrow">Sistemas integrados</p>
+        <h2>Varias normas, un solo sistema.</h2>
+        <p>
+          Las normas de sistemas de gestión comparten la estructura y el ciclo PDCA. Por eso, si tu organización
+          ya tiene ISO 9001, buena parte del camino para sumar ISO 14001, ISO 45001 o ISO/IEC 27001 ya está hecho:
+          el control de la documentación, la auditoría interna, las acciones correctivas y la revisión por la
+          dirección pueden ser los mismos.
+        </p>
+        <p>
+          Un sistema integrado evita tener dos o tres sistemas en paralelo, con procedimientos duplicados y
+          auditorías por separado. Hay un solo análisis de contexto y de riesgos, y un solo programa de auditorías.
+          Además, los organismos certificadores pueden ofrecer auditorías integradas, con honorarios menores que
+          si cada norma se auditara por separado.
+        </p>
+        <a class="link-arrow" href="/blog/iso-9001-e-iso-27001">Leer: ISO 9001 + ISO 27001</a>
+      </div>
+
+      <div class="integ-lists">
+        <div>
+          <h3>Se comparte entre normas</h3>
+          <ul class="shared">
+            {compartido.map((c) => <li>{c}</li>)}
+          </ul>
+        </div>
+        <div>
+          <h3>Es propio de cada norma</h3>
+          <dl class="own">
+            {propio.map((p) => (
+              <div>
+                <dt>{p.norma}</dt>
+                <dd>{p.foco}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PREGUNTAS FRECUENTES ============ -->
+  <section class="section section--soft" id="preguntas">
+    <div class="wrap faq">
+      <div class="faq-head">
+        <p class="eyebrow">Preguntas frecuentes</p>
+        <h2>Lo que más nos preguntan antes de empezar.</h2>
+        <p>¿Tenés otra duda? <a href={consultar}>Contanos tu caso</a>.</p>
+      </div>
+      <div class="faq-list">
+        {faqs.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <div class="faq-answer">
+              {f.a.map((p) => <p>{p}</p>)}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LECTURAS RELACIONADAS ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head section-head--row">
+        <div>
+          <p class="eyebrow">Para seguir leyendo</p>
+          <h2>Lecturas relacionadas.</h2>
+        </div>
+        <a class="link-arrow" href="/blog">Ver todos los artículos</a>
+      </div>
+      <ul class="reads">
+        {lecturas.map((l) => (
+          <li>
+            <h3><a href={l.href}>{l.titulo}</a></h3>
+            <p>{l.texto}</p>
+            <a class="link-arrow" href={l.href} aria-label={`Leer: ${l.titulo}`}>Leer</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaDiagnostico servicio="iso" />
 </Base>
+
+<style>
+  .btn--white { background: var(--white); }
+  /* La regla global `.section-head p` le gana a `.eyebrow`; acá se restituye el estilo de etiqueta. */
+
+  /* ---------- Lo básico ---------- */
+  .intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 24px 80px; align-items: start; }
+  @media (max-width: 920px) { .intro { grid-template-columns: 1fr; } }
+  .intro h2 { font-size: var(--step-3); max-width: 16ch; }
+  .intro-copy p { max-width: 62ch; }
+  .intro-copy p:last-child { margin-bottom: 0; }
+  .intro-copy strong { color: var(--ink); font-weight: 600; }
+
+  .pdca-block { margin-top: clamp(48px, 6vw, 72px); }
+  .pdca-label { color: var(--muted); font-size: 0.97rem; max-width: 62ch; margin-bottom: 20px; }
+  .pdca {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+  }
+  .pdca li { padding: 24px 28px 0 0; }
+  .pdca li + li { padding-left: 28px; border-left: 1px solid var(--line); }
+  @media (max-width: 860px) {
+    .pdca { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .pdca li:nth-child(3) { padding-left: 0; border-left: 0; }
+    .pdca li:nth-child(n + 3) { border-top: 1px solid var(--line); margin-top: 24px; }
+  }
+  @media (max-width: 480px) {
+    .pdca { grid-template-columns: 1fr; }
+    .pdca li, .pdca li + li { padding: 20px 0 0; border-left: 0; }
+    .pdca li + li { border-top: 1px solid var(--line); margin-top: 20px; }
+  }
+  .pdca-n {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: grid; place-items: center; margin-bottom: 14px;
+    border: 1px solid var(--line-strong);
+    font-family: var(--font-display); font-weight: 600; color: var(--primary);
+  }
+  .pdca h3 { font-size: 1.1rem; margin-bottom: 6px; }
+  .pdca p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  /* ---------- Tablero de normas ---------- */
+  .normas { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .norma {
+    display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.6fr) 13rem; gap: 16px 48px;
+    align-items: start; padding-block: 28px; border-bottom: 1px solid var(--line-strong);
+  }
+  @media (max-width: 1080px) { .norma { column-gap: 32px; } }
+  @media (max-width: 860px) { .norma { grid-template-columns: 1fr; gap: 12px; } }
+  .norma h3 { display: grid; gap: 6px; }
+  .norma-codigo { font-size: var(--step-2); letter-spacing: -0.02em; }
+  .norma-tema { font-family: var(--font-body); font-size: 0.97rem; font-weight: 500; color: var(--muted); letter-spacing: 0; }
+  .norma-texto p { margin: 0; }
+  .norma-texto p + p { margin-top: 10px; }
+  .norma-para { color: var(--muted); font-size: 0.97rem; }
+  .norma-para span {
+    display: block; margin-bottom: 2px;
+    font-family: var(--font-display); font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink);
+  }
+  .norma-acciones { display: grid; justify-items: end; gap: 12px; padding-top: 2px; }
+  @media (max-width: 860px) { .norma-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; } }
+  .norma-curso { font-size: 0.9rem; }
+
+  .otras {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 48px;
+    margin-top: 36px;
+  }
+  @media (max-width: 760px) { .otras { grid-template-columns: 1fr; } }
+  .otras p { margin: 0; padding-left: 16px; border-left: 2px solid var(--brand); color: var(--muted); font-size: 0.97rem; }
+  .otras strong { display: block; color: var(--ink); font-family: var(--font-display); font-weight: 600; }
+
+  /* ---------- Para quién / qué / cuánto ---------- */
+  .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 48px; }
+  @media (max-width: 920px) { .cols { grid-template-columns: 1fr; } }
+  .col { border-top: 1px solid var(--line-strong); padding-top: 24px; }
+  .col h3 { font-size: var(--step-1); margin-bottom: 16px; }
+  .col p { max-width: 60ch; }
+  .col p:last-child { margin-bottom: 0; }
+  .list { list-style: none; margin: 0; padding: 0; }
+  .list li { position: relative; padding: 0 0 12px 20px; }
+  .list li::before {
+    content: ''; position: absolute; left: 0; top: 0.72em;
+    width: 8px; height: 1px; background: var(--primary);
+  }
+  .col-note { margin-top: 8px; color: var(--muted); font-size: 0.97rem; }
+
+  /* ---------- Método ---------- */
+  .method { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 48px 80px; align-items: start; }
+  @media (max-width: 920px) { .method { grid-template-columns: 1fr; } }
+  .method-intro h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .method-intro p { max-width: 52ch; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; }
+  .steps li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 20px; padding-block: 20px; border-bottom: 1px solid var(--line); }
+  .steps li:first-child { padding-top: 0; }
+  .steps li:last-child { border-bottom: 0; }
+  .step-n {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--white); border: 1px solid var(--line-strong);
+    font-family: var(--font-display); font-weight: 600; color: var(--primary);
+  }
+  .steps h3 { font-size: 1.1rem; margin-bottom: 4px; }
+  .steps p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  /* ---------- Sistemas integrados ---------- */
+  .integ { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px 80px; align-items: start; }
+  @media (max-width: 920px) { .integ { grid-template-columns: 1fr; } }
+  .integ-copy h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .integ-copy p { max-width: 60ch; }
+  .integ-lists { display: grid; gap: 40px; }
+  .integ-lists h3 { font-size: 1.1rem; margin-bottom: 12px; }
+  .shared { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .shared li {
+    font-size: 0.9rem; line-height: 1.3; padding: 7px 12px;
+    border: 1px solid var(--line-strong); border-radius: 999px; color: var(--ink);
+  }
+  .own { margin: 0; border-top: 1px solid var(--line); }
+  .own div {
+    display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 4px 16px;
+    padding-block: 12px; border-bottom: 1px solid var(--line); font-size: 0.97rem;
+  }
+  @media (max-width: 480px) { .own div { grid-template-columns: 1fr; } }
+  .own dt { font-family: var(--font-display); font-weight: 600; color: var(--ink); }
+  .own dd { margin: 0; color: var(--muted); }
+
+  /* ---------- Preguntas frecuentes ---------- */
+  .faq { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 32px 80px; align-items: start; }
+  @media (max-width: 920px) { .faq { grid-template-columns: 1fr; } }
+  .faq-head h2 { font-size: var(--step-3); margin-bottom: 16px; }
+  .faq-head p:last-child { color: var(--muted); }
+  .faq-list { border-top: 1px solid var(--line-strong); }
+  details { border-bottom: 1px solid var(--line-strong); }
+  summary {
+    list-style: none; cursor: pointer;
+    display: grid; grid-template-columns: minmax(0, 1fr) 20px; gap: 16px; align-items: center;
+    padding-block: 20px;
+    font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; color: var(--ink); line-height: 1.3;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: '+'; justify-self: end;
+    font-family: var(--font-body); font-weight: 400; font-size: 1.5rem; line-height: 1; color: var(--primary);
+  }
+  details[open] summary::after { content: '\2212'; }
+  summary:hover { color: var(--primary); }
+  .faq-answer { padding-bottom: 20px; max-width: 64ch; }
+  .faq-answer p:last-child { margin-bottom: 0; }
+
+  /* ---------- Lecturas ---------- */
+  .section-head--row { max-width: none; display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
+  .section-head--row > div { max-width: 660px; }
+  .reads { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .reads li {
+    display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto; gap: 12px 48px;
+    align-items: start; padding-block: 24px; border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 860px) { .reads li { grid-template-columns: 1fr; } }
+  .reads h3 { font-size: var(--step-1); }
+  .reads h3 a { color: var(--ink); text-decoration: none; }
+  .reads h3 a:hover { color: var(--primary); }
+  .reads p { margin: 0; color: var(--muted); }
+  .reads .link-arrow { padding-top: 2px; }
+</style>

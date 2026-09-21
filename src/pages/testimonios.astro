@@ -1,7 +1,105 @@
 ---
-import Base from "../layouts/Base.astro";
-import Proximamente from "../components/Proximamente.astro";
+import Base from '../layouts/Base.astro';
+import PageHeader from '../components/PageHeader.astro';
+import TestimonioCard from '../components/TestimonioCard.astro';
+import { testimonios, empresasParticipantes, formularios } from '../data/sitio';
+
+const url = 'https://www.procesosmejores.com/testimonios';
+
+// Se ordenan de más largo a más corto para que, en la grilla de dos columnas,
+// cada fila quede con dos testimonios de extensión parecida.
+const lista = [...testimonios].sort((a, b) => b.texto.length - a.texto.length);
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Testimonios de quienes cursaron con nosotros',
+    url,
+    inLanguage: 'es-AR',
+    isPartOf: { '@type': 'WebSite', name: 'Procesos Mejores', url: 'https://www.procesosmejores.com/' },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: 'https://www.procesosmejores.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Testimonios', item: url },
+    ],
+  },
+];
 ---
-<Base title="Testimonios | Procesos Mejores" description="Sección en preparación." noindex>
-  <Proximamente />
+<Base
+  title="Testimonios de quienes cursaron con nosotros | Procesos Mejores"
+  description="Opiniones de profesionales que hicieron nuestros cursos en vivo: clases dinámicas y participativas, casos prácticos y predisposición para responder cada duda."
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow="Testimonios"
+    title="Lo que dicen quienes cursaron con nosotros."
+    lead="Opiniones de participantes de ediciones anteriores de nuestros cursos, con sus palabras."
+    crumbs={[{ label: 'Testimonios' }]}
+  >
+    <a class="btn btn--primary" href="/cursos">Ver próximos cursos</a>
+  </PageHeader>
+
+  <section class="section" aria-labelledby="titulo-testimonios">
+    <div class="wrap">
+      <h2 id="titulo-testimonios" class="visually-hidden">Testimonios de participantes</h2>
+      <ul class="grid-2">
+        {lista.map((t) => (
+          <li><TestimonioCard texto={t.texto} nombre={t.nombre} cargo={t.cargo} empresa={t.empresa} /></li>
+        ))}
+      </ul>
+
+      <div class="participants">
+        <h2>Participaron profesionales de</h2>
+        <ul>{empresasParticipantes.map((e) => <li>{e}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="wrap cta-inner">
+      <div>
+        <h2>¿Querés sumarte a la próxima edición?</h2>
+        <p>
+          Cursos de auditor interno y de 5S, en vivo por Google Meet, con casos prácticos e interacción
+          directa con el docente. Desde cualquier país de habla hispana.
+        </p>
+      </div>
+      <div class="cta-actions">
+        <a class="btn btn--primary" href="/cursos">Ver cursos y fechas</a>
+        <a class="btn btn--ghost" href={formularios.listaDeEspera} target="_blank" rel="noopener">Anotarme en la lista de espera</a>
+      </div>
+    </div>
+  </section>
 </Base>
+
+<style>
+  .grid-2 {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;
+  }
+  @media (max-width: 760px) { .grid-2 { grid-template-columns: 1fr; } }
+  .grid-2 > li { min-width: 0; }
+
+  .participants {
+    margin-top: clamp(40px, 5vw, 64px); padding-top: 28px; border-top: 1px solid var(--line);
+    display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 24px;
+  }
+  .participants h2 {
+    font-family: var(--font-body); font-size: 0.9rem; font-weight: 400;
+    letter-spacing: 0; color: var(--muted);
+  }
+  .participants ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  .participants li { font-family: var(--font-display); font-weight: 600; color: var(--ink); }
+
+  .cta { padding-block: clamp(56px, 7vw, 96px); background: var(--primary-soft); }
+  .cta-inner { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 32px 56px; align-items: center; }
+  @media (max-width: 860px) { .cta-inner { grid-template-columns: 1fr; } }
+  .cta h2 { font-size: var(--step-3); max-width: 20ch; }
+  .cta p { color: var(--text); margin: 16px 0 0; max-width: 58ch; }
+  .cta-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .cta-actions .btn--ghost { background: var(--white); }
+</style>

@@ -1,7 +1,523 @@
 ---
-import Base from "../../layouts/Base.astro";
-import Proximamente from "../../components/Proximamente.astro";
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import CtaDiagnostico from '../../components/CtaDiagnostico.astro';
+import { servicios } from '../../data/sitio';
+
+const servicio = servicios.find((s) => s.id === 'alimentaria')!;
+const contactoHref = '/contacto?servicio=alimentaria#formulario';
+
+const title = 'Consultoría BPM, ISO 22000 y FSSC 22000 | Procesos Mejores';
+const description =
+  'Implementamos BPM, ISO 22000 y FSSC 22000 en la industria de alimentos: prerrequisitos, análisis de peligros, auditoría interna y preparación para certificar.';
+
+const perfiles = [
+  {
+    titulo: 'Plantas elaboradoras de alimentos y bebidas',
+    texto: 'Que necesitan ordenar la base de BPM o dar el paso a un sistema de gestión de inocuidad certificado.',
+  },
+  {
+    titulo: 'Fraccionadoras y envasadoras',
+    texto: 'Que reciben producto, lo fraccionan o lo reenvasan y tienen que demostrar que el proceso no lo contamina.',
+  },
+  {
+    titulo: 'Depósitos y centros de distribución',
+    texto: 'Que almacenan alimentos y tienen que cuidar higiene, temperaturas, control de plagas y trazabilidad.',
+  },
+  {
+    titulo: 'Proveedores de la industria alimentaria',
+    texto: 'Que abastecen a clientes que les exigen BPM o una certificación para aprobarlos o seguir comprándoles.',
+  },
+];
+
+const normas = [
+  {
+    id: 'bpm',
+    sigla: 'BPM',
+    nombre: 'Buenas Prácticas de Manufactura',
+    tipo: 'El requisito base',
+    textos: [
+      'Son las condiciones de higiene y de operación que tiene que cumplir un establecimiento donde se elaboran, fraccionan o almacenan alimentos: cómo se reciben las materias primas, cómo se limpia, cómo trabaja el personal, cómo se controlan las plagas y cómo se guarda y transporta el producto.',
+      'En Argentina las establece el Código Alimentario Argentino. Son el piso que controla la autoridad sanitaria y lo primero que miran los clientes cuando auditan a un proveedor.',
+    ],
+    incluye: ['Higiene del personal', 'Limpieza y desinfección (POES)', 'Control de plagas', 'Agua', 'Instalaciones y equipos', 'Almacenamiento y transporte'],
+    verifica: 'Inspecciones de la autoridad sanitaria y auditorías de clientes.',
+  },
+  {
+    id: 'iso-22000',
+    sigla: 'ISO 22000',
+    nombre: 'Sistema de gestión de la inocuidad de los alimentos',
+    tipo: 'El sistema de gestión',
+    textos: [
+      'Es la norma internacional para gestionar la inocuidad en cualquier organización de la cadena alimentaria, sin importar el tamaño ni el rubro. Combina programas de prerrequisitos (PRP), los principios del HACCP, la comunicación con proveedores, clientes y autoridades, y la gestión del sistema.',
+      'Los peligros se identifican y evalúan, y se controlan con un plan que combina PRP operativos y puntos críticos de control. Usa la estructura de alto nivel de las normas ISO, la misma de ISO 9001 e ISO 14001, así que se integra con un sistema que ya tengas.',
+    ],
+    incluye: ['PRP', 'HACCP', 'Plan de control de peligros', 'Estructura de alto nivel'],
+    verifica: 'Auditoría de un organismo de certificación independiente.',
+  },
+  {
+    id: 'fssc-22000',
+    sigla: 'FSSC 22000',
+    nombre: 'Esquema de certificación de inocuidad alimentaria',
+    tipo: 'El reconocimiento internacional',
+    textos: [
+      'No es una norma distinta: es un esquema de certificación, propiedad de la Foundation FSSC, que toma ISO 22000 completa y le suma los programas de prerrequisitos específicos de cada sector (serie 22002: fabricación de alimentos, envases, transporte y almacenamiento, entre otros) y requisitos adicionales propios, como defensa alimentaria, prevención del fraude y gestión de alérgenos.',
+      'Está reconocido por GFSI (Global Food Safety Initiative). Muchas cadenas de supermercados y marcas grandes piden a sus proveedores una certificación reconocida por GFSI, y FSSC 22000 es una de ellas.',
+    ],
+    incluye: ['ISO 22000', 'PRP del sector', 'Requisitos adicionales FSSC', 'Reconocido por GFSI'],
+    verifica: 'Auditoría de un organismo de certificación licenciado por la Foundation FSSC.',
+  },
+];
+
+const camino = [
+  {
+    sigla: 'BPM',
+    titulo: 'El piso',
+    texto: 'Ordena la higiene y la operación de la planta. Sin esta base, nada de lo que viene después se sostiene.',
+  },
+  {
+    sigla: 'ISO 22000',
+    titulo: 'El sistema',
+    texto: 'Suma el análisis de peligros, el plan de control y la gestión: objetivos, auditorías internas, revisión por la dirección y mejora.',
+  },
+  {
+    sigla: 'FSSC 22000',
+    titulo: 'El reconocimiento',
+    texto: 'Suma los prerrequisitos del sector y los requisitos del esquema. Es la puerta para los clientes que exigen una certificación reconocida por GFSI.',
+  },
+];
+
+const entregables = [
+  {
+    titulo: 'Un diagnóstico claro',
+    texto: 'Dónde estás frente a las BPM o a la norma elegida, qué falta y en qué orden conviene resolverlo.',
+  },
+  {
+    titulo: 'Prerrequisitos funcionando',
+    texto: 'Limpieza y desinfección, control de plagas, agua, higiene del personal, mantenimiento y proveedores, aplicados en la planta.',
+  },
+  {
+    titulo: 'Análisis de peligros y plan de control',
+    texto: 'Peligros identificados y evaluados, con sus medidas de control, límites, monitoreo y acciones ante desvíos.',
+  },
+  {
+    titulo: 'Documentación que se usa',
+    texto: 'Procedimientos, instructivos y registros pensados para completarse en la línea, no para llenar una carpeta.',
+  },
+  {
+    titulo: 'Un equipo que sabe',
+    texto: 'Personal capacitado en BPM y un equipo de inocuidad que entiende el sistema y lo puede sostener.',
+  },
+  {
+    titulo: 'Un sistema auditado',
+    texto: 'Auditoría interna completa antes que la del organismo, con los hallazgos tratados y auditores internos formados.',
+  },
+];
+
+const etapas = [
+  {
+    titulo: 'Relevamiento en planta',
+    texto: 'Recorremos la planta, miramos cómo se trabaja y revisamos lo que ya tenés. Sale un informe de brechas frente a las BPM o a la norma elegida, con prioridades.',
+  },
+  {
+    titulo: 'Programas de prerrequisitos',
+    texto: 'Ordenamos la base: instalaciones, limpieza y desinfección, control de plagas, agua, higiene del personal, mantenimiento y control de proveedores.',
+  },
+  {
+    titulo: 'Análisis de peligros',
+    texto: 'Con el equipo de inocuidad describimos productos y procesos, armamos los diagramas de flujo y evaluamos peligros biológicos, químicos y físicos. Definimos PRP operativos y puntos críticos de control.',
+  },
+  {
+    titulo: 'Documentación y registros',
+    texto: 'Procedimientos, instructivos y registros construidos con la gente que los va a usar. Trazabilidad y retiro de producto, probados.',
+  },
+  {
+    titulo: 'Capacitación del personal',
+    texto: 'BPM para quienes trabajan en la línea, formación del equipo de inocuidad y de la dirección. Capacitamos en el camino, no sólo al final.',
+  },
+  {
+    titulo: 'Auditoría interna',
+    texto: 'Auditamos el sistema completo antes que el organismo certificador y formamos a tus auditores internos.',
+  },
+  {
+    titulo: 'Preparación para la certificación',
+    texto: 'Revisamos que todo esté en condiciones, acompañamos la auditoría externa y el tratamiento de los hallazgos.',
+  },
+];
+
+const pageUrl = new URL('/servicios/inocuidad-alimentaria', Astro.site).href;
+const siteUrl = new URL('/', Astro.site).href;
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Consultoría en inocuidad alimentaria: BPM, ISO 22000 y FSSC 22000',
+    serviceType: 'Consultoría en sistemas de gestión de inocuidad alimentaria',
+    description,
+    url: pageUrl,
+    provider: {
+      '@type': 'ProfessionalService',
+      name: 'Procesos Mejores',
+      url: siteUrl,
+    },
+    areaServed: { '@type': 'Country', name: 'Argentina' },
+    audience: {
+      '@type': 'BusinessAudience',
+      audienceType: 'Plantas elaboradoras, fraccionadoras, depósitos y proveedores de la industria de alimentos y bebidas',
+    },
+    about: servicio.normas.map((n) => ({ '@type': 'Thing', name: n })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: siteUrl },
+      { '@type': 'ListItem', position: 2, name: 'Servicios', item: new URL('/#servicios', Astro.site).href },
+      { '@type': 'ListItem', position: 3, name: servicio.nombre, item: pageUrl },
+    ],
+  },
+];
 ---
-<Base title="Inocuidad alimentaria | Procesos Mejores" description="Sección en preparación." noindex>
-  <Proximamente />
+<Base title={title} description={description} jsonLd={jsonLd}>
+  <PageHeader
+    eyebrow="Industria de alimentos y bebidas"
+    title="Inocuidad alimentaria: BPM, ISO 22000 y FSSC 22000"
+    lead="Buenas Prácticas de Manufactura, ISO 22000 y FSSC 22000 para la industria de alimentos y bebidas. Trabajamos en planta, con tu equipo, desde el primer relevamiento hasta la auditoría de certificación."
+    crumbs={[{ label: 'Servicios', href: '/#servicios' }, { label: servicio.nombre }]}
+  >
+    <a class="btn btn--primary" href={contactoHref}>Solicitar diagnóstico inicial</a>
+    <a class="btn btn--ghost" href="#normas">Ver las normas</a>
+  </PageHeader>
+
+  <!-- ============ PARA QUIÉN ES ============ -->
+  <section class="section">
+    <div class="wrap split">
+      <div class="split-intro">
+        <p class="eyebrow">Para quién es</p>
+        <h2>Para empresas a las que un cliente les empezó a pedir más.</h2>
+        <p>
+          El punto de partida suele repetirse: un cliente, una cadena o un mercado nuevo pide BPM o una
+          certificación de inocuidad, y hay que ordenar la planta para cumplirlo.
+        </p>
+        <a class="link-arrow" href={contactoHref}>Contanos qué te pidieron</a>
+      </div>
+      <ul class="rows">
+        {perfiles.map((p) => (
+          <li>
+            <h3>{p.titulo}</h3>
+            <p>{p.texto}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ LAS NORMAS ============ -->
+  <section class="section section--soft" id="normas" aria-labelledby="normas-titulo">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Normas alimentarias</p>
+        <h2 id="normas-titulo">BPM, ISO 22000 y FSSC 22000: qué es cada una.</h2>
+        <p>Se nombran juntas, pero no son lo mismo. Una es un requisito base, otra es un sistema de gestión y la tercera es un esquema de certificación.</p>
+      </div>
+
+      <ul class="normas">
+        {normas.map((n) => (
+          <li class="norma" id={n.id}>
+            <div class="norma-name">
+              <p class="norma-tipo">{n.tipo}</p>
+              <h3>{n.sigla}</h3>
+              <p class="norma-nombre">{n.nombre}</p>
+            </div>
+            <div class="norma-body">
+              {n.textos.map((t) => <p>{t}</p>)}
+              <ul class="chips" aria-label={`Qué incluye ${n.sigla}`}>
+                {n.incluye.map((i) => <li class="chip">{i}</li>)}
+              </ul>
+              <p class="norma-verifica"><strong>Cómo se verifica:</strong> {n.verifica}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ EL CAMINO ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">El camino habitual</p>
+        <h2>De las BPM a la certificación, paso a paso.</h2>
+        <p>Las tres normas no compiten: cada una se apoya en la anterior. Lo que hacés para las BPM sirve para ISO 22000, y lo que hacés para ISO 22000 sirve para FSSC 22000.</p>
+      </div>
+
+      <ol class="path">
+        {camino.map((c, i) => (
+          <li>
+            <p class="path-n">Etapa {i + 1}</p>
+            <h3><span class="path-sigla">{c.sigla}</span> {c.titulo}</h3>
+            <p>{c.texto}</p>
+          </li>
+        ))}
+      </ol>
+
+      <p class="path-note">
+        No hace falta recorrer las tres etapas. Para algunas empresas las BPM alcanzan; otras, con las BPM
+        ya consolidadas, van directo a FSSC 22000. Hasta dónde conviene llegar y cuánto trabajo lleva se
+        define en el diagnóstico, según lo que te piden tus clientes y el punto de partida de tu planta.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ QUÉ TE LLEVÁS ============ -->
+  <section class="section section--soft">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Qué te llevás</p>
+        <h2>Una planta ordenada y un equipo que sabe sostenerla.</h2>
+      </div>
+      <ul class="gets">
+        {entregables.map((e) => (
+          <li>
+            <h3>{e.titulo}</h3>
+            <p>{e.texto}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ CÓMO TRABAJAMOS ============ -->
+  <section class="section">
+    <div class="wrap method">
+      <div class="method-intro">
+        <p class="eyebrow">Cómo trabajamos</p>
+        <h2>En la planta, con la gente que produce.</h2>
+        <p>
+          La inocuidad no se resuelve en una oficina. Trabajamos en la planta, con quienes limpian, producen,
+          reciben y despachan, porque son ellos los que después sostienen el sistema todos los días.
+        </p>
+        <p>
+          Tenemos experiencia en ISO 22000 y FSSC 22000, y también en ISO 9001, ISO 14001 y ISO 45001.
+          Si ya tenés otro sistema certificado, lo integramos en lugar de sumar papeles.
+        </p>
+        <a class="btn btn--primary" href={contactoHref}>Empezar por un diagnóstico</a>
+      </div>
+      <ol class="steps">
+        {etapas.map((e, i) => (
+          <li>
+            <span class="step-n" aria-hidden="true">{i + 1}</span>
+            <div>
+              <h3>{e.titulo}</h3>
+              <p>{e.texto}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ PREGUNTAS FRECUENTES ============ -->
+  <section class="section section--soft" aria-labelledby="faq-titulo">
+    <div class="wrap faq-grid">
+      <div class="faq-intro">
+        <p class="eyebrow">Preguntas frecuentes</p>
+        <h2 id="faq-titulo">Lo que más nos preguntan.</h2>
+        <p>¿Tenés otra duda? <a href={contactoHref}>Escribinos</a> y te respondemos.</p>
+      </div>
+
+      <div class="faq">
+        <details>
+          <summary>¿Cuál es la diferencia entre ISO 22000 y FSSC 22000?</summary>
+          <div class="faq-a">
+            <p>
+              FSSC 22000 incluye ISO 22000 completa y le agrega los programas de prerrequisitos específicos del
+              sector y requisitos adicionales del esquema. Por eso está reconocido por GFSI, y ISO 22000 sola no.
+            </p>
+            <p>
+              En la práctica, la pregunta es qué te pide tu cliente. Si exige una certificación reconocida por
+              GFSI, ISO 22000 no alcanza. Si pide un sistema de gestión de inocuidad certificado, sin esa
+              condición, ISO 22000 puede ser suficiente. Y si implementás ISO 22000 con prerrequisitos sólidos,
+              buena parte del camino hacia FSSC 22000 ya está hecho.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>¿Necesito tener BPM antes de ir por ISO 22000?</summary>
+          <div class="faq-a">
+            <p>
+              Sí. ISO 22000 exige programas de prerrequisitos, y las BPM son justamente esa base: higiene,
+              limpieza y desinfección, control de plagas, agua, mantenimiento. Sin eso funcionando, el análisis
+              de peligros queda en el papel.
+            </p>
+            <p>
+              Además, las BPM no son opcionales: el Código Alimentario Argentino las establece para los
+              establecimientos que elaboran alimentos. Si tu planta ya las tiene implementadas, en el
+              diagnóstico verificamos cómo están funcionando y seguimos desde ahí.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>¿Quién certifica?</summary>
+          <div class="faq-a">
+            <p>
+              ISO 22000 y FSSC 22000 las certifica un organismo de certificación independiente, que elegís vos.
+              Para FSSC 22000, ese organismo tiene que estar licenciado por la Foundation FSSC y acreditado para
+              el esquema. Para ISO 22000, conviene que esté acreditado para esa norma.
+            </p>
+            <p>
+              Nosotros no certificamos: te preparamos y te acompañamos en la auditoría. Quien implementa no
+              puede ser quien certifica; así se protege la independencia de la auditoría.
+            </p>
+            <p>
+              Las BPM las controla la autoridad sanitaria en sus inspecciones y, muchas veces, tus clientes en
+              auditorías a proveedores.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>¿Se puede integrar con ISO 9001 u otro sistema que ya tengo?</summary>
+          <div class="faq-a">
+            <p>
+              Sí. ISO 22000 comparte la estructura de alto nivel con ISO 9001, ISO 14001 e ISO 45001, así que
+              política, objetivos, auditorías internas, revisión por la dirección y mejora se pueden gestionar
+              en un solo sistema. Mirá cómo trabajamos los
+              <a href="/servicios/sistemas-de-gestion-iso">sistemas de gestión ISO</a>.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>¿Cuánto tiempo lleva?</summary>
+          <div class="faq-a">
+            <!-- A CONFIRMAR: si Rodrigo quiere dar rangos de duración orientativos para BPM, ISO 22000 y FSSC 22000. -->
+            <p>
+              Depende del punto de partida de la planta, de su tamaño, de la cantidad de productos y procesos y
+              de la norma elegida. Los plazos se definen en el diagnóstico según el alcance, y quedan escritos en
+              el plan de trabajo antes de empezar.
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <CtaDiagnostico
+    servicio="alimentaria"
+    title="¿Te pidieron BPM o una certificación? Empecemos por un diagnóstico."
+    text="Recorremos tu planta, vemos qué te piden tus clientes o la ley y te decimos qué hace falta, en qué orden y cuánto trabajo lleva."
+  />
 </Base>
+
+<style>
+  /* ---------- Para quién ---------- */
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 40px 80px; align-items: start; }
+  @media (max-width: 920px) { .split { grid-template-columns: 1fr; } }
+  .split-intro h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .split-intro p:not(.eyebrow) { color: var(--text); max-width: 48ch; }
+
+  .rows { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .rows li { padding-block: 22px; border-bottom: 1px solid var(--line); }
+  .rows h3 { font-size: 1.1rem; margin-bottom: 6px; }
+  .rows p { margin: 0; color: var(--muted); }
+
+  /* ---------- Normas ---------- */
+  .normas { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .norma {
+    display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 2fr); gap: 16px 64px;
+    padding-block: 36px; border-bottom: 1px solid var(--line-strong);
+    scroll-margin-top: 88px;
+  }
+  @media (max-width: 860px) { .norma { grid-template-columns: 1fr; gap: 16px; padding-block: 28px; } }
+  .norma-tipo {
+    font-family: var(--font-display); font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+    margin: 0 0 10px; padding-left: 12px; border-left: 2px solid var(--brand);
+  }
+  .norma h3 { font-size: var(--step-3); }
+  .norma-nombre { margin: 8px 0 0; color: var(--muted); font-size: 0.97rem; max-width: 28ch; }
+  .norma-body p { max-width: 68ch; }
+  .norma-body .chips { margin: 20px 0 0; }
+  .norma-verifica { margin: 18px 0 0; padding-top: 16px; border-top: 1px solid var(--line); font-size: 0.95rem; color: var(--muted); }
+  .norma-verifica strong { color: var(--ink); font-weight: 600; }
+
+  /* ---------- Camino ---------- */
+  .path { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  .path li { position: relative; padding-top: 28px; border-top: 1px solid var(--line-strong); }
+  .path li::before {
+    content: ''; position: absolute; top: -5px; left: 0;
+    width: 9px; height: 9px; border-radius: 50%; background: var(--primary);
+  }
+  .path-n {
+    font-family: var(--font-display); font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px;
+  }
+  .path h3 { font-size: var(--step-1); margin-bottom: 10px; }
+  .path-sigla { color: var(--primary); }
+  .path li p:last-child { margin: 0; color: var(--muted); }
+  @media (max-width: 860px) {
+    .path { grid-template-columns: 1fr; gap: 0; border-left: 1px solid var(--line-strong); margin-left: 4px; }
+    .path li { border-top: 0; padding: 0 0 28px 24px; }
+    .path li:last-child { padding-bottom: 0; }
+    .path li::before { top: 6px; left: -5px; }
+  }
+  .path-note {
+    margin: clamp(32px, 4vw, 48px) 0 0; padding-top: 24px; border-top: 1px solid var(--line);
+    max-width: 72ch; color: var(--text);
+  }
+
+  /* ---------- Qué te llevás ---------- */
+  .gets { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 40px; }
+  @media (max-width: 980px) { .gets { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) { .gets { grid-template-columns: 1fr; } }
+  .gets li { padding-block: 24px; border-top: 1px solid var(--line-strong); }
+  .gets h3 { font-size: 1.1rem; margin-bottom: 6px; }
+  .gets p { margin: 0; color: var(--muted); }
+
+  /* ---------- Método ---------- */
+  .method { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 48px 80px; align-items: start; }
+  @media (max-width: 920px) { .method { grid-template-columns: 1fr; } }
+  .method-intro h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .method-intro p { color: var(--text); max-width: 52ch; }
+  .method-intro .btn { margin-top: 12px; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; }
+  .steps li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 20px; padding-block: 20px; border-bottom: 1px solid var(--line); }
+  .steps li:first-child { padding-top: 0; }
+  .steps li:last-child { border-bottom: 0; }
+  .step-n {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: #fff; border: 1px solid var(--line-strong);
+    font-family: var(--font-display); font-weight: 600; color: var(--primary);
+  }
+  .steps h3 { font-size: 1.1rem; margin-bottom: 4px; }
+  .steps p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  /* ---------- Preguntas frecuentes ---------- */
+  .faq-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr); gap: 32px 80px; align-items: start; }
+  @media (max-width: 920px) { .faq-grid { grid-template-columns: 1fr; } }
+  .faq-intro h2 { font-size: var(--step-3); margin-bottom: 16px; }
+  .faq-intro p:not(.eyebrow) { color: var(--muted); }
+  .faq { border-top: 1px solid var(--line-strong); }
+  .faq details { border-bottom: 1px solid var(--line-strong); }
+  .faq summary {
+    list-style: none; cursor: pointer;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: baseline;
+    padding-block: 20px;
+    font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; color: var(--ink); line-height: 1.3;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: '+'; font-family: var(--font-display); font-weight: 400; font-size: 1.5rem; line-height: 1;
+    color: var(--primary);
+  }
+  .faq details[open] summary::after { content: '−'; }
+  .faq summary:hover { color: var(--primary); }
+  .faq-a { padding-bottom: 20px; }
+  .faq-a p { max-width: 68ch; }
+  .faq-a p:last-child { margin-bottom: 0; }
+</style>
