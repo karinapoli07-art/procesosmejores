@@ -1,0 +1,289 @@
+---
+// Página de cada nota del blog. El cuerpo sale del .md (src/content/blog);
+// al final se muestran los servicios y cursos relacionados que indica el
+// frontmatter, las otras notas y la banda de diagnóstico.
+import Base from '../../layouts/Base.astro';
+import CtaDiagnostico from '../../components/CtaDiagnostico.astro';
+import { servicios, contacto } from '../../data/sitio';
+import { obtenerCursos } from '../../lib/cursos';
+import { obtenerNotas, fechaNota, type Nota } from '../../lib/blog';
+
+export function getStaticPaths() {
+  return obtenerNotas().map((nota) => ({ params: { slug: nota.slug }, props: { nota } }));
+}
+
+interface Props { nota: Nota; }
+const { nota } = Astro.props;
+const Content = nota.Content;
+
+const inicio = new URL('/', Astro.site).href;
+const blogUrl = new URL('/blog', Astro.site).href;
+const url = new URL(`/blog/${nota.slug}`, Astro.site).href;
+
+const title = `${nota.seoTitulo || nota.titulo} | Procesos Mejores`;
+const fecha = fechaNota(nota.fecha);
+
+// Índice: sólo los títulos de segundo nivel.
+const indice = nota.encabezados.filter((h) => h.depth === 2);
+
+const relacionados = nota.servicios
+  .map((id) => servicios.find((s) => s.id === id))
+  .filter((s): s is (typeof servicios)[number] => Boolean(s));
+const servicioPrincipal = relacionados[0]?.id ?? '';
+
+const todosLosCursos = obtenerCursos();
+const cursos = nota.cursos
+  .map((slug) => todosLosCursos.find((c) => c.slug === slug))
+  .filter((c): c is (typeof todosLosCursos)[number] => Boolean(c));
+
+const otras = obtenerNotas().filter((n) => n.slug !== nota.slug).slice(0, 3);
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: nota.titulo,
+    description: nota.descripcion,
+    url,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+    inLanguage: 'es-AR',
+    ...(nota.fecha ? { datePublished: nota.fecha } : {}),
+    keywords: nota.etiquetas.join(', '),
+    author: {
+      '@type': 'Person',
+      name: 'Rodrigo Arizmendi',
+      url: new URL('/nosotros', Astro.site).href,
+      sameAs: [contacto.linkedin],
+    },
+    publisher: {
+      '@type': 'Organization',
+      name: 'Procesos Mejores',
+      url: inicio,
+      logo: { '@type': 'ImageObject', url: new URL('/logo.png', Astro.site).href },
+    },
+    image: new URL('/logo.png', Astro.site).href,
+    isPartOf: { '@type': 'Blog', name: 'Notas sobre sistemas de gestión', url: blogUrl },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: inicio },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: blogUrl },
+      { '@type': 'ListItem', position: 3, name: nota.titulo, item: url },
+    ],
+  },
+];
+---
+<Base title={title} description={nota.descripcion} jsonLd={jsonLd}>
+  <!-- ============ ENCABEZADO ============ -->
+  <header class="nota-head">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Ubicación">
+        <ol>
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><span aria-current="page">{nota.titulo}</span></li>
+        </ol>
+      </nav>
+      <p class="eyebrow">Nota</p>
+      <h1>{nota.titulo}</h1>
+      {nota.descripcion && <p class="lead">{nota.descripcion}</p>}
+      <div class="meta">
+        <p class="autor">
+          Por <a href="/nosotros">Rodrigo Arizmendi</a>
+          {fecha && <> · <time datetime={nota.fecha}>{fecha}</time></>}
+        </p>
+        {nota.etiquetas.length > 0 && (
+          <ul class="chips" aria-label="Temas">
+            {nota.etiquetas.map((e) => <li class="chip">{e}</li>)}
+          </ul>
+        )}
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ CUERPO ============ -->
+  <div class="wrap nota-layout">
+    <article class="prose">
+      <Content />
+    </article>
+
+    {indice.length > 2 && (
+      <aside class="indice">
+        <nav aria-label="En esta nota">
+          <p class="indice-label">En esta nota</p>
+          <ol>
+            {indice.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+          </ol>
+        </nav>
+      </aside>
+    )}
+  </div>
+
+  <!-- ============ RELACIONADO ============ -->
+  {(relacionados.length > 0 || cursos.length > 0) && (
+    <section class="section section--soft">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Cómo te podemos ayudar</p>
+          <h2>{nota.cierre || 'Si querés llevar esto a tu organización'}</h2>
+          <p>{nota.cierreTexto || 'Trabajamos con tu equipo, desde el diagnóstico hasta la auditoría de certificación, y formamos a las personas que después sostienen el sistema.'}</p>
+        </div>
+
+        <ul class="rel">
+          {relacionados.map((s) => (
+            <li class="rel-item">
+              <div class="rel-name">
+                <p class="rel-kind">Servicio</p>
+                <h3><a href={s.href}>{s.nombre}</a></h3>
+              </div>
+              <div class="rel-copy">
+                <p>{s.resumen}</p>
+                <ul class="chips">{s.normas.map((n) => <li class="chip">{n}</li>)}</ul>
+              </div>
+              <a class="link-arrow" href={s.href} aria-label={`Ver el servicio ${s.nombre}`}>Ver servicio</a>
+            </li>
+          ))}
+          {cursos.map((c) => (
+            <li class="rel-item">
+              <div class="rel-name">
+                <p class="rel-kind">Curso en vivo</p>
+                <h3><a href={`/cursos#${c.slug}`}>{c.titulo}</a></h3>
+              </div>
+              <div class="rel-copy">
+                <p>{c.descripcion}</p>
+              </div>
+              <a class="link-arrow" href={`/cursos#${c.slug}`} aria-label={`Ver el curso ${c.titulo}`}>Ver curso</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <!-- ============ OTRAS NOTAS ============ -->
+  {otras.length > 0 && (
+    <section class="section otras">
+      <div class="wrap">
+        <div class="otras-head">
+          <h2>Otras notas</h2>
+          <a class="link-arrow" href="/blog">Ver todas</a>
+        </div>
+        <ul class="otras-list">
+          {otras.map((n) => (
+            <li>
+              <h3><a href={`/blog/${n.slug}`}>{n.titulo}</a></h3>
+              <p>{n.descripcion}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <CtaDiagnostico servicio={servicioPrincipal} />
+</Base>
+
+<style>
+  /* ---------- Encabezado ---------- */
+  .nota-head {
+    background: var(--soft);
+    border-bottom: 1px solid var(--line);
+    padding-block: clamp(40px, 5vw, 72px) clamp(36px, 4.5vw, 56px);
+  }
+  .crumbs ol { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; padding: 0; margin: 0 0 28px; font-size: 0.875rem; color: var(--muted); }
+  .crumbs li + li::before { content: '/'; margin-right: 6px; color: var(--line-strong); }
+  .crumbs a { color: var(--muted); text-decoration: none; }
+  .crumbs a:hover { color: var(--primary); text-decoration: underline; }
+  h1 { font-size: var(--step-4); max-width: 22ch; letter-spacing: -0.03em; }
+  .lead { font-size: var(--step-1); color: var(--muted); line-height: 1.55; max-width: 60ch; margin: 20px 0 0; }
+  .meta {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px;
+    margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line);
+  }
+  .autor { margin: 0; font-size: 0.95rem; color: var(--muted); }
+  .autor a { color: var(--ink); font-weight: 600; text-decoration: none; }
+  .autor a:hover { color: var(--primary); text-decoration: underline; }
+  .chip { white-space: normal; }
+
+  /* ---------- Cuerpo + índice ---------- */
+  .nota-layout {
+    display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 0 72px;
+    align-items: start;
+    padding-block: clamp(40px, 5vw, 72px) var(--section);
+  }
+  @media (max-width: 1000px) {
+    .nota-layout { grid-template-columns: minmax(0, 1fr); }
+    .indice { display: none; }
+  }
+
+  .indice { position: sticky; top: 96px; }
+  .indice-label {
+    font-family: var(--font-display); font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+    margin: 0 0 12px;
+  }
+  .indice ol { list-style: none; margin: 0; padding: 0; border-left: 1px solid var(--line); }
+  .indice li { margin: 0; }
+  .indice a {
+    display: block; padding: 6px 0 6px 16px; margin-left: -1px;
+    border-left: 1px solid transparent;
+    font-size: 0.9rem; line-height: 1.4; color: var(--muted); text-decoration: none;
+  }
+  .indice a:hover { color: var(--primary); border-left-color: var(--brand); }
+
+  /* ---------- Texto de la nota (cuerpo del markdown) ---------- */
+  .prose { max-width: 68ch; min-width: 0; line-height: 1.75; overflow-wrap: break-word; }
+  .prose > :global(p:first-of-type) { font-size: var(--step-1); line-height: 1.6; color: var(--ink); }
+  .prose :global(h2) {
+    font-size: var(--step-2);
+    margin: 56px 0 16px; padding-top: 40px; border-top: 1px solid var(--line);
+    scroll-margin-top: 96px;
+  }
+  .prose :global(h3) { font-size: var(--step-1); margin: 36px 0 10px; scroll-margin-top: 96px; }
+  .prose :global(h2 + h3) { margin-top: 24px; }
+  .prose :global(p) { margin: 0 0 1.1em; }
+  .prose :global(ul), .prose :global(ol) { margin: 0 0 1.4em; padding-left: 1.3em; }
+  .prose :global(li) { margin: 0.5em 0; padding-left: 0.2em; }
+  .prose :global(li::marker) { color: var(--brand); }
+  .prose :global(li > ul) { margin: 0.35em 0 0.9em; padding-left: 1.1em; }
+  .prose :global(li > ul > li) { margin: 0.3em 0; color: var(--text); }
+  .prose :global(li > ul > li::marker) { color: var(--line-strong); }
+  .prose :global(strong) { color: var(--ink); font-weight: 650; }
+  .prose :global(em) { font-style: italic; }
+  .prose :global(a) { overflow-wrap: anywhere; }
+  .prose :global(blockquote) {
+    margin: 24px 0; padding: 4px 0 4px 20px; border-left: 3px solid var(--brand);
+    color: var(--ink); font-size: var(--step-1); line-height: 1.5;
+  }
+  .prose :global(blockquote p:last-child) { margin-bottom: 0; }
+
+  /* ---------- Relacionado ---------- */
+  .rel { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .rel-item {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr) auto; gap: 12px 48px;
+    align-items: start; padding-block: 26px; border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 860px) { .rel-item { grid-template-columns: 1fr; gap: 10px; } }
+  .rel-kind {
+    font-family: var(--font-display); font-size: 0.75rem; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px;
+  }
+  .rel-name h3 { font-size: var(--step-1); }
+  .rel-name h3 a { color: var(--ink); text-decoration: none; }
+  .rel-name h3 a:hover { color: var(--primary); }
+  .rel-copy p { margin: 0; color: var(--muted); max-width: 60ch; }
+  .rel-copy .chips { margin-top: 12px; }
+  .rel-item .link-arrow { padding-top: 4px; }
+
+  /* ---------- Otras notas ---------- */
+  .otras-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+  .otras-head h2 { font-size: var(--step-2); }
+  .otras-list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .otras-list li { padding-block: 22px; border-bottom: 1px solid var(--line); }
+  .otras-list h3 { font-size: 1.15rem; }
+  .otras-list h3 a { color: var(--ink); text-decoration: none; }
+  .otras-list h3 a:hover { color: var(--primary); }
+  .otras-list p { margin: 6px 0 0; color: var(--muted); font-size: 0.97rem; max-width: 70ch; }
+</style>

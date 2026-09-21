@@ -10,7 +10,7 @@ interface Props { curso: Curso; }
 const { curso } = Astro.props;
 const abierto = curso.abierto;
 ---
-<article class="curso" data-inicio={curso.inicio}>
+<article class="curso" id={curso.slug} data-inicio={curso.inicio}>
   <div class="top">
     <p class="area">{curso.area}</p>
     <span class="badge badge--abierto" data-estado="abierto" hidden={!abierto}>Inscripción abierta</span>

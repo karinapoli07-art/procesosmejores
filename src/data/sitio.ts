@@ -4,7 +4,6 @@ export const contacto = {
   email: 'rodmendi@procesosmejores.com',
   telefono: '+54 11 3404-0401',
   telefonoLink: 'tel:+541134040401',
-  // A CONFIRMAR: que este sea el número de WhatsApp.
   whatsapp: 'https://wa.me/5491134040401?text=Hola%20Rodrigo%2C%20te%20escribo%20desde%20la%20web%20de%20Procesos%20Mejores.',
   linkedin: 'https://www.linkedin.com/in/rodmendi/',
 };

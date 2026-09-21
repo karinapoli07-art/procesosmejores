@@ -1,0 +1,104 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import CtaDiagnostico from '../../components/CtaDiagnostico.astro';
+import { obtenerNotas, fechaNota } from '../../lib/blog';
+
+const notas = obtenerNotas();
+
+const inicio = new URL('/', Astro.site).href;
+const url = new URL('/blog', Astro.site).href;
+const descripcion =
+  'Notas sobre normas ISO y sistemas de gestión: cómo aprovechar ISO 9001 para implementar ISO/IEC 27001 y qué cambió con la enmienda de cambio climático.';
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: inicio },
+      { '@type': 'ListItem', position: 2, name: 'Blog', item: url },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Blog',
+    name: 'Notas sobre sistemas de gestión',
+    description: descripcion,
+    url,
+    inLanguage: 'es-AR',
+    publisher: { '@type': 'Organization', name: 'Procesos Mejores', url: inicio },
+    blogPost: notas.map((n) => ({
+      '@type': 'BlogPosting',
+      headline: n.titulo,
+      description: n.descripcion,
+      url: new URL(`/blog/${n.slug}`, Astro.site).href,
+      ...(n.fecha ? { datePublished: n.fecha } : {}),
+      author: { '@type': 'Person', name: 'Rodrigo Arizmendi' },
+    })),
+  },
+];
+---
+<Base
+  title="Blog sobre normas ISO y sistemas de gestión | Procesos Mejores"
+  description={descripcion}
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow="Blog"
+    title="Notas sobre sistemas de gestión"
+    lead="Cambios en las normas y preguntas que aparecen cuando se implementa un sistema de gestión, explicados en forma simple."
+    crumbs={[{ label: 'Blog' }]}
+  />
+
+  <section class="section">
+    <div class="wrap">
+      <ul class="notas">
+        {notas.map((n) => (
+          <li class="nota">
+            <div class="nota-meta">
+              {n.etiquetas.length > 0 && (
+                <ul class="chips" aria-label="Temas">
+                  {n.etiquetas.map((e) => <li class="chip">{e}</li>)}
+                </ul>
+              )}
+              {n.fecha && <time datetime={n.fecha}>{fechaNota(n.fecha)}</time>}
+            </div>
+            <div class="nota-copy">
+              <h2><a href={`/blog/${n.slug}`}>{n.titulo}</a></h2>
+              <p>{n.descripcion}</p>
+            </div>
+            <a class="link-arrow" href={`/blog/${n.slug}`} aria-label={`Leer nota: ${n.titulo}`}>Leer nota</a>
+          </li>
+        ))}
+      </ul>
+
+      <p class="mas">
+        ¿Hay un tema que te gustaría que tratemos? Escribinos desde <a href="/contacto">contacto</a>.
+      </p>
+    </div>
+  </section>
+
+  <CtaDiagnostico />
+</Base>
+
+<style>
+  .notas { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .nota {
+    display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 2fr) auto; gap: 16px 48px;
+    align-items: start; padding-block: 32px; border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 860px) { .nota { grid-template-columns: 1fr; gap: 14px; padding-block: 28px; } }
+
+  .nota-meta { display: grid; gap: 10px; padding-top: 4px; }
+  .nota-meta time { font-size: var(--step--1); color: var(--muted); }
+  .chip { white-space: normal; }
+
+  .nota h2 { font-size: var(--step-2); max-width: 30ch; }
+  .nota h2 a { color: var(--ink); text-decoration: none; }
+  .nota h2 a:hover { color: var(--primary); }
+  .nota-copy p { margin: 12px 0 0; color: var(--muted); max-width: 62ch; }
+  .nota .link-arrow { padding-top: 6px; }
+
+  .mas { margin: 36px 0 0; color: var(--muted); font-size: 0.97rem; }
+</style>

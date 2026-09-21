@@ -1,7 +1,510 @@
 ---
-import Base from "../../layouts/Base.astro";
-import Proximamente from "../../components/Proximamente.astro";
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import CursoCard from '../../components/CursoCard.astro';
+import CtaDiagnostico from '../../components/CtaDiagnostico.astro';
+import { obtenerCursos } from '../../lib/cursos';
+import rodrigo from '../../assets/rodrigo.png';
+
+const SITIO = 'https://www.procesosmejores.com';
+const URL_PAGINA = `${SITIO}/servicios/lean-manufacturing`;
+const contactoLean = '/contacto?servicio=lean#formulario';
+
+const titulo = 'Consultoría Lean Manufacturing (TPS) | Procesos Mejores';
+const descripcion =
+  'Lean Manufacturing desde el Sistema de Producción Toyota: mapeo del flujo de valor, 5S, trabajo estandarizado, kaizen y gestión visual, con tu equipo.';
+
+const curso5s = obtenerCursos().find((c) => c.slug === '5s-profesional');
+
+// Los siete desperdicios (muda) del TPS.
+const desperdicios = [
+  { nombre: 'Sobreproducción', texto: 'Producir más, o antes, de lo que necesita el proceso siguiente. Taiichi Ohno la consideraba la peor, porque esconde a todas las demás.' },
+  { nombre: 'Esperas', texto: 'Personas o máquinas paradas a la espera de material, información o una decisión.' },
+  { nombre: 'Transporte', texto: 'Mover materiales o documentos de un lado a otro sin agregarles nada.' },
+  { nombre: 'Sobreprocesamiento', texto: 'Hacer más de lo que el cliente pide: pasos, controles o terminaciones que nadie valora.' },
+  { nombre: 'Inventario', texto: 'Materia prima, producto en proceso o terminado acumulado de más. Ocupa lugar, inmoviliza dinero y tapa problemas.' },
+  { nombre: 'Movimientos innecesarios', texto: 'Buscar herramientas, caminar de más, agacharse: esfuerzo de las personas que no agrega valor.' },
+  { nombre: 'Defectos', texto: 'Retrabajos, piezas descartadas y reclamos. Hacer dos veces lo que tenía que salir bien una.' },
+];
+
+// Qué hacemos. Sin resultados cuantitativos: el alcance se define en el diagnóstico.
+const servicios = [
+  {
+    nombre: 'Diagnóstico y mapeo del flujo de valor',
+    etiquetas: ['VSM', 'Gemba'],
+    texto: 'Recorremos el proceso en el lugar donde se hace el trabajo y dibujamos, con tu equipo, cómo circulan hoy los materiales y la información: dónde se espera, dónde se acumula stock, dónde se retrabaja. Sobre ese mapa del estado actual se define el estado futuro y el plan para llegar.',
+  },
+  {
+    nombre: '5S',
+    etiquetas: ['Clasificar', 'Ordenar', 'Limpiar', 'Estandarizar', 'Sostener'],
+    texto: 'Es el punto de partida más visible: un puesto ordenado deja ver los problemas y es la base de cualquier estándar. Lo importante no es la jornada de limpieza, sino que el orden se sostenga en el tiempo, con responsables y verificaciones periódicas.',
+  },
+  {
+    nombre: 'Trabajo estandarizado',
+    etiquetas: ['Takt time', 'Secuencia', 'Stock en proceso'],
+    texto: 'Documentamos, junto con quienes hacen la tarea, la mejor forma conocida hoy de hacerla: secuencia, tiempos y material en proceso, al ritmo de la demanda. Sin un estándar no hay contra qué comparar y, por eso, tampoco hay mejora.',
+  },
+  {
+    nombre: 'Kaizen y resolución de problemas',
+    etiquetas: ['PDCA', 'A3', '5 porqués'],
+    texto: 'Formamos a los equipos para atacar problemas con método: definir bien el problema, ir a ver, encontrar la causa raíz y probar contramedidas antes de estandarizarlas. En eventos kaizen acotados o como práctica de todos los días.',
+  },
+  {
+    nombre: 'Gestión visual',
+    etiquetas: ['Tableros', 'Andon', 'Indicadores'],
+    texto: 'Tableros en el lugar de trabajo, indicadores a la vista y señales para pedir ayuda. El objetivo es que cualquiera pueda ver si el proceso va según lo planeado y, si no, actuar en el momento.',
+  },
+];
+
+// Cómo se complementan el ciclo PDCA de las normas ISO y las prácticas Lean.
+const pdca = [
+  { etapa: 'Planificar', norma: 'Capítulo 6: riesgos, oportunidades y objetivos.', lean: 'Mapa del flujo de valor y prioridades de mejora por proceso.' },
+  { etapa: 'Hacer', norma: 'Capítulo 8: operación y control de los procesos.', lean: '5S y trabajo estandarizado en cada puesto.' },
+  { etapa: 'Verificar', norma: 'Capítulo 9: seguimiento, medición y auditoría interna.', lean: 'Gestión visual: el desvío se ve en el lugar y en el momento.' },
+  { etapa: 'Actuar', norma: 'Capítulo 10: acciones correctivas y mejora continua.', lean: 'Kaizen y resolución de problemas con análisis de causa raíz.' },
+];
+
+const preguntas = [
+  {
+    q: '¿Lean sirve fuera de la industria automotriz?',
+    a: 'Sí. Nació en Toyota, pero sus principios no dependen de fabricar autos: entender qué valora el cliente, lograr que el trabajo fluya sin esperas y detectar los problemas donde aparecen. Se aplica en plantas de alimentos, metalmecánicas o químicas, en depósitos y en logística. Cambian los ejemplos, no la lógica.',
+  },
+  {
+    q: '¿Y en una empresa de servicios o en tareas administrativas?',
+    a: 'También. En una oficina los desperdicios se ven menos, pero están: trámites esperando una firma, datos que se cargan dos veces, aprobaciones que no agregan nada, errores que vuelven como reclamos. 5S se aplica a escritorios, archivos y carpetas compartidas, y el mapeo del flujo de valor sirve para seguir un pedido o un expediente igual que una pieza.',
+  },
+  {
+    q: '¿Por dónde se empieza?',
+    a: 'Por mirar el proceso real. En el diagnóstico recorremos la operación, mapeamos el flujo de valor y elegimos con la dirección un área piloto. Muchas veces el primer paso visible es 5S, porque ordena el lugar y deja a la vista los problemas. Para empezar no hace falta comprar software ni equipos.',
+  },
+  {
+    q: '¿Cuánto lleva?',
+    a: 'Depende del alcance: no es lo mismo un piloto en una línea que toda la planta. Los plazos se definen en el diagnóstico y se acuerdan con la dirección antes de empezar. Y Lean no tiene fecha de fin: la idea es que la mejora siga cuando nosotros ya no estemos.',
+  },
+  {
+    q: '¿Necesito tener ISO 9001 para aplicar Lean?',
+    a: 'No. Se pueden empezar por separado. Si ya tenés un sistema de gestión, Lean le suma herramientas para el día a día del proceso; si todavía no lo tenés, lo que ordenes con Lean es una buena base para implementarlo después.',
+  },
+  {
+    q: '¿Quiénes tienen que participar?',
+    a: 'La dirección, para fijar prioridades y sostener el cambio, y las personas que hacen el trabajo todos los días, porque son las que mejor conocen los problemas. Lean no se implementa desde una oficina.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Consultoría en Lean Manufacturing',
+    serviceType: 'Consultoría en Lean Manufacturing y Sistema de Producción Toyota',
+    description: descripcion,
+    url: URL_PAGINA,
+    areaServed: 'AR',
+    availableLanguage: 'es',
+    provider: {
+      '@type': 'ProfessionalService',
+      name: 'Procesos Mejores',
+      url: `${SITIO}/`,
+    },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Lean Manufacturing',
+      itemListElement: servicios.map((s) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: s.nombre },
+      })),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Inicio', item: `${SITIO}/` },
+      { '@type': 'ListItem', position: 2, name: 'Servicios', item: `${SITIO}/#servicios` },
+      { '@type': 'ListItem', position: 3, name: 'Lean Manufacturing', item: URL_PAGINA },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: preguntas.map((p) => ({
+      '@type': 'Question',
+      name: p.q,
+      acceptedAnswer: { '@type': 'Answer', text: p.a },
+    })),
+  },
+];
 ---
-<Base title="Lean Manufacturing | Procesos Mejores" description="Sección en preparación." noindex>
-  <Proximamente />
+<Base title={titulo} description={descripcion} jsonLd={jsonLd}>
+  <PageHeader
+    eyebrow="Mejora de procesos"
+    title="Lean Manufacturing"
+    lead="El Sistema de Producción Toyota aplicado a tu operación: flujo, trabajo estandarizado y mejora continua, construidos con las personas que hacen el trabajo todos los días."
+    crumbs={[{ label: 'Servicios', href: '/#servicios' }, { label: 'Lean Manufacturing' }]}
+  >
+    <a class="btn btn--primary" href={contactoLean}>Solicitar diagnóstico inicial</a>
+    <a class="btn btn--ghost btn--onsoft" href="/cursos#5s-profesional">Curso 5S Profesional</a>
+  </PageHeader>
+
+  <!-- ============ QUÉ ES LEAN ============ -->
+  <section class="section" aria-labelledby="que-es">
+    <div class="wrap origin">
+      <div class="origin-copy">
+        <p class="eyebrow">Qué es Lean</p>
+        <h2 id="que-es">Lean es el nombre que se le dio en Occidente al Sistema de Producción Toyota.</h2>
+        <p>
+          Toyota desarrolló su sistema de producción en Japón después de la Segunda Guerra Mundial, con
+          Taiichi Ohno como uno de sus principales artífices. El desafío era fabricar con calidad y a bajo
+          costo sin grandes volúmenes ni grandes inventarios.
+        </p>
+        <p>
+          La palabra <em lang="en">lean</em> («esbelto», en inglés) se difundió a fines de los años ochenta,
+          a partir de investigaciones del MIT que compararon la industria automotriz de distintos países.
+          Desde entonces el enfoque salió de las automotrices y hoy se aplica en todo tipo de procesos.
+        </p>
+        <p>
+          El TPS se suele explicar como una casa: arriba, el objetivo; dos pilares que lo sostienen, <strong>Just-in-Time</strong> y <strong>Jidoka</strong>; y una base de estabilidad y estandarización.
+        </p>
+      </div>
+
+      <figure class="house" aria-labelledby="house-cap">
+        <div class="roof">
+          <svg class="roof-line" viewBox="0 0 100 12" preserveAspectRatio="none" aria-hidden="true">
+            <polyline points="0,12 50,0 100,12" />
+          </svg>
+          <p>La mejor calidad, al menor costo, con el menor tiempo de entrega</p>
+        </div>
+        <div class="pillars">
+          <div class="pillar">
+            <h3>Just-in-Time</h3>
+            <p>Producir lo que se necesita, cuando se necesita y en la cantidad necesaria.</p>
+            <ul>
+              <li>Flujo continuo</li>
+              <li>Takt time</li>
+              <li>Sistema pull</li>
+            </ul>
+          </div>
+          <div class="core">
+            <p>Personas y trabajo en equipo</p>
+            <p>Eliminación de desperdicios</p>
+          </div>
+          <div class="pillar">
+            <h3>Jidoka</h3>
+            <p>Detectar la anomalía y detenerse, para no pasar un defecto a la etapa siguiente.</p>
+            <ul>
+              <li>Parar ante el problema</li>
+              <li>Andon</li>
+              <li>Poka-yoke</li>
+            </ul>
+          </div>
+        </div>
+        <p class="base">Heijunka <span aria-hidden="true">·</span> Trabajo estandarizado <span aria-hidden="true">·</span> Kaizen</p>
+        <p class="base base--ground">Estabilidad</p>
+        <figcaption id="house-cap">La casa del Sistema de Producción Toyota, en su versión más difundida.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ DESPERDICIOS Y PERSONAS ============ -->
+  <section class="section section--soft" aria-labelledby="foco">
+    <div class="wrap focus">
+      <div class="focus-intro">
+        <p class="eyebrow">El foco</p>
+        <h2 id="foco">Eliminar desperdicios. Respetar a las personas.</h2>
+        <p>
+          Desperdicio (<em lang="ja">muda</em>, en japonés) es todo lo que consume tiempo, espacio o dinero
+          sin agregar valor para el cliente. Taiichi Ohno identificó siete tipos. Aprender a verlos es el
+          primer paso para sacarlos.
+        </p>
+        <h3>Respeto por las personas</h3>
+        <p>
+          Toyota resume su forma de trabajar en dos principios: mejora continua y respeto por las personas.
+          El segundo es el que más se olvida. Lean no es recortar personal ni exigir más ritmo: es sacar del
+          camino lo que le impide a la gente hacer bien su trabajo, y escuchar a quienes lo hacen todos los
+          días, porque son quienes mejor conocen los problemas.
+        </p>
+      </div>
+
+      <div>
+        <h3 class="visually-hidden">Los siete desperdicios</h3>
+        <ol class="wastes">
+          {desperdicios.map((d, i) => (
+            <li>
+              <span class="waste-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <div>
+                <h4>{d.nombre}</h4>
+                <p>{d.texto}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+        <p class="note">
+          Muchos agregan un octavo: el talento no aprovechado, cuando no se escucha a quienes conocen el proceso.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QUÉ HACEMOS ============ -->
+  <section class="section" aria-labelledby="que-hacemos">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Qué hacemos</p>
+        <h2 id="que-hacemos">Herramientas Lean, aplicadas en tu proceso y con tu equipo.</h2>
+        <p>No hace falta hacer todo junto. El diagnóstico define por dónde empezar y con qué alcance, y cada herramienta tu equipo la aprende aplicándola.</p>
+      </div>
+
+      <ul class="offer">
+        {servicios.map((s) => (
+          <li class="offer-item">
+            <div>
+              <h3>{s.nombre}</h3>
+              <ul class="chips">{s.etiquetas.map((e) => <li class="chip">{e}</li>)}</ul>
+            </div>
+            <p>{s.texto}</p>
+          </li>
+        ))}
+      </ul>
+      <!-- A CONFIRMAR: modalidad (presencial en planta / mixta) y zona de cobertura para este servicio. -->
+    </div>
+  </section>
+
+  <!-- ============ DIFERENCIAL: TOYOTA ============ -->
+  <section class="section section--soft toyota" aria-labelledby="por-que">
+    <div class="wrap toyota-grid">
+      <div class="toyota-photo">
+        <Image src={rodrigo} alt="Rodrigo Arizmendi, fundador de Procesos Mejores" width={160} widths={[120, 160, 320]} sizes="(max-width: 640px) 120px, 160px" />
+      </div>
+      <div class="toyota-copy">
+        <p class="eyebrow">Por qué con nosotros</p>
+        <h2 id="por-que">La mejora continua, vista desde adentro de Toyota.</h2>
+        <p>
+          Para nosotros, Lean no es un conjunto de herramientas sueltas. Es una forma de trabajar que
+          empieza en el lugar donde se hace el trabajo y se sostiene con las personas que lo hacen.
+        </p>
+        <a class="link-arrow" href="/nosotros">Conocé nuestra historia</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LEAN + ISO ============ -->
+  <section class="section" aria-labelledby="lean-iso">
+    <div class="wrap fit">
+      <div class="fit-intro">
+        <p class="eyebrow">Lean y normas ISO</p>
+        <h2 id="lean-iso">La norma pide mejora continua. Lean dice cómo hacerla todos los días.</h2>
+        <p>
+          Las normas ISO de sistemas de gestión se basan en el ciclo PDCA (planificar, hacer, verificar,
+          actuar) y exigen mejorar de forma continua. Lo que no dicen es cómo lograr que esa mejora pase en
+          el puesto de trabajo y no sólo en la revisión por la dirección.
+        </p>
+        <p>
+          Lean no es una norma de sistema de gestión como ISO 9001: es una forma de trabajar. Por eso encaja
+          con cualquiera de ellas. Con Lean, los procedimientos se vuelven estándares que la gente usa, y la
+          participación de los trabajadores que pide ISO 45001 va en la misma dirección que el respeto por
+          las personas del TPS.
+        </p>
+        <a class="link-arrow" href="/servicios/sistemas-de-gestion-iso">Sistemas de gestión ISO</a>
+      </div>
+
+      <div>
+        <h3 class="fit-title">El ciclo PDCA, con herramientas Lean</h3>
+        <ol class="pdca">
+          {pdca.map((p) => (
+            <li>
+              <span class="pdca-stage">{p.etapa}</span>
+              <dl>
+                <div><dt>En la norma</dt><dd>{p.norma}</dd></div>
+                <div><dt>Con Lean</dt><dd>{p.lean}</dd></div>
+              </dl>
+            </li>
+          ))}
+        </ol>
+        <p class="note">Capítulos según la estructura común de ISO 9001, ISO 14001, ISO 45001 y las demás normas de sistemas de gestión.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CURSO RELACIONADO ============ -->
+  <section class="section section--soft" aria-labelledby="curso">
+    <div class="wrap course">
+      <div class="course-copy">
+        <p class="eyebrow">Formación</p>
+        <h2 id="curso">5S Profesional: el primer paso, en un curso en vivo.</h2>
+        <p>
+          Implementación de 5S en industria y servicios, como base del trabajo estandarizado y la mejora
+          continua. Encuentros sincrónicos por Google Meet, con interacción directa con el docente.
+        </p>
+        <p>
+          Si preferís formar a todo un equipo, armamos la capacitación a medida, en la empresa o en línea.
+        </p>
+        <a class="link-arrow" href="/cursos">Ver todos los cursos</a>
+      </div>
+      {curso5s && (
+        <div class="course-card">
+          <CursoCard curso={curso5s} />
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- ============ PREGUNTAS FRECUENTES ============ -->
+  <section class="section" aria-labelledby="faq">
+    <div class="wrap faq">
+      <div class="section-head">
+        <p class="eyebrow">Preguntas frecuentes</p>
+        <h2 id="faq">Lo que suelen preguntarnos sobre Lean.</h2>
+      </div>
+      <div class="faq-list">
+        {preguntas.map((p) => (
+          <details>
+            <summary><h3>{p.q}</h3></summary>
+            <p>{p.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaDiagnostico
+    servicio="lean"
+    title="¿Por dónde empezar? Por recorrer tu proceso."
+    text="Vemos con vos cómo fluye hoy el trabajo en tu operación, dónde se generan esperas, stock y retrabajos, y te proponemos por dónde arrancar, con qué alcance y en qué orden."
+  />
 </Base>
+
+<style>
+  /* ---------- Encabezado ---------- */
+  .btn--onsoft { background: var(--white); }
+
+  /* En global.css, ".section-head p" le gana a ".eyebrow": se restituye acá. */
+
+  /* ---------- Qué es Lean ---------- */
+  .origin { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px 72px; align-items: center; }
+  @media (max-width: 920px) { .origin { grid-template-columns: 1fr; } }
+  .origin-copy h2 { font-size: var(--step-3); margin-bottom: 24px; }
+  .origin-copy p { max-width: 58ch; }
+  .origin-copy p:last-child { margin-bottom: 0; }
+
+  .house { margin: 0; display: grid; gap: 8px; }
+  .roof { position: relative; padding-top: 28px; }
+  .roof-line {
+    position: absolute; inset: 0 0 auto 0; width: 100%; height: 28px; overflow: visible;
+    fill: none; stroke: var(--brand); stroke-width: 2px; vector-effect: non-scaling-stroke;
+  }
+  .roof-line polyline { vector-effect: non-scaling-stroke; }
+  .roof p {
+    margin: 0; padding: 16px 20px; text-align: center;
+    font-family: var(--font-display); font-weight: 600; color: var(--ink); line-height: 1.35;
+    border: 1px solid var(--line-strong); border-top: 0; border-radius: 0 0 var(--radius) var(--radius);
+    background: var(--soft);
+  }
+  .pillars { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr) minmax(0, 1fr); gap: 8px; }
+  .pillar {
+    padding: 20px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--white);
+  }
+  .pillar h3 { font-size: var(--step-1); color: var(--primary); margin-bottom: 8px; }
+  .pillar p { margin: 0 0 12px; font-size: 0.93rem; color: var(--text); line-height: 1.5; }
+  .pillar ul { list-style: none; margin: 0; padding: 12px 0 0; border-top: 1px solid var(--line); display: grid; gap: 4px; }
+  .pillar li { font-size: 0.88rem; color: var(--muted); }
+  .core {
+    display: grid; align-content: center; gap: 12px; padding: 16px 12px; text-align: center;
+    border: 1px dashed var(--line-strong); border-radius: var(--radius);
+  }
+  .core p { margin: 0; font-size: 0.9rem; line-height: 1.4; color: var(--ink); font-weight: 500; }
+  .base {
+    margin: 0; padding: 12px 16px; text-align: center; font-size: 0.93rem; color: var(--ink);
+    border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--white);
+  }
+  .base span { color: var(--muted); margin-inline: 4px; }
+  .base--ground { background: var(--soft); font-family: var(--font-display); font-weight: 600; }
+  .house figcaption { font-size: var(--step--1); color: var(--muted); margin-top: 8px; }
+  @media (max-width: 560px) {
+    .pillars { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .core { grid-column: 1 / -1; order: -1; grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 12px; }
+    .pillar { padding: 16px; }
+  }
+
+  /* ---------- Desperdicios ---------- */
+  .focus { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 48px 80px; align-items: start; }
+  @media (max-width: 920px) { .focus { grid-template-columns: 1fr; } }
+  .focus-intro h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .focus-intro h3 { font-size: var(--step-1); margin: 32px 0 12px; padding-top: 24px; border-top: 1px solid var(--line-strong); }
+  .focus-intro p { max-width: 54ch; }
+  .wastes { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .wastes li {
+    display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 16px;
+    padding-block: 18px; border-bottom: 1px solid var(--line);
+  }
+  .waste-n { font-family: var(--font-display); font-weight: 600; color: var(--primary); font-size: 0.95rem; line-height: 1.5; }
+  .wastes h4 { font-size: 1.1rem; margin-bottom: 4px; }
+  .wastes p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+  .note { margin: 16px 0 0; font-size: var(--step--1); color: var(--muted); }
+
+  /* ---------- Qué hacemos ---------- */
+  .offer { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .offer-item {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 16px 48px;
+    align-items: start; padding-block: 28px; border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 860px) { .offer-item { grid-template-columns: 1fr; gap: 12px; } }
+  .offer-item h3 { font-size: var(--step-1); margin-bottom: 12px; }
+  .offer-item > p { margin: 0; color: var(--muted); max-width: 64ch; }
+
+  /* ---------- Toyota ---------- */
+  .toyota { padding-block: clamp(56px, 6vw, 88px); }
+  .toyota-grid { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 32px 56px; align-items: start; }
+  @media (max-width: 640px) { .toyota-grid { grid-template-columns: 1fr; } }
+  .toyota-copy { max-width: 720px; }
+  .toyota-photo img { width: 100%; max-width: 160px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--white); }
+  @media (max-width: 640px) { .toyota-photo img { max-width: 120px; } }
+  .toyota-copy h2 { font-size: var(--step-3); margin-bottom: 24px; }
+  .toyota-copy > p { max-width: 60ch; }
+
+  /* ---------- Lean + ISO ---------- */
+  .fit { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 48px 80px; align-items: start; }
+  @media (max-width: 920px) { .fit { grid-template-columns: 1fr; } }
+  .fit-intro h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .fit-intro p { max-width: 56ch; }
+  .fit-intro .link-arrow { margin-top: 4px; }
+  .fit-title { font-size: 1.1rem; margin-bottom: 16px; }
+  .pdca { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .pdca li {
+    display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 8px 24px;
+    padding-block: 18px; border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 480px) { .pdca li { grid-template-columns: 1fr; } }
+  .pdca-stage { font-family: var(--font-display); font-weight: 600; color: var(--primary); }
+  .pdca dl { margin: 0; display: grid; gap: 6px; }
+  .pdca dl div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 12px; font-size: 0.95rem; line-height: 1.5; }
+  @media (max-width: 380px) { .pdca dl div { grid-template-columns: 1fr; gap: 0; } }
+  .pdca dt { color: var(--muted); }
+  .pdca dd { margin: 0; color: var(--ink); }
+
+  /* ---------- Curso ---------- */
+  .course { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px 72px; align-items: center; }
+  @media (max-width: 860px) { .course { grid-template-columns: 1fr; } }
+  .course-copy h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .course-copy p { max-width: 56ch; }
+  .course-card { max-width: 440px; width: 100%; }
+
+  /* ---------- Preguntas frecuentes ---------- */
+  .faq-list { border-top: 1px solid var(--line); max-width: 820px; }
+  details { border-bottom: 1px solid var(--line); }
+  summary {
+    display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    padding-block: 22px; cursor: pointer; list-style: none;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary h3 { font-size: 1.1rem; font-weight: 600; }
+  summary::after {
+    content: '+'; flex: none; width: 28px; height: 28px; display: grid; place-items: center;
+    border: 1px solid var(--line-strong); border-radius: 50%;
+    font-family: var(--font-display); font-size: 1.1rem; line-height: 1; color: var(--primary);
+    transition: transform .15s ease;
+  }
+  details[open] summary::after { transform: rotate(45deg); }
+  summary:hover h3 { color: var(--primary); }
+  details p { margin: 0 0 24px; color: var(--text); max-width: 68ch; }
+</style>
