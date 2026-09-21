@@ -53,26 +53,28 @@ export const servicios = [
   },
 ];
 
+// A CONFIRMAR: Rodrigo todavía no validó estos pasos, en especial el «Diagnóstico inicial»
+// y que el acompañamiento llegue hasta la auditoría de certificación.
 export const pasos = [
   {
-    titulo: '[TEXTO]',
-    texto: '[TEXTO]',
+    titulo: 'Diagnóstico inicial',
+    texto: 'Relevamos cómo trabajás hoy y qué te pide la norma o tu cliente. Sale un informe con brechas y prioridades.',
   },
   {
-    titulo: '[TEXTO]',
-    texto: '[TEXTO]',
+    titulo: 'Plan de trabajo',
+    texto: 'Alcance, etapas, responsables y plazos, acordados con la dirección antes de empezar.',
   },
   {
-    titulo: '[TEXTO]',
-    texto: '[TEXTO]',
+    titulo: 'Implementación con tu equipo',
+    texto: 'Procesos, documentación y registros construidos en conjunto, capacitando en el camino.',
   },
   {
-    titulo: '[TEXTO]',
-    texto: '[TEXTO]',
+    titulo: 'Auditoría interna',
+    texto: 'Verificamos el sistema antes que el organismo certificador y formamos a tus auditores internos.',
   },
   {
-    titulo: '[TEXTO]',
-    texto: '[TEXTO]',
+    titulo: 'Certificación y mejora',
+    texto: 'Acompañamos la auditoría externa y dejamos el ciclo de mejora funcionando.',
   },
 ];
 

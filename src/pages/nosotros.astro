@@ -20,36 +20,47 @@ const selloRocs: ImageMetadata | null = null;
 const qrRocs: ImageMetadata | null = null;
 const perfilRocs = '';
 
+// Recorrido en forma de datos. La historia de arriba no se repite acá.
+// Sin fechas en ninguna biografía (portada y nosotros), a pedido de Timbini.
 const recorrido = [
-  { label: 'Formación', texto: 'Ingeniero electrónico, con posgrado en ingeniería gerencial.' },
-  { label: 'Toyota Argentina', texto: 'Donde se apasionó por la mejora de procesos.' },
-  { label: '2012', texto: 'Funda Procesos Mejores y empieza a asesorar empresas de distintos rubros y tamaños.' },
+  { label: 'Formación', datos: ['Ingeniero electrónico.', 'Posgrado en ingeniería gerencial.'] },
+  { label: 'Industria', datos: ['Toyota Argentina, donde comprendió a fondo la mejora de procesos.'] },
+  {
+    label: 'Consultoría',
+    datos: ['Fundador y director de Procesos Mejores.', 'Asesora a empresas de distintos rubros y tamaños.'],
+  },
   {
     label: 'Normas',
-    texto: 'ISO 9001, ISO 14001, ISO 45001 (antes OHSAS 18001), ISO 21001, ISO 50001, ISO 22000 y FSSC 22000.',
+    datos: ['ISO 9001, ISO 14001, ISO 45001 (antes OHSAS 18001), ISO 21001, ISO 50001, ISO 22000 y FSSC 22000.'],
   },
   {
     label: 'Docencia',
-    texto: 'En la universidad, en una escuela técnica, en empresas y en capacitaciones a medida. Hoy, también en nuestros cursos en vivo.',
+    datos: [
+      'Docente en la Escuela Técnica Roberto Rocca.',
+      'Ayudante de cátedra en la UTN, Facultad Regional Delta.',
+      'Capacitaciones a medida en empresas.',
+      'Cursos en vivo de Procesos Mejores.',
+    ],
   },
 ];
 
+// A CONFIRMAR: Rodrigo todavía no validó estos cuatro puntos.
 const metodo = [
   {
-    titulo: '[TEXTO]',
-    texto: '[TEXTO]',
+    titulo: 'Trabajamos con tu equipo, no para tu equipo',
+    texto: 'Las personas que van a sostener el sistema participan del diagnóstico, del diseño de los procesos y de las auditorías.',
   },
   {
-    titulo: '[TEXTO]',
-    texto: '[TEXTO]',
+    titulo: 'Capacitamos en el camino',
+    texto: 'Cada etapa incluye formación sobre los requisitos de la norma y las herramientas que se usan, aplicada a los procesos reales.',
   },
   {
-    titulo: '[TEXTO]',
-    texto: '[TEXTO]',
+    titulo: 'Documentamos lo que se hace',
+    texto: 'Procedimientos y registros construidos con quienes los usan, para que reflejen cómo se trabaja y no queden en un cajón.',
   },
   {
-    titulo: '[TEXTO]',
-    texto: '[TEXTO]',
+    titulo: 'Formamos auditores internos',
+    texto: 'Tu equipo aprende a auditar su propio sistema antes que el organismo certificador, y a seguir haciéndolo después.',
   },
 ];
 
@@ -123,21 +134,20 @@ const jsonLd = [
         <p class="eyebrow">Nuestra historia</p>
         <h2>De Toyota Argentina a Procesos Mejores.</h2>
         <p>
-          Rodrigo Arizmendi es ingeniero electrónico y tiene un posgrado en ingeniería gerencial.
-          Trabajó en Toyota Argentina, donde se apasionó por la mejora de procesos. De ahí proviene la mirada
-          que la consultora sigue aplicando: la mejora continua no es un proyecto con fecha de cierre, sino una
-          forma de trabajar que sostienen las personas que están todos los días en el proceso.
+          Rodrigo Arizmendi trajo de la industria la convicción que guía a la consultora: la mejora continua
+          no es un proyecto con fecha de cierre, sino una forma de trabajar que sostienen las personas que
+          están todos los días en el proceso.
         </p>
         <p>
-          En 2012 fundó Procesos Mejores. Desde entonces la consultora asesora a empresas de diversos rubros y
-          tamaños en sistemas de gestión, y combina esa tarea con la docencia: las dos se alimentan entre sí.
+          Con esa idea fundó Procesos Mejores, y desde entonces combina la consultoría con la docencia: las dos
+          se alimentan entre sí.
         </p>
 
         <dl class="path">
           {recorrido.map((r) => (
             <div>
               <dt>{r.label}</dt>
-              <dd>{r.texto}</dd>
+              <dd>{r.datos.length > 1 ? <ul>{r.datos.map((d) => <li>{d}</li>)}</ul> : r.datos[0]}</dd>
             </div>
           ))}
         </dl>
@@ -152,7 +162,7 @@ const jsonLd = [
     <div class="wrap">
       <div class="transfer-head">
         <p class="eyebrow">Lo que hacemos, en una idea</p>
-        <h2>Transferencia de conocimiento. El sistema tiene que quedar <span>funcionando sin nosotros.</span></h2>
+        <h2>Transferencia de conocimiento. El sistema tiene que quedar funcionando sin nosotros.</h2>
       </div>
 
       <div class="transfer-grid">
@@ -323,12 +333,12 @@ const jsonLd = [
   @media (max-width: 560px) { .path div { grid-template-columns: 1fr; } }
   .path dt { font-family: var(--font-display); font-weight: 600; color: var(--ink); }
   .path dd { margin: 0; color: var(--muted); }
+  .path dd ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
 
   /* ---------- Transferencia de conocimiento ---------- */
   .transfer { border-block: 1px solid var(--line); }
   .transfer-head { max-width: 900px; margin-bottom: clamp(36px, 5vw, 64px); }
   .transfer-head h2 { font-size: var(--step-4); letter-spacing: -0.03em; }
-  .transfer-head h2 span { color: var(--primary); }
 
   .transfer-grid {
     display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
@@ -413,10 +423,6 @@ const jsonLd = [
   .rocs-badge {
     background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
     padding: clamp(24px, 3vw, 32px); position: relative;
-  }
-  .rocs-badge::before {
-    content: ''; position: absolute; left: 24px; right: 24px; top: -1px; height: 3px;
-    background: var(--brand); border-radius: 0 0 3px 3px;
   }
   .rocs-badge dl { margin: 0; display: grid; }
   .rocs-badge dl div { display: grid; gap: 2px; padding-block: 12px; border-bottom: 1px solid var(--line); }
