@@ -9,7 +9,7 @@ const anio = new Date().getFullYear();
         <img src="/logo.png" alt="" width="32" height="32" loading="lazy" />
         <span>Procesos Mejores</span>
       </a>
-      <p>Consultoría y formación en sistemas de gestión. Buenos Aires, Argentina. Desde 2012.</p>
+      <p>Consultoría y formación en sistemas de gestión y mejora de procesos. Buenos Aires, Argentina. Desde 2012.</p>
     </div>
 
     <nav aria-label="Servicios">
@@ -38,6 +38,8 @@ const anio = new Date().getFullYear();
 
 <style>
   .site-footer { background: var(--ink); color: #c9d6de; padding-block: 64px 28px; font-size: 0.95rem; }
+  /* En celular, lugar para el botón flotante de WhatsApp: que no tape la última línea. */
+  @media (max-width: 560px) { .site-footer { padding-bottom: 96px; } }
   .cols { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 40px; }
   @media (max-width: 760px) { .cols { grid-template-columns: 1fr; gap: 32px; } }
 

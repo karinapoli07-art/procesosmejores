@@ -6,11 +6,25 @@ import TestimonioCard from '../components/TestimonioCard.astro';
 import CtaDiagnostico from '../components/CtaDiagnostico.astro';
 import { servicios, pasos, testimonios, empresasParticipantes, contacto } from '../data/sitio';
 import { obtenerCursos, proximoCurso, fechaLarga } from '../lib/cursos';
+import { obtenerNotas } from '../lib/blog';
 import rodrigo from '../assets/rodrigo.png';
+import rodrigoClase from '../assets/rodrigo-clase.jpg';
 
 const cursos = obtenerCursos().slice(0, 3);
 const proximo = proximoCurso();
 const destacados = testimonios.filter((t) => t.destacado);
+const notas = obtenerNotas().slice(0, 2);
+
+// Íconos de línea de cada servicio (24×24, trazo del color del texto).
+const trazo = (d: string) =>
+  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const iconos: Record<string, string> = {
+  iso: trazo('<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="m9 13 2 2 4-4"/>'),
+  alimentaria: trazo('<path d="M5 20c0-9 5.5-14 15-15 0 9.5-5.5 15-15 15Z"/><path d="M5 20c3-4.5 6.5-7.5 11-10"/>'),
+  lean: trazo('<path d="M4 12a8 8 0 0 1 13.7-5.6"/><path d="M18 3v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.6"/><path d="M6 21v-4h4"/>'),
+  vciso: trazo('<path d="M12 3 5 6v6c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6Z"/><rect x="9.5" y="11" width="5" height="4" rx="1"/><path d="M10.5 11V9.5a1.5 1.5 0 0 1 3 0V11"/>'),
+  formacion: trazo('<path d="m2 9 10-5 10 5-10 5Z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/><path d="M22 9v6"/>'),
+};
 
 const jsonLd = [
   {
@@ -32,7 +46,7 @@ const jsonLd = [
 ---
 <Base
   title="Consultoría ISO y cursos de auditor interno | Procesos Mejores"
-  description="Implementación de normas ISO, inocuidad alimentaria, Lean Manufacturing y vCISO. Cursos de auditor interno en vivo. Consultora argentina, desde 2012."
+  description="Normas ISO, inocuidad alimentaria, Lean Manufacturing y vCISO. Cursos de auditor interno en vivo. Consultora argentina, desde 2012."
   jsonLd={jsonLd}
 >
   <!-- ============ PORTADA ============ -->
@@ -47,7 +61,10 @@ const jsonLd = [
         </p>
         <div class="hero-actions">
           <a class="btn btn--primary" href="/contacto#formulario">Solicitar diagnóstico inicial</a>
-          <a class="btn btn--ghost" href="/cursos">Ver próximos cursos</a>
+          <a class="btn btn--ghost btn--wa" href={contacto.whatsapp} target="_blank" rel="noopener">
+            <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.2A12.7 12.7 0 0 0 5.1 22.4L3.3 28.8l6.6-1.7A12.8 12.8 0 1 0 16 3.2Zm0 23.3a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.5Zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7a.6.6 0 0 0 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.7 3.7 0 0 0-1.1 2.7 6.4 6.4 0 0 0 1.3 3.4 14.6 14.6 0 0 0 5.6 5c2.1.9 2.9 1 4 .8a3.4 3.4 0 0 0 2.2-1.6 2.8 2.8 0 0 0 .2-1.6c-.1-.1-.3-.2-.6-.4Z" /></svg>
+            Escribir por WhatsApp
+          </a>
         </div>
       </div>
 
@@ -70,7 +87,7 @@ const jsonLd = [
           <div data-estado="espera" hidden>
             <h2>Nuevas ediciones en preparación</h2>
             <p>Mirá el calendario y anotate en la lista de espera del curso que te interese.</p>
-            <a class="link-arrow" href="/cursos">Ver calendario</a>
+            <a class="link-arrow" href="/cursos#calendario">Ver calendario</a>
           </div>
         </aside>
       )}
@@ -80,10 +97,10 @@ const jsonLd = [
   <!-- ============ CREDENCIALES ============ -->
   <section class="facts" aria-label="Sobre Procesos Mejores">
     <ul class="wrap facts-list">
-      <li><strong>Desde 2012</strong></li>
-      <li><strong>Experiencia en Toyota</strong></li>
-      <li><strong>Cursos en vivo</strong></li>
-      <li><strong>Registrada en ROCS</strong></li>
+      <li><strong>Desde 2012</strong><span>Consultoría y formación en sistemas de gestión</span></li>
+      <li><strong>Experiencia en Toyota</strong><span>El fundador trabajó en Toyota Argentina</span></li>
+      <li><strong>Cursos en vivo</strong><span>Por Google Meet, con casos prácticos</span></li>
+      <li><strong>Registrada en ROCS</strong><span>Registro de Organizaciones Comprometidas con la Sostenibilidad (IRAM)</span></li>
     </ul>
   </section>
 
@@ -99,11 +116,12 @@ const jsonLd = [
         {servicios.map((s) => (
           <li class="service" id={s.id}>
             <div class="service-name">
+              <span class="service-icon" aria-hidden="true" set:html={iconos[s.id]} />
               <h3><a href={s.href}>{s.nombre}</a></h3>
               <ul class="chips">{s.normas.map((n) => <li class="chip">{n}</li>)}</ul>
             </div>
             <p>{s.resumen}</p>
-            <a class="link-arrow" href={s.href} aria-label={`Más sobre ${s.nombre}`}>Ver más</a>
+            <a class="link-arrow" href={s.href} aria-label={`Ver más sobre ${s.nombre}`}>Ver más</a>
           </li>
         ))}
       </ul>
@@ -121,7 +139,7 @@ const jsonLd = [
           con tu equipo, no para tu equipo: las personas que lo van a sostener participan del diagnóstico,
           del diseño y de las auditorías.
         </p>
-        <p>Cuando terminamos, el sistema sigue funcionando sin nosotros.</p>
+        <p>El objetivo es que, cuando terminemos, el sistema siga funcionando sin nosotros.</p>
         <a class="btn btn--primary" href="/contacto#formulario">Empezar por un diagnóstico</a>
       </div>
       <ol class="steps">
@@ -145,7 +163,7 @@ const jsonLd = [
         <div>
           <p class="eyebrow">Formación</p>
           <h2>Cursos de auditor interno, en vivo.</h2>
-          <p>En vivo por Google Meet, con casos prácticos y material de estudio.</p>
+          <p>Por Google Meet, con casos prácticos y material de estudio.</p>
         </div>
         <a class="link-arrow" href="/cursos">Ver todos los cursos</a>
       </div>
@@ -158,9 +176,15 @@ const jsonLd = [
   <!-- ============ TESTIMONIOS ============ -->
   <section class="section section--soft">
     <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">Lo que dicen quienes cursaron</p>
-        <h2>Aprender del docente y también de los compañeros.</h2>
+      <div class="testi-head">
+        <div class="section-head">
+          <p class="eyebrow">Lo que dicen quienes cursaron</p>
+          <h2>Aprender del docente y también de los compañeros.</h2>
+        </div>
+        <figure class="testi-foto">
+          <Image src={rodrigoClase} alt="Rodrigo Arizmendi con un micrófono, explicando frente a un grupo" width={240} widths={[240, 289]} sizes="240px" />
+          <figcaption>Rodrigo Arizmendi, en clase.</figcaption>
+        </figure>
       </div>
       <div class="grid-3">
         {destacados.map((t) => <TestimonioCard {...t} />)}
@@ -211,6 +235,29 @@ const jsonLd = [
     </div>
   </section>
 
+  <!-- ============ NOTAS DEL BLOG ============ -->
+  <section class="section notas-sec" id="notas">
+    <div class="wrap">
+      <div class="section-head section-head--row">
+        <div>
+          <p class="eyebrow">Blog</p>
+          <h2>Notas sobre sistemas de gestión.</h2>
+        </div>
+        <a class="link-arrow" href="/blog">Ver todas las notas</a>
+      </div>
+      <ul class="notas">
+        {notas.map((n) => (
+          <li class="nota">
+            <ul class="chips">{n.etiquetas.slice(0, 2).map((e) => <li class="chip">{e}</li>)}</ul>
+            <h3><a href={`/blog/${n.slug}`}>{n.titulo}</a></h3>
+            <p>{n.descripcion}</p>
+            <span class="link-arrow" aria-hidden="true">Leer nota</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
   <CtaDiagnostico />
 </Base>
 
@@ -244,6 +291,7 @@ const jsonLd = [
   .lead { font-size: var(--step-1); line-height: 1.55; color: var(--muted); max-width: 54ch; margin: 24px 0 0; }
   .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
   .hero-actions .btn--ghost { background: #fff; }
+  .btn--wa svg { fill: var(--wa); }
 
   .next {
     background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
@@ -284,7 +332,7 @@ const jsonLd = [
   }
   @media (max-width: 920px) { .facts-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 480px) { .facts-list { grid-template-columns: 1fr; } }
-  .facts li { padding-left: 16px; border-left: 2px solid var(--brand); }
+  .facts li { display: grid; gap: 2px; align-content: start; padding-left: 16px; border-left: 2px solid var(--brand); }
   .facts strong { font-weight: 700; color: var(--ink); font-size: 1.0625rem; }
   .facts span { font-size: 0.9rem; color: var(--muted); line-height: 1.45; }
 
@@ -299,7 +347,14 @@ const jsonLd = [
   .service h3 a { color: var(--ink); text-decoration: none; }
   .service h3 a:hover { color: var(--primary); }
   .service p { margin: 0; color: var(--muted); }
-  .service .link-arrow { padding-top: 4px; }
+  .service .link-arrow { padding-top: 4px; position: relative; z-index: 1; }
+  .service { position: relative; }
+  .service h3 a::after { content: ''; position: absolute; inset: 0; }
+  .service-icon { display: block; width: 30px; height: 30px; margin-bottom: 14px; color: var(--primary); transition: transform var(--base) var(--ease); }
+  .service-icon :global(svg) { width: 100%; height: 100%; display: block; }
+  .service:hover h3 a { color: var(--primary); }
+  .service:hover .service-icon { transform: translateY(-3px); }
+  .service:hover .link-arrow::after { transform: translateX(4px); }
 
   /* ---------- Método ---------- */
   .method { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 48px 80px; align-items: start; }
@@ -327,6 +382,27 @@ const jsonLd = [
   .section-head--row { max-width: none; display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
   .section-head--row > div { max-width: 660px; }
 
+  .testi-head { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 24px 56px; align-items: end; margin-bottom: clamp(30px, 4vw, 48px); }
+  .testi-head .section-head { margin-bottom: 0; }
+  @media (max-width: 760px) { .testi-head { grid-template-columns: 1fr; } }
+  .testi-foto { margin: 0; }
+  .testi-foto img { width: 100%; max-width: 240px; border-radius: 12px; border: 1px solid var(--line); }
+  .testi-foto figcaption { margin-top: 8px; font-size: var(--step--2); color: var(--muted); }
+  .notas-sec { border-top: 1px solid var(--line); }
+  .notas { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  @media (max-width: 760px) { .notas { grid-template-columns: 1fr; } }
+  .nota {
+    position: relative; display: grid; gap: 14px; align-content: start; padding: 28px;
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    transition: border-color var(--base) var(--ease);
+  }
+  .nota:hover { border-color: var(--primary); }
+  .nota h3 { font-size: var(--step-1); }
+  .nota h3 a { color: var(--ink); text-decoration: none; }
+  .nota h3 a::after { content: ''; position: absolute; inset: 0; }
+  .nota:hover h3 a { color: var(--primary); }
+  .nota p { margin: 0; color: var(--muted); }
+  .nota:hover .link-arrow::after { transform: translateX(4px); }
   .participants { margin-top: 36px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
   .participants p { margin: 0; font-size: 0.9rem; color: var(--muted); }
   .participants ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
@@ -334,7 +410,7 @@ const jsonLd = [
   .participants .link-arrow { margin-left: auto; }
 
   /* ---------- Quién ---------- */
-  .about { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 40px 72px; align-items: center; }
+  .about { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 40px 72px; align-items: start; }
   @media (max-width: 860px) { .about { grid-template-columns: 1fr; } }
   .about-photo img { width: 100%; max-width: 360px; border-radius: 14px; background: var(--soft); border: 1px solid var(--line); }
   @media (max-width: 860px) { .about-photo img { max-width: 280px; } }
