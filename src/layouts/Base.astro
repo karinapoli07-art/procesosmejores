@@ -54,6 +54,22 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     </main>
     <Footer />
     <WhatsApp />
+    <script>
+      // Aparición suave de las secciones al hacer scroll. Sólo afecta a las que todavía no se ven al
+      // cargar; sin JavaScript o con «reducir movimiento» activado, todo se ve como siempre.
+      if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const observador = new IntersectionObserver((entradas) => {
+          for (const e of entradas) {
+            if (e.isIntersecting) { e.target.classList.add('is-visible'); observador.unobserve(e.target); }
+          }
+        }, { rootMargin: '0px 0px -8% 0px' });
+        document.querySelectorAll<HTMLElement>('main > section').forEach((s) => {
+          if (s.getBoundingClientRect().top < innerHeight) return;
+          s.classList.add('reveal');
+          observador.observe(s);
+        });
+      }
+    </script>
   </body>
 </html>
 

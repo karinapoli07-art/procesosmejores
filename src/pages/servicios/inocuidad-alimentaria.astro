@@ -180,6 +180,7 @@ const jsonLd = [
 ];
 ---
 <Base title={title} description={description} jsonLd={jsonLd}>
+  <!-- A CONFIRMAR: que el acompañamiento llegue hasta la auditoría de certificación (bajada de la cabecera). -->
   <PageHeader
     eyebrow="Industria de alimentos y bebidas"
     title="Inocuidad alimentaria: BPM, ISO 22000 y FSSC 22000"
@@ -256,7 +257,7 @@ const jsonLd = [
         {camino.map((c, i) => (
           <li>
             <p class="path-n">Etapa {i + 1}</p>
-            <h3><span class="path-sigla">{c.sigla}</span> {c.titulo}</h3>
+            <h3>{c.sigla} · {c.titulo}</h3>
             <p>{c.texto}</p>
           </li>
         ))}
@@ -298,8 +299,9 @@ const jsonLd = [
           La inocuidad no se resuelve en una oficina. Trabajamos en la planta, con quienes limpian, producen,
           reciben y despachan, porque son ellos los que después sostienen el sistema todos los días.
         </p>
+        <!-- A CONFIRMAR: si Rodrigo tiene experiencia previa en ISO 22000 y FSSC 22000 (el sitio anterior no lo dice). Si la confirma, puede volver «Tenemos experiencia en ISO 22000 y FSSC 22000, y también en ISO 9001, ISO 14001 e ISO 45001.» -->
         <p>
-          Tenemos experiencia en ISO 22000 y FSSC 22000, y también en ISO 9001, ISO 14001 y ISO 45001.
+          Además de ISO 22000 y FSSC 22000, trabajamos con ISO 9001, ISO 14001 e ISO 45001.
           Si ya tenés otro sistema certificado, lo integramos en lugar de sumar papeles.
         </p>
         <a class="btn btn--primary" href={contactoHref}>Empezar por un diagnóstico</a>
@@ -333,7 +335,7 @@ const jsonLd = [
           <div class="faq-a">
             <p>
               FSSC 22000 incluye ISO 22000 completa y le agrega los programas de prerrequisitos específicos del
-              sector y requisitos adicionales del esquema. Por eso está reconocido por GFSI, y ISO 22000 sola no.
+              sector y requisitos adicionales del esquema. Por eso está reconocido por GFSI, e ISO 22000 sola no.
             </p>
             <p>
               En la práctica, la pregunta es qué te pide tu cliente. Si exige una certificación reconocida por
@@ -354,7 +356,7 @@ const jsonLd = [
             </p>
             <p>
               Además, las BPM no son opcionales: el Código Alimentario Argentino las establece para los
-              establecimientos que elaboran alimentos. Si tu planta ya las tiene implementadas, en el
+              establecimientos que elaboran, fraccionan o almacenan alimentos. Si tu planta ya las tiene implementadas, en el
               diagnóstico verificamos cómo están funcionando y seguimos desde ahí.
             </p>
           </div>
@@ -457,7 +459,6 @@ const jsonLd = [
     letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px;
   }
   .path h3 { font-size: var(--step-1); margin-bottom: 10px; }
-  .path-sigla { color: var(--primary); }
   .path li p:last-child { margin: 0; color: var(--muted); }
   @media (max-width: 860px) {
     .path { grid-template-columns: 1fr; gap: 0; border-left: 1px solid var(--line-strong); margin-left: 4px; }
