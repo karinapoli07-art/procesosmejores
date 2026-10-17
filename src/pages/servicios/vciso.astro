@@ -19,18 +19,15 @@ const descripcion =
 const disparadores = [
   {
     titulo: 'Un cliente te manda un cuestionario de seguridad',
-    texto:
-      'O pone ISO/IEC 27001 como condición en el contrato. Para responder bien hay que entender qué se pregunta y tener evidencia para mostrar.',
+    texto: 'O exige ISO/IEC 27001 en el contrato. Hay que entender qué se pregunta y tener evidencia para mostrar.',
   },
   {
     titulo: 'La aseguradora pide controles mínimos',
-    texto:
-      'Para una póliza de seguro cibernético suelen preguntar por doble factor de autenticación, copias de seguridad, gestión de accesos y qué hacer ante un incidente.',
+    texto: 'Para un seguro cibernético suelen preguntar por doble factor, copias de seguridad, accesos y respuesta a incidentes.',
   },
   {
     titulo: 'Tu empresa maneja datos personales',
-    texto:
-      'La Ley 25.326 de Protección de los Datos Personales obliga a quien trata datos personales a adoptar medidas de seguridad y confidencialidad. Clientes, empleados, pacientes o alumnos: casi todas las empresas tienen bases de datos alcanzadas por la ley.',
+    texto: 'La Ley 25.326 obliga a protegerlos. Clientes, empleados, pacientes o alumnos: casi todas las empresas tienen bases alcanzadas.',
   },
 ];
 
@@ -38,43 +35,35 @@ const disparadores = [
 const incluye = [
   {
     titulo: 'Análisis y tratamiento de riesgos',
-    texto:
-      'Identificamos qué información es crítica, dónde está y qué puede fallar. Valoramos los riesgos y acordamos con la dirección cuáles se tratan, cómo, y cuáles se aceptan.',
+    texto: 'Qué información es crítica, dónde está y qué puede fallar. Con la dirección decidimos qué riesgos se tratan y cuáles se aceptan.',
   },
   {
     titulo: 'Política y roles',
-    texto:
-      'Redactamos la política de seguridad de la información y definimos quién decide, quién ejecuta y quién controla. Responsabilidades asignadas a personas concretas, no a un organigrama teórico.',
+    texto: 'La política de seguridad de la información, y quién decide, quién ejecuta y quién controla, con nombre y apellido.',
   },
   {
     titulo: 'Declaración de aplicabilidad y controles del Anexo A',
-    texto:
-      'El Anexo A de ISO/IEC 27001:2022 tiene 93 controles: organizacionales, de personas, físicos y tecnológicos. Definimos cuáles aplican y por qué, y los gestionamos con criterio, responsable y evidencia. La configuración técnica la hace tu equipo de sistemas o tu proveedor.',
+    texto: 'De los 93 controles de ISO/IEC 27001:2022, definimos cuáles aplican y por qué, con responsable y evidencia. La configuración técnica la hace tu equipo de sistemas o tu proveedor.',
   },
   {
     titulo: 'Información documentada',
-    texto:
-      'Políticas, procedimientos y registros a la medida de tu empresa. Lo necesario para trabajar y para demostrar que se cumple; nada de carpetas que nadie lee.',
+    texto: 'Políticas, procedimientos y registros a medida: lo necesario para trabajar y para demostrar que se cumple.',
   },
   {
     titulo: 'Cuestionarios de seguridad y auditorías de clientes',
-    texto:
-      'Respondemos con tu equipo los cuestionarios que mandan tus clientes y te acompañamos cuando vienen a auditarte, con la evidencia ordenada.',
+    texto: 'Respondemos con tu equipo los cuestionarios de tus clientes y te acompañamos en sus auditorías, con la evidencia ordenada.',
   },
   {
     titulo: 'Programa de auditorías internas y revisión por la dirección',
-    texto:
-      'Armamos el programa de auditorías internas y definimos quién audita: personas de tu equipo formadas para eso o un auditor externo, nunca nosotros. Preparamos la revisión por la dirección con los datos que pide la norma.',
+    texto: 'Armamos el programa y definimos quién audita: gente de tu equipo formada o un auditor externo, nunca nosotros. Preparamos la revisión por la dirección.',
   },
   {
     titulo: 'Reporte periódico a la dirección',
-    texto:
-      'Un informe breve y regular: estado de los riesgos, avance del plan, incidentes y decisiones pendientes. En lenguaje de negocio, para que la dirección pueda decidir.',
+    texto: 'Un informe breve y regular sobre riesgos, avance del plan, incidentes y decisiones pendientes, en lenguaje de negocio.',
   },
   {
     titulo: 'Concientización del personal',
-    texto:
-      'Capacitaciones cortas y concretas para que la gente reconozca un intento de phishing, cuide sus accesos y sepa a quién avisar si algo sale mal.',
+    texto: 'Capacitaciones cortas para reconocer un intento de phishing, cuidar los accesos y saber a quién avisar.',
   },
 ];
 
@@ -161,19 +150,14 @@ const jsonLd = [
         <p class="eyebrow">Qué es un vCISO</p>
         <h2>Alguien a cargo de la seguridad de la información, sin sumar un puesto.</h2>
         <p>
-          CISO es la sigla en inglés de <span lang="en">Chief Information Security Officer</span>: la persona
-          responsable de la seguridad de la información de una organización. Un vCISO, o CISO virtual, cumple
-          ese rol desde afuera y con una dedicación parcial.
-        </p>
-        <p>
-          No reemplaza a tu área de sistemas ni a tu proveedor de tecnología. Ellos operan la tecnología. El vCISO
-          gobierna: define con la dirección qué hay que proteger, qué riesgos se tratan y cómo se demuestra que
-          los controles funcionan.
+          CISO es la sigla en inglés de <span lang="en">Chief Information Security Officer</span>: el responsable
+          de la seguridad de la información. Un vCISO, o CISO virtual, cumple ese rol desde afuera y con
+          dedicación parcial. No reemplaza a tu área de sistemas: la ordena.
         </p>
         <!-- A CONFIRMAR: antes decía que «los informes de la industria ubican a Argentina entre los países más atacados de la región, y la mayoría de los ataques apunta a pymes». Se sacó por no tener fuente; si se consigue el informe (nombre y año), se puede volver a poner citándolo. -->
         <p class="context">
-          Y no es un tema sólo de empresas grandes: cualquier empresa que maneje información de clientes,
-          empleados o proveedores está expuesta.
+          No es un tema sólo de empresas grandes: cualquiera que maneje información de clientes, empleados o
+          proveedores está expuesta.
         </p>
       </div>
 
@@ -197,10 +181,7 @@ const jsonLd = [
       <div class="section-head">
         <p class="eyebrow">Qué incluye</p>
         <h2>Gobierno, riesgos y cumplimiento, de forma continua.</h2>
-        <p>
-          El trabajo de gestión que pide ISO/IEC 27001, sostenido mes a mes. Qué se prioriza en cada momento
-          sale del plan acordado en el diagnóstico.
-        </p>
+        <p>El trabajo que pide ISO/IEC 27001, sostenido mes a mes. Las prioridades salen del diagnóstico.</p>
       </div>
 
       <ul class="includes">
@@ -262,10 +243,7 @@ const jsonLd = [
       <div class="hire-intro">
         <p class="eyebrow">Cómo se contrata</p>
         <h2>Diagnóstico primero, acompañamiento después.</h2>
-        <p>
-          La dedicación mensual no se fija de antemano: sale de lo que encontramos en el diagnóstico. Así cada
-          hora se usa en lo que más riesgo reduce.
-        </p>
+        <p>La dedicación mensual sale del diagnóstico, para que cada hora vaya a lo que más riesgo reduce.</p>
         <a class="btn btn--primary" href="#formulario-vciso">Solicitar diagnóstico inicial</a>
       </div>
 
@@ -275,10 +253,7 @@ const jsonLd = [
           <div>
             <p class="step-kicker">Alcance cerrado</p>
             <h3>Diagnóstico inicial</h3>
-            <p>
-              Relevamos cómo se maneja hoy la información y qué te piden tus clientes, tu aseguradora y la ley.
-              Hacemos un primer análisis de riesgos y te entregamos un plan de trabajo con prioridades.
-            </p>
+            <p>Vemos cómo se maneja hoy la información y qué te piden tus clientes, tu aseguradora y la ley. Sale un plan con prioridades.</p>
             <!-- A CONFIRMAR: duración típica del diagnóstico inicial, y horizonte del plan (antes decía «plan a 12 meses», sin fuente). -->
             <p class="step-note">La duración depende del tamaño de la organización y del alcance.</p>
             <ul class="chips">
@@ -293,10 +268,7 @@ const jsonLd = [
           <div>
             <p class="step-kicker">Continuo</p>
             <h3>Acompañamiento mensual por horas</h3>
-            <p>
-              Ejecutamos el plan con tu equipo, unas horas por mes y de forma continua. El alcance y la dedicación
-              se definen con el diagnóstico y se revisan con la dirección.
-            </p>
+            <p>Ejecutamos el plan con tu equipo, unas horas por mes. La dedicación se revisa con la dirección.</p>
             <ul class="chips">
               <li class="chip">Horas por mes</li>
               <li class="chip">Reporte a la dirección</li>
@@ -313,11 +285,7 @@ const jsonLd = [
       <div class="course-copy">
         <p class="eyebrow">Formación</p>
         <h2>Para tu equipo: auditor interno ISO/IEC 27001.</h2>
-        <p>
-          Si querés que tu gente pueda auditar el sistema de gestión de seguridad de la información, el curso
-          recorre los requisitos de la norma, la gestión de riesgos, la declaración de aplicabilidad, los
-          controles del Anexo A y la auditoría según ISO 19011.
-        </p>
+        <p>Para que tu gente pueda auditar el sistema: requisitos de la norma, riesgos, controles del Anexo A y auditoría según ISO 19011.</p>
         <a class="link-arrow" href="/cursos#iso-27001">Ver el curso</a>
       </div>
       {curso && (
@@ -341,14 +309,12 @@ const jsonLd = [
           <summary>¿Qué diferencia hay con un CISO interno?</summary>
           <div class="answer">
             <p>
-              El rol es el mismo: alguien responsable de la seguridad de la información que le responde a la
-              dirección. Cambia la dedicación. Un CISO interno es un puesto de tiempo completo; un vCISO trabaja
-              unas horas por mes, de forma continua.
+              El rol es el mismo; cambia la dedicación. Tiene sentido cuando alguien tiene que hacerse cargo del
+              tema pero todavía no se justifica un puesto de tiempo completo.
             </p>
             <p>
-              Tiene sentido cuando la empresa necesita que alguien se haga cargo del tema, pero todavía no
-              justifica un puesto propio. Y aunque el acompañamiento sea continuo, el conocimiento no se va con
-              nosotros: trabajamos con tu gente para que entienda y use lo que se arma.
+              Y aunque el acompañamiento sea continuo, el conocimiento no se va con nosotros: tu gente entiende y
+              usa lo que se arma.
             </p>
           </div>
         </details>
@@ -358,9 +324,8 @@ const jsonLd = [
           <div class="answer">
             <!-- A CONFIRMAR: si se quiere publicar un rango orientativo de horas mensuales. -->
             <p>
-              Se define en el diagnóstico. Depende del tamaño de la empresa, de cuánta información sensible maneja
-              y de qué le piden sus clientes, su aseguradora o la ley. La dedicación se puede revisar a medida que
-              el sistema madura.
+              Se define en el diagnóstico, según el tamaño de la empresa, la información sensible que maneja y lo que
+              le piden clientes, aseguradora o ley. Se revisa a medida que el sistema madura.
             </p>
           </div>
         </details>
@@ -369,23 +334,9 @@ const jsonLd = [
           <summary>¿Necesito estar certificado en ISO/IEC 27001?</summary>
           <div class="answer">
             <p>
-              No. Usamos ISO/IEC 27001 como marco porque ordena la gestión de la seguridad de la información y es
-              la referencia que piden muchos clientes. Certificar es una decisión aparte.
-            </p>
-            <p>
-              Si un contrato lo exige, el trabajo apunta a que llegues a la auditoría de un organismo certificador.
-              Si no, igual tenés un sistema ordenado y evidencia para mostrar.
-            </p>
-          </div>
-        </details>
-
-        <details>
-          <summary>¿El vCISO reemplaza a mi área de sistemas?</summary>
-          <div class="answer">
-            <p>
-              No. Tu área de sistemas o tu proveedor operan la tecnología: servidores, cuentas, copias de seguridad,
-              configuraciones. El vCISO define qué hay que proteger y con qué prioridad, fija los criterios y
-              controla que se cumplan. Trabajamos juntos.
+              No. ISO/IEC 27001 es el marco de trabajo porque ordena la gestión y es la referencia que piden muchos
+              clientes. Si un contrato exige certificar, el trabajo apunta a esa auditoría; si no, igual tenés un
+              sistema ordenado y evidencia para mostrar.
             </p>
           </div>
         </details>
@@ -394,10 +345,8 @@ const jsonLd = [
           <summary>Ya tenemos ISO 9001. ¿Sirve como base?</summary>
           <div class="answer">
             <p>
-              Sí. La gestión de la documentación, las auditorías internas, las acciones correctivas y la revisión por la dirección
-              se pueden aprovechar para el sistema de seguridad de la información. Lo que hay que sumar es el
-              análisis de riesgos específico, la identificación de activos de información y los controles del
-              Anexo A.
+              Sí. Documentación, auditorías internas, acciones correctivas y revisión por la dirección se aprovechan.
+              Hay que sumar el análisis de riesgos, los activos de información y los controles del Anexo A.
             </p>
             <p><a class="link-arrow" href="/blog/iso-9001-e-iso-27001">Leer el artículo sobre ISO 9001 e ISO/IEC 27001</a></p>
           </div>
@@ -412,10 +361,7 @@ const jsonLd = [
       <div class="contact-intro">
         <p class="eyebrow">Contacto</p>
         <h2>Contanos qué te están pidiendo.</h2>
-        <p>
-          Un cuestionario de seguridad de un cliente, un contrato que exige ISO/IEC 27001, una póliza cibernética o
-          la necesidad de ordenar cómo se cuida la información. Con eso coordinamos una primera conversación.
-        </p>
+        <p>Un cuestionario de un cliente, un contrato, una póliza o las ganas de ordenar el tema. Con eso coordinamos una primera conversación.</p>
         <div class="contact-direct">
           <p>¿Preferís escribirnos directo?</p>
           <a href={`mailto:${contacto.email}`}>{contacto.email}</a>
