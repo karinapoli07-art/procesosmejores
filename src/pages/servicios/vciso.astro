@@ -62,9 +62,9 @@ const incluye = [
       'Respondemos con tu equipo los cuestionarios que mandan tus clientes y te acompañamos cuando vienen a auditarte, con la evidencia ordenada.',
   },
   {
-    titulo: 'Auditorías internas y revisión por la dirección',
+    titulo: 'Programa de auditorías internas y revisión por la dirección',
     texto:
-      'Armamos el programa de auditorías internas y definimos quién audita, cuidando la imparcialidad. Preparamos la revisión por la dirección con los datos que pide la norma.',
+      'Armamos el programa de auditorías internas y definimos quién audita: personas de tu equipo formadas para eso o un auditor externo, nunca nosotros. Preparamos la revisión por la dirección con los datos que pide la norma.',
   },
   {
     titulo: 'Reporte periódico a la dirección',
@@ -75,6 +75,36 @@ const incluye = [
     titulo: 'Concientización del personal',
     texto:
       'Capacitaciones cortas y concretas para que la gente reconozca un intento de phishing, cuide sus accesos y sepa a quién avisar si algo sale mal.',
+  },
+];
+
+// Quién hace qué en la seguridad de la información de la empresa.
+const roles = [
+  {
+    quien: 'La dirección',
+    verbo: 'Decide',
+    texto: 'Aprueba la política, define cuánto riesgo está dispuesta a aceptar y asigna los recursos.',
+  },
+  {
+    quien: 'El vCISO',
+    verbo: 'Gobierna',
+    texto: 'Analiza los riesgos, arma el plan, fija los criterios, coordina a todos y le reporta a la dirección.',
+    nosotros: true,
+  },
+  {
+    quien: 'Sistemas o tu proveedor',
+    verbo: 'Opera',
+    texto: 'Configura y administra la tecnología: accesos, copias de seguridad, equipos y servicios.',
+  },
+  {
+    quien: 'Auditoría interna',
+    verbo: 'Verifica',
+    texto: 'Gente de tu equipo formada como auditores, o un auditor externo, revisa que el sistema funcione.',
+  },
+  {
+    quien: 'Organismo certificador',
+    verbo: 'Certifica',
+    texto: 'Si decidís certificar, un organismo independiente audita el sistema y emite el certificado.',
   },
 ];
 
@@ -117,7 +147,7 @@ const jsonLd = [
     eyebrow="Seguridad de la información · ISO/IEC 27001"
     ilustracion="vciso"
     title="vCISO, tu responsable externo de seguridad de la información."
-    lead="Unas horas por mes, de forma continua y reportándole a la dirección. Nos ocupamos del gobierno, los riesgos y el cumplimiento, con ISO/IEC 27001 como marco de trabajo."
+    lead="Alguien que se hace cargo de la seguridad de la información de tu empresa: ordena los riesgos, fija prioridades y le reporta a la dirección. Con ISO/IEC 27001 como marco, de forma continua y con dedicación parcial."
     crumbs={[{ label: 'Servicios', href: '/#servicios' }, { label: 'vCISO' }]}
   >
     <a class="btn btn--primary" href="#formulario-vciso">Solicitar diagnóstico inicial</a>
@@ -184,41 +214,43 @@ const jsonLd = [
     </div>
   </section>
 
-  <!-- ============ LÍMITES ============ -->
-  <section class="section">
+  <!-- ============ QUIÉN HACE QUÉ ============ -->
+  <section class="section" id="roles">
     <div class="wrap">
       <div class="section-head">
-        <p class="eyebrow">Límites claros</p>
-        <h2>Lo que no hacemos, dicho desde el principio.</h2>
+        <p class="eyebrow">Quién hace qué</p>
+        <h2>Cada uno en su lugar. Así nadie se controla a sí mismo.</h2>
+        <p>La seguridad de la información la sostienen varios actores. El vCISO es el que los ordena.</p>
       </div>
 
+      <ol class="roles">
+        {roles.map((r) => (
+          <li class:list={['rol', { 'rol--nosotros': r.nosotros }]}>
+            <p class="rol-verbo">{r.verbo}</p>
+            <h3>{r.quien}{r.nosotros && <span class="rol-tag">Nosotros</span>}</h3>
+            <p>{r.texto}</p>
+          </li>
+        ))}
+      </ol>
+
       <div class="limits">
+        <div class="independence">
+          <h3>Por qué no auditamos ni certificamos</h3>
+          <p>
+            Si armamos el sistema, revisarlo nosotros sería controlar nuestro propio trabajo. ISO/IEC 27001 pide
+            que quien audita sea objetivo e imparcial. Por eso, como vCISO, organizamos las auditorías pero no las
+            hacemos, y no intervenimos en la certificación. Lo dejamos por escrito en la propuesta.
+          </p>
+        </div>
+
         <div>
           <h3>Qué no incluye</h3>
-          <p>
-            El vCISO trabaja en el gobierno de la seguridad, no en la operación técnica. Estos servicios no forman
-            parte del acompañamiento:
-          </p>
+          <p>El vCISO gobierna la seguridad; no opera la tecnología. Por eso quedan afuera:</p>
           <ul class="excluded">
             {noIncluye.map((n) => <li>{n}</li>)}
           </ul>
           <!-- A CONFIRMAR: si hay un socio técnico para estos servicios. Antes decía «los coordinamos con socios técnicos especializados»; se sacó por no estar confirmado. -->
-          <p>
-            Cuando hacen falta, definimos con vos qué se necesita, seguimos el trabajo de quien los haga y
-            llevamos los resultados al análisis de riesgos.
-          </p>
-        </div>
-
-        <div class="independence">
-          <h3>Independencia</h3>
-          <p>
-            Si somos el vCISO de tu empresa, no podemos auditarla ni participar de su certificación: sería revisar
-            nuestro propio trabajo.
-          </p>
-          <p>
-            Lo dejamos por escrito en la propuesta. La certificación la otorga un organismo certificador
-            independiente.
-          </p>
+          <p>Cuando hacen falta, definimos qué se necesita, seguimos el trabajo de quien los haga y sumamos los resultados al análisis de riesgos.</p>
         </div>
       </div>
     </div>
@@ -315,8 +347,8 @@ const jsonLd = [
             </p>
             <p>
               Tiene sentido cuando la empresa necesita que alguien se haga cargo del tema, pero todavía no
-              justifica un puesto propio. Y como en todo lo que hacemos, trabajamos con tu gente para que el
-              conocimiento quede adentro de la organización.
+              justifica un puesto propio. Y aunque el acompañamiento sea continuo, el conocimiento no se va con
+              nosotros: trabajamos con tu gente para que entienda y use lo que se arma.
             </p>
           </div>
         </details>
@@ -430,8 +462,37 @@ const jsonLd = [
   .includes h3 { font-size: 1.15rem; }
   .includes p { margin: 0; color: var(--muted); max-width: 64ch; }
 
+  /* ---------- Quién hace qué ---------- */
+  .roles {
+    list-style: none; margin: 0 0 clamp(44px, 5vw, 64px); padding: 0;
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px;
+  }
+  .rol {
+    padding: 22px 20px; background: var(--white);
+    border: 1px solid var(--line-strong); border-radius: var(--radius);
+    transition: transform var(--base) var(--ease), border-color var(--base) var(--ease);
+  }
+  @media (hover: hover) { .rol:hover { transform: translateY(-4px); border-color: var(--primary); } }
+  .rol--nosotros { background: var(--primary-soft); border-color: var(--primary); }
+  .rol-verbo {
+    margin: 0 0 10px; font-size: var(--step--2); font-weight: 700;
+    letter-spacing: 0.085em; text-transform: uppercase; color: var(--primary);
+  }
+  .rol h3 { font-size: 1.1rem; margin-bottom: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+  .rol-tag {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; line-height: 1;
+    padding: 4px 8px; border-radius: 999px; background: var(--primary); color: var(--white);
+  }
+  .rol p:last-child { margin: 0; color: var(--muted); font-size: 0.95rem; line-height: 1.5; }
+  @media (max-width: 980px) {
+    .roles { grid-template-columns: 1fr; gap: 8px; }
+    .rol { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 2px 20px; padding: 18px 20px; }
+    .rol-verbo { grid-row: span 2; margin: 3px 0 0; }
+  }
+  @media (max-width: 480px) { .rol { grid-template-columns: 1fr; } .rol-verbo { grid-row: auto; } }
+
   /* ---------- Límites ---------- */
-  .limits { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px 72px; align-items: start; }
+  .limits { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px 72px; align-items: start; }
   @media (max-width: 860px) { .limits { grid-template-columns: 1fr; } }
   .limits h3 { font-size: var(--step-1); margin-bottom: 12px; }
   .limits p { max-width: 58ch; }
