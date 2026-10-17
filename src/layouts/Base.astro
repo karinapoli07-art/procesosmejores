@@ -67,6 +67,12 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
           if (s.getBoundingClientRect().top < innerHeight) return;
           s.classList.add('reveal');
           observador.observe(s);
+          // Listas de tres o más ítems: cada ítem entra un poco después del anterior.
+          s.querySelectorAll<HTMLElement>(':is(ol, ul, .grid-3):not(.chips)').forEach((lista) => {
+            const items = Array.from(lista.children) as HTMLElement[];
+            if (items.length < 3) return;
+            items.forEach((item, i) => { item.classList.add('stagger'); item.style.setProperty('--i', String(i)); });
+          });
         });
       }
     </script>
