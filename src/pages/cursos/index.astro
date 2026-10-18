@@ -11,18 +11,15 @@ const sitio = 'https://www.procesosmejores.com';
 const caracteristicas = [
   {
     titulo: 'Encuentros en vivo por Google Meet',
-    texto:
-      'Clases sincrónicas, en línea y en vivo. Tenés la comodidad de cursar a distancia y, al mismo tiempo, interacción real con el docente: podés preguntar, discutir casos y aprender de la experiencia de los demás participantes.',
+    texto: 'Cursás a distancia, pero con interacción real: podés preguntar, discutir casos y aprender de los demás.',
   },
   {
     titulo: 'Casos prácticos',
-    texto:
-      'Combinamos exposiciones técnicas con ejemplos de implementación y ejercicios de auditoría. La idea no es memorizar requisitos, sino entender qué busca cada uno y qué evidencia pediría un auditor.',
+    texto: 'Ejemplos de implementación y ejercicios de auditoría. No se trata de memorizar requisitos, sino de entender qué evidencia pediría un auditor.',
   },
   {
     titulo: 'Material de estudio que te quedás',
-    texto:
-      'Recibís material en formato digital, pensado para acompañar las clases y para conservarlo después como guía de consulta.',
+    texto: 'Material digital para acompañar las clases y consultar después.',
   },
   {
     titulo: 'Examen final en línea',
@@ -34,7 +31,7 @@ const preguntas = [
   {
     pregunta: '¿Necesito conocimientos previos?',
     respuesta: [
-      'Depende del curso, y lo indicamos en el programa de cada uno. En el de ISO 14001:2026 no hace falta: podés empezar desde cero o usarlo para actualizarte. En los de ISO 9001 e ISO/IEC 27001 es recomendable tener nociones de sistemas de gestión o de la norma, pero no es excluyente: los contenidos se desarrollan de forma progresiva.',
+      'Depende del curso. En ISO 14001:2026 no hace falta. En ISO 9001 e ISO/IEC 27001 conviene tener nociones de sistemas de gestión, pero no es excluyente.',
     ],
   },
   {
@@ -104,7 +101,7 @@ const jsonLd = [
       <div class="section-head">
         <p class="eyebrow">Calendario</p>
         <h2>Próximas ediciones</h2>
-        <p>Publicamos las fechas de cada curso con anticipación. Si el que te interesa todavía no tiene fecha, anotate en la lista de espera y te avisamos cuando abra la inscripción.</p>
+        <p>Si el curso que te interesa todavía no tiene fecha, anotate en la lista de espera y te avisamos.</p>
       </div>
       <div class="grid-3">
         {cursos.map((c) => <CursoCard curso={c} />)}
@@ -119,9 +116,8 @@ const jsonLd = [
         <p class="eyebrow">Cómo son nuestros cursos</p>
         <h2>Capacitar es más que explicar una norma.</h2>
         <p>
-          Buscamos que cada participante pueda comprender la norma, discutirla, aplicarla y llevarse
-          herramientas concretas para su trabajo. Por eso los cursos son en vivo y con grupos de
-          distintas organizaciones y sectores: se aprende del docente y también de los compañeros.
+          Que cada participante pueda entender la norma, discutirla y aplicarla. Por eso los cursos son en vivo,
+          con grupos de distintas organizaciones: se aprende del docente y también de los compañeros.
         </p>
         <a class="link-arrow" href="/testimonios">Qué dicen quienes cursaron</a>
       </div>
@@ -160,9 +156,8 @@ const jsonLd = [
         <p class="eyebrow">In company</p>
         <h2>Capacitación para tu equipo</h2>
         <p>
-          Si varias personas de tu organización necesitan formarse, podemos dictar un curso sólo para
-          tu equipo, en tu empresa o en línea, o diseñar una capacitación a medida sobre las normas y
-          metodologías con las que trabajamos.
+          Un curso sólo para tu equipo, en tu empresa o en línea, o una capacitación a medida sobre las normas
+          y metodologías con las que trabajamos.
         </p>
         <!-- A CONFIRMAR: cantidad mínima de participantes y cómo se cotiza una capacitación in company. -->
         <a class="btn btn--primary" href="/contacto?servicio=formacion#formulario">Consultar por una capacitación</a>
@@ -170,11 +165,11 @@ const jsonLd = [
       <ul class="equipos-lista">
         <li>
           <h3>Contenidos a medida</h3>
-          <p>Partimos de lo que tu equipo ya sabe y de lo que necesita para su trabajo: interpretar una norma, auditar, sostener un sistema de gestión o mejorar un proceso.</p>
+          <p>Partimos de lo que tu equipo ya sabe y de lo que necesita: interpretar una norma, auditar o mejorar un proceso.</p>
         </li>
         <li>
           <h3>Con ejemplos de tu realidad</h3>
-          <p>Los ejercicios pueden trabajarse sobre situaciones de tu propia organización, para que lo aprendido se conecte con el trabajo diario.</p>
+          <p>Los ejercicios pueden usar situaciones de tu propia organización.</p>
         </li>
         <li>
           <h3>En tu empresa o en línea</h3>
@@ -212,10 +207,7 @@ const jsonLd = [
     <div class="wrap espera-inner">
       <div>
         <h2>¿No encontrás la fecha que buscás?</h2>
-        <p>
-          Anotate en la lista de espera, indicá qué curso te interesa y te avisamos cuando abra la
-          inscripción. También podés contarnos qué curso te gustaría que sumemos.
-        </p>
+        <p>Anotate en la lista de espera y te avisamos cuando abra la inscripción. También podés contarnos qué curso te gustaría que sumemos.</p>
       </div>
       <div class="espera-acciones">
         <a class="btn btn--primary" href={formularios.listaDeEspera} target="_blank" rel="noopener">Anotarme en la lista de espera</a>
