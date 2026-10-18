@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/PageHeader.astro';
+import fotoIso from '../../assets/fotos/iso.webp';
 import CtaDiagnostico from '../../components/CtaDiagnostico.astro';
 import { servicios, pasos } from '../../data/sitio';
 import { obtenerCursos } from '../../lib/cursos';
@@ -97,6 +98,8 @@ const jsonLd = [
   <PageHeader
     eyebrow="Consultoría"
     ilustracion="iso"
+    foto={fotoIso}
+    fotoAlt="Equipo de trabajo revisando un mapa de procesos sobre una mesa, junto a la planta"
     title="Sistemas de gestión ISO"
     lead="Calidad, ambiente, seguridad y salud en el trabajo, energía y educación. Te acompañamos con tu equipo, desde el diagnóstico hasta la auditoría de certificación."
     crumbs={[{ label: 'Servicios', href: '/#servicios' }, { label: servicio.nombre }]}

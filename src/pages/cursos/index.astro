@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/PageHeader.astro';
+import fotoCursos from '../../assets/fotos/cursos.webp';
 import CursoCard from '../../components/CursoCard.astro';
 import { contacto, formularios } from '../../data/sitio';
 import { obtenerCursos } from '../../lib/cursos';
@@ -87,6 +88,8 @@ const jsonLd = [
   <PageHeader
     eyebrow="Formación"
     ilustracion="cursos"
+    foto={fotoCursos}
+    fotoAlt="Persona tomando notas durante una clase en vivo por videollamada"
     title="Cursos de auditor interno, en vivo"
     lead="Encuentros sincrónicos por Google Meet, con casos prácticos y material de estudio. Para profesionales de cualquier organización, desde cualquier país de habla hispana."
     crumbs={[{ label: 'Cursos' }]}

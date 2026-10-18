@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/PageHeader.astro';
+import fotoInocuidad from '../../assets/fotos/inocuidad.webp';
 import CtaDiagnostico from '../../components/CtaDiagnostico.astro';
 import { servicios } from '../../data/sitio';
 
@@ -95,6 +96,8 @@ const jsonLd = [
   <PageHeader
     eyebrow="Industria de alimentos y bebidas"
     ilustracion="alimentaria"
+    foto={fotoInocuidad}
+    fotoAlt="Operaria con cofia y guantes controlando frascos en una línea de envasado"
     title="Inocuidad alimentaria: BPM, ISO 22000 y FSSC 22000"
     lead="Trabajamos en planta, con tu equipo, desde el primer relevamiento hasta la auditoría de certificación."
     crumbs={[{ label: 'Servicios', href: '/#servicios' }, { label: servicio.nombre }]}

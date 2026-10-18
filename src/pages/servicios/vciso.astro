@@ -1,6 +1,7 @@
 ---
 import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/PageHeader.astro';
+import fotoVciso from '../../assets/fotos/vciso.webp';
 import ContactForm from '../../components/ContactForm.astro';
 import { contacto } from '../../data/sitio';
 
@@ -69,6 +70,8 @@ const jsonLd = [
   <PageHeader
     eyebrow="Seguridad de la información · ISO/IEC 27001"
     ilustracion="vciso"
+    foto={fotoVciso}
+    fotoAlt="Reunión de trabajo frente a una notebook con un tablero de indicadores"
     title="vCISO, tu responsable externo de seguridad de la información."
     lead="Alguien que se hace cargo de la seguridad de la información de tu empresa: ordena los riesgos, fija prioridades y le reporta a la dirección. Con dedicación parcial."
     crumbs={[{ label: 'Servicios', href: '/#servicios' }, { label: 'vCISO' }]}
