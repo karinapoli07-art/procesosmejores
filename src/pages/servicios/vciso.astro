@@ -2,11 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/PageHeader.astro';
 import ContactForm from '../../components/ContactForm.astro';
-import CursoCard from '../../components/CursoCard.astro';
 import { contacto } from '../../data/sitio';
-import { obtenerCursos } from '../../lib/cursos';
-
-const curso = obtenerCursos().find((c) => c.slug === 'iso-27001');
 
 const inicio = new URL('/', Astro.site).href;
 const url = new URL('/servicios/vciso', Astro.site).href;
@@ -17,90 +13,28 @@ const descripcion =
 
 // Cuándo suele aparecer la necesidad en una pyme.
 const disparadores = [
-  {
-    titulo: 'Un cliente te manda un cuestionario de seguridad',
-    texto: 'O exige ISO/IEC 27001 en el contrato. Hay que entender qué se pregunta y tener evidencia para mostrar.',
-  },
-  {
-    titulo: 'La aseguradora pide controles mínimos',
-    texto: 'Para un seguro cibernético suelen preguntar por doble factor, copias de seguridad, accesos y respuesta a incidentes.',
-  },
-  {
-    titulo: 'Tu empresa maneja datos personales',
-    texto: 'La Ley 25.326 obliga a protegerlos. Clientes, empleados, pacientes o alumnos: casi todas las empresas tienen bases alcanzadas.',
-  },
+  { titulo: 'Un cliente te manda un cuestionario de seguridad', texto: 'O exige ISO/IEC 27001 en el contrato.' },
+  { titulo: 'La aseguradora pide controles mínimos', texto: 'Doble factor, copias de seguridad, accesos.' },
+  { titulo: 'Tu empresa maneja datos personales', texto: 'La Ley 25.326 obliga a protegerlos.' },
 ];
 
 // Qué incluye el acompañamiento.
 const incluye = [
-  {
-    titulo: 'Análisis y tratamiento de riesgos',
-    texto: 'Qué información es crítica, dónde está y qué puede fallar. Con la dirección decidimos qué riesgos se tratan y cuáles se aceptan.',
-  },
-  {
-    titulo: 'Política y roles',
-    texto: 'La política de seguridad de la información, y quién decide, quién ejecuta y quién controla, con nombre y apellido.',
-  },
-  {
-    titulo: 'Declaración de aplicabilidad y controles del Anexo A',
-    texto: 'De los 93 controles de ISO/IEC 27001:2022, definimos cuáles aplican y por qué, con responsable y evidencia. La configuración técnica la hace tu equipo de sistemas o tu proveedor.',
-  },
-  {
-    titulo: 'Información documentada',
-    texto: 'Políticas, procedimientos y registros a medida: lo necesario para trabajar y para demostrar que se cumple.',
-  },
-  {
-    titulo: 'Cuestionarios de seguridad y auditorías de clientes',
-    texto: 'Respondemos con tu equipo los cuestionarios de tus clientes y te acompañamos en sus auditorías, con la evidencia ordenada.',
-  },
-  {
-    titulo: 'Programa de auditorías internas y revisión por la dirección',
-    texto: 'Armamos el programa y definimos quién audita: gente de tu equipo formada o un auditor externo, nunca nosotros. Preparamos la revisión por la dirección.',
-  },
-  {
-    titulo: 'Reporte periódico a la dirección',
-    texto: 'Un informe breve y regular sobre riesgos, avance del plan, incidentes y decisiones pendientes, en lenguaje de negocio.',
-  },
-  {
-    titulo: 'Concientización del personal',
-    texto: 'Capacitaciones cortas para reconocer un intento de phishing, cuidar los accesos y saber a quién avisar.',
-  },
+  { titulo: 'Análisis de riesgos', texto: 'Qué información es crítica y qué puede fallar.' },
+  { titulo: 'Política y documentación', texto: 'Reglas claras y registros a medida, sin carpetas de más.' },
+  { titulo: 'Controles de ISO/IEC 27001', texto: 'Cuáles aplican, con responsable y evidencia.' },
+  { titulo: 'Cuestionarios de clientes', texto: 'Los respondemos con tu equipo, con la evidencia ordenada.' },
+  { titulo: 'Reporte a la dirección', texto: 'Riesgos, avance y decisiones pendientes, en lenguaje de negocio.' },
+  { titulo: 'Concientización', texto: 'Para reconocer un phishing y saber a quién avisar.' },
 ];
 
 // Quién hace qué en la seguridad de la información de la empresa.
 const roles = [
-  {
-    quien: 'La dirección',
-    verbo: 'Decide',
-    texto: 'Aprueba la política, define cuánto riesgo está dispuesta a aceptar y asigna los recursos.',
-  },
-  {
-    quien: 'El vCISO',
-    verbo: 'Gobierna',
-    texto: 'Analiza los riesgos, arma el plan, fija los criterios, coordina a todos y le reporta a la dirección.',
-    nosotros: true,
-  },
-  {
-    quien: 'Sistemas o tu proveedor',
-    verbo: 'Opera',
-    texto: 'Configura y administra la tecnología: accesos, copias de seguridad, equipos y servicios.',
-  },
-  {
-    quien: 'Auditoría interna',
-    verbo: 'Verifica',
-    texto: 'Gente de tu equipo formada como auditores, o un auditor externo, revisa que el sistema funcione.',
-  },
-  {
-    quien: 'Organismo certificador',
-    verbo: 'Certifica',
-    texto: 'Si decidís certificar, un organismo independiente audita el sistema y emite el certificado.',
-  },
-];
-
-const noIncluye = [
-  'Tests de intrusión (pentesting)',
-  'Monitoreo 24/7 de eventos de seguridad (SOC)',
-  'Respuesta técnica a incidentes y análisis forense',
+  { quien: 'La dirección', verbo: 'Decide', texto: 'Aprueba la política y cuánto riesgo acepta.' },
+  { quien: 'El vCISO', verbo: 'Gobierna', texto: 'Analiza riesgos, arma el plan, coordina y reporta.', nosotros: true },
+  { quien: 'Sistemas o tu proveedor', verbo: 'Opera', texto: 'Configura y administra la tecnología.' },
+  { quien: 'Auditoría interna', verbo: 'Verifica', texto: 'Gente de tu equipo formada, o un auditor externo.' },
+  { quien: 'Organismo certificador', verbo: 'Certifica', texto: 'Si decidís certificar, audita y emite el certificado.' },
 ];
 
 const jsonLd = [
@@ -136,42 +70,29 @@ const jsonLd = [
     eyebrow="Seguridad de la información · ISO/IEC 27001"
     ilustracion="vciso"
     title="vCISO, tu responsable externo de seguridad de la información."
-    lead="Alguien que se hace cargo de la seguridad de la información de tu empresa: ordena los riesgos, fija prioridades y le reporta a la dirección. Con ISO/IEC 27001 como marco, de forma continua y con dedicación parcial."
+    lead="Alguien que se hace cargo de la seguridad de la información de tu empresa: ordena los riesgos, fija prioridades y le reporta a la dirección. Con dedicación parcial."
     crumbs={[{ label: 'Servicios', href: '/#servicios' }, { label: 'vCISO' }]}
   >
     <a class="btn btn--primary" href="#formulario-vciso">Solicitar diagnóstico inicial</a>
     <a class="btn btn--ghost btn--white" href="#incluye">Ver qué incluye</a>
   </PageHeader>
 
-  <!-- ============ QUÉ ES ============ -->
+  <!-- ============ CUÁNDO HACE FALTA ============ -->
   <section class="section">
-    <div class="wrap intro">
-      <div class="intro-copy">
-        <p class="eyebrow">Qué es un vCISO</p>
-        <h2>Alguien a cargo de la seguridad de la información, sin sumar un puesto.</h2>
-        <p>
-          CISO es la sigla en inglés de <span lang="en">Chief Information Security Officer</span>: el responsable
-          de la seguridad de la información. Un vCISO, o CISO virtual, cumple ese rol desde afuera y con
-          dedicación parcial. No reemplaza a tu área de sistemas: la ordena.
-        </p>
-        <!-- A CONFIRMAR: antes decía que «los informes de la industria ubican a Argentina entre los países más atacados de la región, y la mayoría de los ataques apunta a pymes». Se sacó por no tener fuente; si se consigue el informe (nombre y año), se puede volver a poner citándolo. -->
-        <p class="context">
-          No es un tema sólo de empresas grandes: cualquiera que maneje información de clientes, empleados o
-          proveedores está expuesta.
-        </p>
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Cuándo hace falta</p>
+        <h2>Cuando alguien te empieza a preguntar por la seguridad.</h2>
       </div>
-
-      <div class="intro-list">
-        <p class="list-label">Cuándo suele aparecer la necesidad</p>
-        <ul class="triggers">
-          {disparadores.map((d) => (
-            <li>
-              <h3>{d.titulo}</h3>
-              <p>{d.texto}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <!-- A CONFIRMAR: antes decía que «los informes de la industria ubican a Argentina entre los países más atacados de la región, y la mayoría de los ataques apunta a pymes». Se sacó por no tener fuente; si se consigue el informe (nombre y año), se puede volver a poner citándolo. -->
+      <ul class="tiles tiles--3">
+        {disparadores.map((d) => (
+          <li>
+            <h3>{d.titulo}</h3>
+            <p>{d.texto}</p>
+          </li>
+        ))}
+      </ul>
     </div>
   </section>
 
@@ -180,11 +101,9 @@ const jsonLd = [
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Qué incluye</p>
-        <h2>Gobierno, riesgos y cumplimiento, de forma continua.</h2>
-        <p>El trabajo que pide ISO/IEC 27001, sostenido mes a mes. Las prioridades salen del diagnóstico.</p>
+        <h2>Lo que pide ISO/IEC 27001, sostenido mes a mes.</h2>
       </div>
-
-      <ul class="includes">
+      <ul class="tiles">
         {incluye.map((item) => (
           <li>
             <h3>{item.titulo}</h3>
@@ -201,7 +120,6 @@ const jsonLd = [
       <div class="section-head">
         <p class="eyebrow">Quién hace qué</p>
         <h2>Cada uno en su lugar. Así nadie se controla a sí mismo.</h2>
-        <p>La seguridad de la información la sostienen varios actores. El vCISO es el que los ordena.</p>
       </div>
 
       <ol class="roles">
@@ -215,89 +133,48 @@ const jsonLd = [
       </ol>
 
       <div class="limits">
-        <div class="independence">
-          <h3>Por qué no auditamos ni certificamos</h3>
-          <p>
-            Si armamos el sistema, revisarlo nosotros sería controlar nuestro propio trabajo. ISO/IEC 27001 pide
-            que quien audita sea objetivo e imparcial. Por eso, como vCISO, organizamos las auditorías pero no las
-            hacemos, y no intervenimos en la certificación. Lo dejamos por escrito en la propuesta.
-          </p>
-        </div>
-
-        <div>
-          <h3>Qué no incluye</h3>
-          <p>El vCISO gobierna la seguridad; no opera la tecnología. Por eso quedan afuera:</p>
-          <ul class="excluded">
-            {noIncluye.map((n) => <li>{n}</li>)}
-          </ul>
-          <!-- A CONFIRMAR: si hay un socio técnico para estos servicios. Antes decía «los coordinamos con socios técnicos especializados»; se sacó por no estar confirmado. -->
-          <p>Cuando hacen falta, definimos qué se necesita, seguimos el trabajo de quien los haga y sumamos los resultados al análisis de riesgos.</p>
-        </div>
+        <p>
+          <strong>Por qué no auditamos ni certificamos.</strong> Si armamos el sistema, revisarlo nosotros sería
+          controlar nuestro propio trabajo. Lo dejamos por escrito en la propuesta.
+        </p>
+        <!-- A CONFIRMAR: si hay un socio técnico para estos servicios. Antes decía «los coordinamos con socios técnicos especializados»; se sacó por no estar confirmado. -->
+        <p>
+          <strong>Qué no incluye.</strong> Tests de intrusión, monitoreo 24/7 ni respuesta técnica a incidentes:
+          el vCISO gobierna, no opera.
+        </p>
       </div>
     </div>
   </section>
 
   <!-- ============ CÓMO SE CONTRATA ============ -->
   <section class="section section--soft">
-    <div class="wrap hire">
-      <div class="hire-intro">
+    <div class="wrap">
+      <div class="section-head">
         <p class="eyebrow">Cómo se contrata</p>
         <h2>Diagnóstico primero, acompañamiento después.</h2>
-        <p>La dedicación mensual sale del diagnóstico, para que cada hora vaya a lo que más riesgo reduce.</p>
-        <a class="btn btn--primary" href="#formulario-vciso">Solicitar diagnóstico inicial</a>
       </div>
-
-      <ol class="steps">
+      <!-- A CONFIRMAR: duración típica del diagnóstico inicial, y horizonte del plan (antes decía «plan a 12 meses», sin fuente). -->
+      <ol class="fases">
         <li>
           <span class="step-n" aria-hidden="true">1</span>
           <div>
-            <p class="step-kicker">Alcance cerrado</p>
             <h3>Diagnóstico inicial</h3>
-            <p>Vemos cómo se maneja hoy la información y qué te piden tus clientes, tu aseguradora y la ley. Sale un plan con prioridades.</p>
-            <!-- A CONFIRMAR: duración típica del diagnóstico inicial, y horizonte del plan (antes decía «plan a 12 meses», sin fuente). -->
-            <p class="step-note">La duración depende del tamaño de la organización y del alcance.</p>
-            <ul class="chips">
-              <li class="chip">Relevamiento</li>
-              <li class="chip">Análisis de riesgos</li>
-              <li class="chip">Plan de trabajo</li>
-            </ul>
+            <p>Vemos cómo se maneja hoy la información y qué te piden. Sale un plan con prioridades.</p>
           </div>
         </li>
         <li>
           <span class="step-n" aria-hidden="true">2</span>
           <div>
-            <p class="step-kicker">Continuo</p>
-            <h3>Acompañamiento mensual por horas</h3>
-            <p>Ejecutamos el plan con tu equipo, unas horas por mes. La dedicación se revisa con la dirección.</p>
-            <ul class="chips">
-              <li class="chip">Horas por mes</li>
-              <li class="chip">Reporte a la dirección</li>
-            </ul>
+            <h3>Acompañamiento mensual</h3>
+            <p>Unas horas por mes, según lo que salga del diagnóstico. Se revisa con la dirección.</p>
           </div>
         </li>
       </ol>
     </div>
   </section>
 
-  <!-- ============ FORMACIÓN ============ -->
-  <section class="section">
-    <div class="wrap course">
-      <div class="course-copy">
-        <p class="eyebrow">Formación</p>
-        <h2>Para tu equipo: auditor interno ISO/IEC 27001.</h2>
-        <p>Para que tu gente pueda auditar el sistema: requisitos de la norma, riesgos, controles del Anexo A y auditoría según ISO 19011.</p>
-        <a class="link-arrow" href="/cursos#iso-27001">Ver el curso</a>
-      </div>
-      {curso && (
-        <div class="course-card">
-          <CursoCard curso={curso} />
-        </div>
-      )}
-    </div>
-  </section>
-
   <!-- ============ PREGUNTAS FRECUENTES ============ -->
-  <section class="section section--soft">
+  <section class="section">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Dudas habituales</p>
@@ -307,61 +184,32 @@ const jsonLd = [
       <div class="faq">
         <details>
           <summary>¿Qué diferencia hay con un CISO interno?</summary>
-          <div class="answer">
-            <p>
-              El rol es el mismo; cambia la dedicación. Tiene sentido cuando alguien tiene que hacerse cargo del
-              tema pero todavía no se justifica un puesto de tiempo completo.
-            </p>
-            <p>
-              Y aunque el acompañamiento sea continuo, el conocimiento no se va con nosotros: tu gente entiende y
-              usa lo que se arma.
-            </p>
-          </div>
+          <p class="answer">El rol es el mismo; cambia la dedicación. Y aunque el acompañamiento sea continuo, el conocimiento queda en tu gente.</p>
         </details>
-
         <details>
           <summary>¿Cuántas horas por mes hacen falta?</summary>
-          <div class="answer">
-            <!-- A CONFIRMAR: si se quiere publicar un rango orientativo de horas mensuales. -->
-            <p>
-              Se define en el diagnóstico, según el tamaño de la empresa, la información sensible que maneja y lo que
-              le piden clientes, aseguradora o ley. Se revisa a medida que el sistema madura.
-            </p>
-          </div>
+          <!-- A CONFIRMAR: si se quiere publicar un rango orientativo de horas mensuales. -->
+          <p class="answer">Se define en el diagnóstico, según el tamaño de la empresa y lo que le piden clientes, aseguradora o ley.</p>
         </details>
-
         <details>
-          <summary>¿Necesito estar certificado en ISO/IEC 27001?</summary>
-          <div class="answer">
-            <p>
-              No. ISO/IEC 27001 es el marco de trabajo porque ordena la gestión y es la referencia que piden muchos
-              clientes. Si un contrato exige certificar, el trabajo apunta a esa auditoría; si no, igual tenés un
-              sistema ordenado y evidencia para mostrar.
-            </p>
-          </div>
+          <summary>¿Necesito certificar ISO/IEC 27001?</summary>
+          <p class="answer">No. Es el marco de trabajo. Si un contrato exige certificar, el trabajo apunta a esa auditoría.</p>
         </details>
-
         <details>
-          <summary>Ya tenemos ISO 9001. ¿Sirve como base?</summary>
-          <div class="answer">
-            <p>
-              Sí. Documentación, auditorías internas, acciones correctivas y revisión por la dirección se aprovechan.
-              Hay que sumar el análisis de riesgos, los activos de información y los controles del Anexo A.
-            </p>
-            <p><a class="link-arrow" href="/blog/iso-9001-e-iso-27001">Leer el artículo sobre ISO 9001 e ISO/IEC 27001</a></p>
-          </div>
+          <summary>¿Pueden formar a nuestros auditores internos?</summary>
+          <p class="answer">Sí, con el <a href="/cursos#iso-27001">curso de auditor interno ISO/IEC 27001</a>.</p>
         </details>
       </div>
     </div>
   </section>
 
   <!-- ============ FORMULARIO ============ -->
-  <section class="section" id="formulario-vciso">
+  <section class="section section--soft" id="formulario-vciso">
     <div class="wrap contact">
       <div class="contact-intro">
         <p class="eyebrow">Contacto</p>
         <h2>Contanos qué te están pidiendo.</h2>
-        <p>Un cuestionario de un cliente, un contrato, una póliza o las ganas de ordenar el tema. Con eso coordinamos una primera conversación.</p>
+        <p>Con eso coordinamos una primera conversación.</p>
         <div class="contact-direct">
           <p>¿Preferís escribirnos directo?</p>
           <a href={`mailto:${contacto.email}`}>{contacto.email}</a>
@@ -379,38 +227,25 @@ const jsonLd = [
 
 <style>
   .btn--white { background: var(--white); }
-  /* La regla global `.section-head p` pisa al .eyebrow dentro del encabezado de sección. */
 
-  /* ---------- Qué es ---------- */
-  .intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px 80px; align-items: start; }
-  @media (max-width: 920px) { .intro { grid-template-columns: 1fr; } }
-  .intro-copy h2 { font-size: var(--step-3); margin-bottom: 20px; }
-  .intro-copy p:not(.eyebrow) { max-width: 58ch; }
-  .context { margin: 28px 0 0; padding-left: 16px; border-left: 2px solid var(--brand); color: var(--muted); }
-
-  .list-label {
-    font-family: var(--font-display); font-size: 0.78rem; font-weight: 600;
-    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
-    margin: 6px 0 12px;
+  /* ---------- Tarjetas de una línea ---------- */
+  .tiles {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 12px;
   }
-  .triggers { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
-  .triggers li { padding-block: 22px; border-bottom: 1px solid var(--line); }
-  .triggers h3 { font-size: 1.1rem; margin-bottom: 6px; }
-  .triggers p { margin: 0; color: var(--muted); font-size: 0.97rem; }
-
-  /* ---------- Qué incluye ---------- */
-  .includes { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
-  .includes li {
-    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 8px 48px;
-    align-items: start; padding-block: 24px; border-bottom: 1px solid var(--line);
+  .tiles--3 { grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
+  .tiles li {
+    padding: 22px; background: var(--white);
+    border: 1px solid var(--line-strong); border-radius: var(--radius);
+    transition: border-color var(--base) var(--ease), transform var(--base) var(--ease);
   }
-  @media (max-width: 760px) { .includes li { grid-template-columns: 1fr; padding-block: 20px; } }
-  .includes h3 { font-size: 1.15rem; }
-  .includes p { margin: 0; color: var(--muted); max-width: 64ch; }
+  @media (hover: hover) { .tiles li:hover { border-color: var(--primary); transform: translateY(-3px); } }
+  .tiles h3 { font-size: 1.1rem; margin-bottom: 4px; }
+  .tiles p { margin: 0; color: var(--muted); font-size: 0.95rem; line-height: 1.45; }
 
   /* ---------- Quién hace qué ---------- */
   .roles {
-    list-style: none; margin: 0 0 clamp(44px, 5vw, 64px); padding: 0;
+    list-style: none; margin: 0 0 32px; padding: 0;
     display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px;
   }
   .rol {
@@ -437,54 +272,26 @@ const jsonLd = [
   }
   @media (max-width: 480px) { .rol { grid-template-columns: 1fr; } .rol-verbo { grid-row: auto; } }
 
-  /* ---------- Límites ---------- */
-  .limits { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 40px 72px; align-items: start; }
+  .limits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 48px; }
   @media (max-width: 860px) { .limits { grid-template-columns: 1fr; } }
-  .limits h3 { font-size: var(--step-1); margin-bottom: 12px; }
-  .limits p { max-width: 58ch; }
-  .excluded { list-style: none; margin: 0 0 20px; padding: 0; border-top: 1px solid var(--line); }
-  .excluded li {
-    padding-block: 14px; border-bottom: 1px solid var(--line);
-    font-family: var(--font-display); font-weight: 600; color: var(--ink);
-  }
-  .independence {
-    position: relative; padding: 28px;
-    background: var(--soft); border: 1px solid var(--line); border-radius: var(--radius);
-  }
-  .independence p:last-child { margin-bottom: 0; }
+  .limits p { margin: 0; color: var(--muted); max-width: 58ch; }
+  .limits strong { color: var(--ink); }
 
   /* ---------- Cómo se contrata ---------- */
-  .hire { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 48px 80px; align-items: start; }
-  @media (max-width: 920px) { .hire { grid-template-columns: 1fr; } }
-  .hire-intro h2 { font-size: var(--step-3); margin-bottom: 20px; }
-  .hire-intro p:not(.eyebrow) { max-width: 52ch; }
-  .hire-intro .btn { margin-top: 12px; }
-
-  .steps { list-style: none; margin: 0; padding: 0; display: grid; }
-  .steps > li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 20px; padding-block: 24px; border-bottom: 1px solid var(--line); }
-  .steps > li:first-child { padding-top: 0; }
-  .steps > li:last-child { border-bottom: 0; }
+  .fases { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 760px) { .fases { grid-template-columns: 1fr; } }
+  .fases li {
+    display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 18px; align-items: start;
+    padding: 22px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+  }
   .step-n {
     width: 44px; height: 44px; border-radius: 50%;
     display: grid; place-items: center;
     background: var(--white); border: 1px solid var(--line-strong);
-    font-family: var(--font-display); font-weight: 600; color: var(--primary);
+    font-weight: 600; color: var(--primary);
   }
-  .step-kicker {
-    margin: 0 0 4px; font-family: var(--font-display); font-size: 0.78rem; font-weight: 600;
-    letter-spacing: 0.12em; text-transform: uppercase; color: var(--primary);
-  }
-  .steps h3 { font-size: 1.15rem; margin-bottom: 6px; }
-  .steps p:not(.step-kicker) { margin: 0 0 12px; color: var(--muted); font-size: 0.97rem; }
-  .steps .step-note { font-size: 0.9rem; }
-  .steps .chips { margin-top: 4px; }
-
-  /* ---------- Formación ---------- */
-  .course { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px 72px; align-items: center; }
-  @media (max-width: 860px) { .course { grid-template-columns: 1fr; } }
-  .course-copy h2 { font-size: var(--step-3); margin-bottom: 20px; }
-  .course-copy p:not(.eyebrow) { max-width: 56ch; }
-  .course-card { max-width: 460px; }
+  .fases h3 { font-size: 1.15rem; margin-bottom: 4px; }
+  .fases p { margin: 0; color: var(--muted); font-size: 0.97rem; }
 
   /* ---------- Preguntas frecuentes ---------- */
   .faq { max-width: 820px; border-top: 1px solid var(--line-strong); }
@@ -493,7 +300,7 @@ const jsonLd = [
     list-style: none; cursor: pointer;
     display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center;
     padding-block: 20px;
-    font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; line-height: 1.35; color: var(--ink);
+    font-weight: 600; font-size: 1.1rem; line-height: 1.35; color: var(--ink);
   }
   .faq summary::-webkit-details-marker { display: none; }
   .faq summary::after {
@@ -503,9 +310,7 @@ const jsonLd = [
   }
   .faq details[open] summary::after { content: '−'; }
   .faq summary:hover { color: var(--primary); }
-  .answer { padding-bottom: 22px; max-width: 68ch; }
-  .answer p:last-child { margin-bottom: 0; }
-  .answer .link-arrow { white-space: normal; }
+  .answer { margin: 0; padding-bottom: 22px; max-width: 68ch; }
 
   /* ---------- Formulario ---------- */
   .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 40px 72px; align-items: start; }
