@@ -14,19 +14,19 @@ const description =
 const perfiles = [
   {
     titulo: 'Plantas elaboradoras de alimentos y bebidas',
-    texto: 'Que necesitan ordenar la base de BPM o dar el paso a un sistema de gestión de inocuidad certificado.',
+    texto: 'Que necesitan ordenar las BPM o dar el paso a un sistema de inocuidad certificado.',
   },
   {
     titulo: 'Fraccionadoras y envasadoras',
-    texto: 'Que reciben producto, lo fraccionan o lo reenvasan y tienen que demostrar que el proceso no lo contamina.',
+    texto: 'Que fraccionan o reenvasan y tienen que demostrar que el proceso no contamina el producto.',
   },
   {
     titulo: 'Depósitos y centros de distribución',
-    texto: 'Que almacenan alimentos y tienen que cuidar higiene, temperaturas, control de plagas y trazabilidad.',
+    texto: 'Que tienen que cuidar higiene, temperaturas, control de plagas y trazabilidad.',
   },
   {
     titulo: 'Proveedores de la industria alimentaria',
-    texto: 'Que abastecen a clientes que les exigen BPM o una certificación para aprobarlos o seguir comprándoles.',
+    texto: 'Cuyos clientes les exigen BPM o una certificación para aprobarlos o seguir comprándoles.',
   },
 ];
 
@@ -37,8 +37,8 @@ const normas = [
     nombre: 'Buenas Prácticas de Manufactura',
     tipo: 'El requisito base',
     textos: [
-      'Son las condiciones de higiene y de operación que tiene que cumplir un establecimiento donde se elaboran, fraccionan o almacenan alimentos: cómo se reciben las materias primas, cómo se limpia, cómo trabaja el personal, cómo se controlan las plagas y cómo se guarda y transporta el producto.',
-      'En Argentina las establece el Código Alimentario Argentino. Son el piso que controla la autoridad sanitaria y lo primero que miran los clientes cuando auditan a un proveedor.',
+      'Las condiciones de higiene y operación de un establecimiento de alimentos: materias primas, limpieza, personal, plagas, almacenamiento y transporte.',
+      'En Argentina las fija el Código Alimentario Argentino. Son el piso que controla la autoridad sanitaria y lo primero que miran los clientes al auditar a un proveedor.',
     ],
     incluye: ['Higiene del personal', 'Limpieza y desinfección (POES)', 'Control de plagas', 'Agua', 'Instalaciones y equipos', 'Almacenamiento y transporte'],
     verifica: 'Inspecciones de la autoridad sanitaria y auditorías de clientes.',
@@ -49,8 +49,8 @@ const normas = [
     nombre: 'Sistema de gestión de la inocuidad de los alimentos',
     tipo: 'El sistema de gestión',
     textos: [
-      'Es la norma internacional para gestionar la inocuidad en cualquier organización de la cadena alimentaria, sin importar el tamaño ni el rubro. Combina programas de prerrequisitos (PRP), los principios del HACCP, la comunicación con proveedores, clientes y autoridades, y la gestión del sistema.',
-      'Los peligros se identifican y evalúan, y se controlan con un plan que combina PRP operativos y puntos críticos de control. Usa la estructura de alto nivel de las normas ISO, la misma de ISO 9001 e ISO 14001, así que se integra con un sistema que ya tengas.',
+      'La norma internacional para gestionar la inocuidad en cualquier eslabón de la cadena alimentaria. Combina prerrequisitos (PRP), los principios del HACCP, la comunicación con proveedores, clientes y autoridades, y la gestión del sistema.',
+      'Usa la misma estructura que ISO 9001 e ISO 14001, así que se integra con un sistema que ya tengas.',
     ],
     incluye: ['PRP', 'HACCP', 'Plan de control de peligros', 'Estructura de alto nivel'],
     verifica: 'Auditoría de un organismo de certificación independiente.',
@@ -61,8 +61,8 @@ const normas = [
     nombre: 'Esquema de certificación de inocuidad alimentaria',
     tipo: 'El reconocimiento internacional',
     textos: [
-      'No es una norma distinta: es un esquema de certificación, propiedad de la Foundation FSSC, que toma ISO 22000 completa y le suma los programas de prerrequisitos específicos de cada sector (serie 22002: fabricación de alimentos, envases, transporte y almacenamiento, entre otros) y requisitos adicionales propios, como defensa alimentaria, prevención del fraude y gestión de alérgenos.',
-      'Está reconocido por GFSI (Global Food Safety Initiative). Muchas cadenas de supermercados y marcas grandes piden a sus proveedores una certificación reconocida por GFSI, y FSSC 22000 es una de ellas.',
+      'No es otra norma: es un esquema de certificación que toma ISO 22000 completa y le suma prerrequisitos específicos del sector y requisitos propios, como defensa alimentaria, prevención del fraude y gestión de alérgenos.',
+      'Está reconocido por GFSI (Global Food Safety Initiative), que es lo que muchas cadenas de supermercados y marcas grandes piden a sus proveedores.',
     ],
     incluye: ['ISO 22000', 'PRP del sector', 'Requisitos adicionales FSSC', 'Reconocido por GFSI'],
     verifica: 'Auditoría de un organismo de certificación licenciado por la Foundation FSSC.',
@@ -70,79 +70,28 @@ const normas = [
 ];
 
 const camino = [
-  {
-    sigla: 'BPM',
-    titulo: 'El piso',
-    texto: 'Ordena la higiene y la operación de la planta. Sin esta base, nada de lo que viene después se sostiene.',
-  },
-  {
-    sigla: 'ISO 22000',
-    titulo: 'El sistema',
-    texto: 'Suma el análisis de peligros, el plan de control y la gestión: objetivos, auditorías internas, revisión por la dirección y mejora.',
-  },
-  {
-    sigla: 'FSSC 22000',
-    titulo: 'El reconocimiento',
-    texto: 'Suma los prerrequisitos del sector y los requisitos del esquema. Es la puerta para los clientes que exigen una certificación reconocida por GFSI.',
-  },
+  { sigla: 'BPM', titulo: 'El piso', texto: 'Ordena la higiene y la operación. Sin esta base, nada de lo que sigue se sostiene.' },
+  { sigla: 'ISO 22000', titulo: 'El sistema', texto: 'Suma el análisis de peligros, el plan de control y la gestión del sistema.' },
+  { sigla: 'FSSC 22000', titulo: 'El reconocimiento', texto: 'Suma los requisitos del sector y del esquema, para los clientes que exigen GFSI.' },
 ];
 
 const entregables = [
-  {
-    titulo: 'Un diagnóstico claro',
-    texto: 'Dónde estás frente a las BPM o a la norma elegida, qué falta y en qué orden conviene resolverlo.',
-  },
-  {
-    titulo: 'Prerrequisitos funcionando',
-    texto: 'Limpieza y desinfección, control de plagas, agua, higiene del personal, mantenimiento y proveedores, aplicados en la planta.',
-  },
-  {
-    titulo: 'Análisis de peligros y plan de control',
-    texto: 'Peligros identificados y evaluados, con sus medidas de control, límites, monitoreo y acciones ante desvíos.',
-  },
-  {
-    titulo: 'Documentación que se usa',
-    texto: 'Procedimientos, instructivos y registros pensados para completarse en la línea, no para llenar una carpeta.',
-  },
-  {
-    titulo: 'Un equipo que sabe',
-    texto: 'Personal capacitado en BPM y un equipo de inocuidad que entiende el sistema y lo puede sostener.',
-  },
-  {
-    titulo: 'Un sistema auditado',
-    texto: 'Auditoría interna completa antes que la del organismo, con los hallazgos tratados y auditores internos formados.',
-  },
+  { titulo: 'Un diagnóstico claro', texto: 'Dónde estás, qué falta y en qué orden conviene resolverlo.' },
+  { titulo: 'Prerrequisitos funcionando', texto: 'Limpieza, plagas, agua, higiene, mantenimiento y proveedores, aplicados en la planta.' },
+  { titulo: 'Análisis de peligros y plan de control', texto: 'Peligros evaluados, con sus controles, límites, monitoreo y acciones ante desvíos.' },
+  { titulo: 'Documentación que se usa', texto: 'Registros pensados para completarse en la línea, no para llenar una carpeta.' },
+  { titulo: 'Un equipo que sabe', texto: 'Personal capacitado en BPM y un equipo de inocuidad que puede sostener el sistema.' },
+  { titulo: 'Un sistema auditado', texto: 'Auditoría interna completa antes que la del organismo, con los hallazgos tratados.' },
 ];
 
 const etapas = [
-  {
-    titulo: 'Relevamiento en planta',
-    texto: 'Recorremos la planta, miramos cómo se trabaja y revisamos lo que ya tenés. Sale un informe de brechas frente a las BPM o a la norma elegida, con prioridades.',
-  },
-  {
-    titulo: 'Programas de prerrequisitos',
-    texto: 'Ordenamos la base: instalaciones, limpieza y desinfección, control de plagas, agua, higiene del personal, mantenimiento y control de proveedores.',
-  },
-  {
-    titulo: 'Análisis de peligros',
-    texto: 'Con el equipo de inocuidad describimos productos y procesos, armamos los diagramas de flujo y evaluamos peligros biológicos, químicos y físicos. Definimos PRP operativos y puntos críticos de control.',
-  },
-  {
-    titulo: 'Documentación y registros',
-    texto: 'Procedimientos, instructivos y registros construidos con la gente que los va a usar. Trazabilidad y retiro de producto, probados.',
-  },
-  {
-    titulo: 'Capacitación del personal',
-    texto: 'BPM para quienes trabajan en la línea, formación del equipo de inocuidad y de la dirección. Capacitamos en el camino, no sólo al final.',
-  },
-  {
-    titulo: 'Auditoría interna',
-    texto: 'Auditamos el sistema completo antes que el organismo certificador y formamos a tus auditores internos.',
-  },
-  {
-    titulo: 'Preparación para la certificación',
-    texto: 'Revisamos que todo esté en condiciones, acompañamos la auditoría externa y el tratamiento de los hallazgos.',
-  },
+  { titulo: 'Relevamiento en planta', texto: 'Recorremos la planta y revisamos lo que ya tenés. Sale un informe de brechas con prioridades.' },
+  { titulo: 'Programas de prerrequisitos', texto: 'Ordenamos la base: instalaciones, limpieza, plagas, agua, higiene, mantenimiento y proveedores.' },
+  { titulo: 'Análisis de peligros', texto: 'Con el equipo de inocuidad: diagramas de flujo, peligros biológicos, químicos y físicos, y sus controles.' },
+  { titulo: 'Documentación y registros', texto: 'Construidos con la gente que los va a usar. Trazabilidad y retiro de producto, probados.' },
+  { titulo: 'Capacitación del personal', texto: 'BPM para la línea y formación del equipo de inocuidad y de la dirección, en el camino.' },
+  { titulo: 'Auditoría interna', texto: 'Auditamos el sistema completo antes que el organismo y formamos a tus auditores internos.' },
+  { titulo: 'Preparación para la certificación', texto: 'Acompañamos la auditoría externa y el tratamiento de los hallazgos.' },
 ];
 
 const pageUrl = new URL('/servicios/inocuidad-alimentaria', Astro.site).href;
@@ -185,7 +134,7 @@ const jsonLd = [
     eyebrow="Industria de alimentos y bebidas"
     ilustracion="alimentaria"
     title="Inocuidad alimentaria: BPM, ISO 22000 y FSSC 22000"
-    lead="Buenas Prácticas de Manufactura, ISO 22000 y FSSC 22000 para la industria de alimentos y bebidas. Trabajamos en planta, con tu equipo, desde el primer relevamiento hasta la auditoría de certificación."
+    lead="Trabajamos en planta, con tu equipo, desde el primer relevamiento hasta la auditoría de certificación."
     crumbs={[{ label: 'Servicios', href: '/#servicios' }, { label: servicio.nombre }]}
   >
     <a class="btn btn--primary" href={contactoHref}>Solicitar diagnóstico inicial</a>
@@ -198,10 +147,7 @@ const jsonLd = [
       <div class="split-intro">
         <p class="eyebrow">Para quién es</p>
         <h2>Para empresas a las que un cliente les empezó a pedir más.</h2>
-        <p>
-          El punto de partida suele repetirse: un cliente, una cadena o un mercado nuevo pide BPM o una
-          certificación de inocuidad, y hay que ordenar la planta para cumplirlo.
-        </p>
+        <p>Un cliente, una cadena o un mercado nuevo pide BPM o una certificación, y hay que ordenar la planta para cumplir.</p>
         <a class="link-arrow" href={contactoHref}>Contanos qué te pidieron</a>
       </div>
       <ul class="rows">
@@ -251,7 +197,7 @@ const jsonLd = [
       <div class="section-head">
         <p class="eyebrow">El camino habitual</p>
         <h2>De las BPM a la certificación, paso a paso.</h2>
-        <p>Las tres normas no compiten: cada una se apoya en la anterior. Lo que hacés para las BPM sirve para ISO 22000, y lo que hacés para ISO 22000 sirve para FSSC 22000.</p>
+        <p>No compiten: cada una se apoya en la anterior, y lo que hacés para una sirve para la siguiente.</p>
       </div>
 
       <ol class="path">
@@ -265,9 +211,9 @@ const jsonLd = [
       </ol>
 
       <p class="path-note">
-        No hace falta recorrer las tres etapas. Para algunas empresas las BPM alcanzan; otras, con las BPM
-        ya consolidadas, van directo a FSSC 22000. Hasta dónde conviene llegar y cuánto trabajo lleva se
-        define en el diagnóstico, según lo que te piden tus clientes y el punto de partida de tu planta.
+        <strong>No hace falta recorrer las tres.</strong> A algunas empresas les alcanza con las BPM; otras,
+        con las BPM consolidadas, van directo a FSSC 22000. Hasta dónde llegar depende de lo que te piden tus
+        clientes y de dónde parte tu planta.
       </p>
     </div>
   </section>
@@ -297,8 +243,8 @@ const jsonLd = [
         <p class="eyebrow">Cómo trabajamos</p>
         <h2>En la planta, con la gente que produce.</h2>
         <p>
-          La inocuidad no se resuelve en una oficina. Trabajamos en la planta, con quienes limpian, producen,
-          reciben y despachan, porque son ellos los que después sostienen el sistema todos los días.
+          La inocuidad no se resuelve en una oficina. Trabajamos con quienes limpian, producen, reciben y
+          despachan, porque son quienes después sostienen el sistema.
         </p>
         <!-- A CONFIRMAR: si Rodrigo tiene experiencia previa en ISO 22000 y FSSC 22000 (el sitio anterior no lo dice). Si la confirma, puede volver «Tenemos experiencia en ISO 22000 y FSSC 22000, y también en ISO 9001, ISO 14001 e ISO 45001.» -->
         <p>
@@ -335,14 +281,9 @@ const jsonLd = [
           <summary>¿Cuál es la diferencia entre ISO 22000 y FSSC 22000?</summary>
           <div class="faq-a">
             <p>
-              FSSC 22000 incluye ISO 22000 completa y le agrega los programas de prerrequisitos específicos del
-              sector y requisitos adicionales del esquema. Por eso está reconocido por GFSI, e ISO 22000 sola no.
-            </p>
-            <p>
-              En la práctica, la pregunta es qué te pide tu cliente. Si exige una certificación reconocida por
-              GFSI, ISO 22000 no alcanza. Si pide un sistema de gestión de inocuidad certificado, sin esa
-              condición, ISO 22000 puede ser suficiente. Y si implementás ISO 22000 con prerrequisitos sólidos,
-              buena parte del camino hacia FSSC 22000 ya está hecho.
+              FSSC 22000 incluye ISO 22000 y le suma requisitos del sector y del esquema; por eso está reconocida
+              por GFSI, e ISO 22000 sola no. Si tu cliente exige GFSI, ISO 22000 no alcanza. Si no, puede ser
+              suficiente, y deja hecha buena parte del camino.
             </p>
           </div>
         </details>
@@ -351,14 +292,8 @@ const jsonLd = [
           <summary>¿Necesito tener BPM antes de ir por ISO 22000?</summary>
           <div class="faq-a">
             <p>
-              Sí. ISO 22000 exige programas de prerrequisitos, y las BPM son justamente esa base: higiene,
-              limpieza y desinfección, control de plagas, agua, mantenimiento. Sin eso funcionando, el análisis
-              de peligros queda en el papel.
-            </p>
-            <p>
-              Además, las BPM no son opcionales: el Código Alimentario Argentino las establece para los
-              establecimientos que elaboran, fraccionan o almacenan alimentos. Si tu planta ya las tiene implementadas, en el
-              diagnóstico verificamos cómo están funcionando y seguimos desde ahí.
+              Sí. ISO 22000 exige prerrequisitos, y las BPM son esa base. Además no son opcionales: las establece
+              el Código Alimentario Argentino. Si ya las tenés, verificamos cómo funcionan y seguimos desde ahí.
             </p>
           </div>
         </details>
@@ -367,17 +302,9 @@ const jsonLd = [
           <summary>¿Quién certifica?</summary>
           <div class="faq-a">
             <p>
-              ISO 22000 y FSSC 22000 las certifica un organismo de certificación independiente, que elegís vos.
-              Para FSSC 22000, ese organismo tiene que estar licenciado por la Foundation FSSC y acreditado para
-              el esquema. Para ISO 22000, conviene que esté acreditado para esa norma.
-            </p>
-            <p>
-              Nosotros no certificamos: te preparamos y te acompañamos en la auditoría. Quien implementa no
-              puede ser quien certifica; así se protege la independencia de la auditoría.
-            </p>
-            <p>
-              Las BPM las controla la autoridad sanitaria en sus inspecciones y, muchas veces, tus clientes en
-              auditorías a proveedores.
+              Un organismo independiente que elegís vos; para FSSC 22000, licenciado por la Foundation FSSC.
+              Nosotros no certificamos: quien implementa no puede certificar. Te preparamos y te acompañamos en la
+              auditoría. Las BPM las controlan la autoridad sanitaria y, muchas veces, tus clientes.
             </p>
           </div>
         </details>
@@ -386,10 +313,8 @@ const jsonLd = [
           <summary>¿Se puede integrar con ISO 9001 u otro sistema que ya tengo?</summary>
           <div class="faq-a">
             <p>
-              Sí. ISO 22000 comparte la estructura de alto nivel con ISO 9001, ISO 14001 e ISO 45001, así que
-              política, objetivos, auditorías internas, revisión por la dirección y mejora se pueden gestionar
-              en un solo sistema. Mirá cómo trabajamos los
-              <a href="/servicios/sistemas-de-gestion-iso">sistemas de gestión ISO</a>.
+              Sí. ISO 22000 comparte estructura con ISO 9001, ISO 14001 e ISO 45001, así que se puede gestionar todo
+              en un solo sistema. Mirá los <a href="/servicios/sistemas-de-gestion-iso">sistemas de gestión ISO</a>.
             </p>
           </div>
         </details>
@@ -399,9 +324,8 @@ const jsonLd = [
           <div class="faq-a">
             <!-- A CONFIRMAR: si Rodrigo quiere dar rangos de duración orientativos para BPM, ISO 22000 y FSSC 22000. -->
             <p>
-              Depende del punto de partida de la planta, de su tamaño, de la cantidad de productos y procesos y
-              de la norma elegida. Los plazos se definen en el diagnóstico según el alcance, y quedan escritos en
-              el plan de trabajo antes de empezar.
+              Depende del punto de partida, del tamaño, de los productos y de la norma elegida. Los plazos quedan
+              escritos en el plan de trabajo antes de empezar.
             </p>
           </div>
         </details>
