@@ -14,112 +14,37 @@ const url = `${sitio}${servicio.href}`;
 const cursos = new Map(obtenerCursos().map((c) => [c.slug, c]));
 
 const normas = [
-  {
-    codigo: 'ISO 9001',
-    tema: 'Gestión de la calidad',
-    que: 'Ordena los procesos para entregar siempre lo que el cliente pide y cumplir la ley. Es la más difundida y la base de muchas otras.',
-    para: 'Cualquier organización que quiera procesos claros o que tenga que certificar porque se lo piden.',
-    curso: 'iso-9001',
-  },
-  {
-    codigo: 'ISO 14001',
-    tema: 'Gestión ambiental',
-    que: 'Controla los aspectos ambientales y las obligaciones legales, con objetivos para reducir impactos. Tiene nueva edición desde 2026.',
-    para: 'Quien tiene que demostrar control ambiental ante clientes, autoridades o la comunidad.',
-    curso: 'iso-14001-2026',
-  },
-  {
-    codigo: 'ISO 45001',
-    tema: 'Seguridad y salud en el trabajo',
-    que: 'Previene lesiones y enfermedades laborales: peligros, riesgos y participación de los trabajadores. Reemplazó a OHSAS 18001.',
-    para: 'Quien quiere gestionar la seguridad de su gente como un sistema, más allá de cumplir la ley.',
-    curso: 'iso-45001',
-  },
-  {
-    codigo: 'ISO 50001',
-    tema: 'Gestión de la energía',
-    que: 'Revisión energética, línea de base e indicadores para planificar y medir mejoras en el uso de la energía.',
-    para: 'Plantas, edificios o logística donde la energía pesa en costos o en impacto.',
-    curso: '',
-  },
-  {
-    codigo: 'ISO 21001',
-    tema: 'Organizaciones educativas',
-    que: 'Sistemas de gestión para la enseñanza: necesidades de los estudiantes, diseño de la oferta y evaluación del aprendizaje.',
-    para: 'Escuelas, institutos, universidades y áreas de capacitación de empresas.',
-    curso: '',
-  },
+  { codigo: 'ISO 9001', tema: 'Gestión de la calidad', que: 'Procesos claros para entregar siempre lo que el cliente pide. La base de muchas otras.', curso: 'iso-9001' },
+  { codigo: 'ISO 14001', tema: 'Gestión ambiental', que: 'Aspectos ambientales y obligaciones legales bajo control. Nueva edición en 2026.', curso: 'iso-14001-2026' },
+  { codigo: 'ISO 45001', tema: 'Seguridad y salud en el trabajo', que: 'Prevenir lesiones y enfermedades laborales. Reemplazó a OHSAS 18001.', curso: 'iso-45001' },
+  { codigo: 'ISO 50001', tema: 'Gestión de la energía', que: 'Medir y mejorar el uso de la energía.', curso: '' },
+  { codigo: 'ISO 21001', tema: 'Organizaciones educativas', que: 'Sistemas de gestión para escuelas, institutos y áreas de capacitación.', curso: '' },
 ];
 
-const pdca = [
-  { letra: 'P', titulo: 'Planificar', texto: 'Definir qué se quiere lograr, a partir del contexto, los riesgos y los requisitos.' },
-  { letra: 'H', titulo: 'Hacer', texto: 'Implementar lo planificado en los procesos de todos los días.' },
-  { letra: 'V', titulo: 'Verificar', texto: 'Medir, auditar y comprobar si se alcanzaron los objetivos.' },
-  { letra: 'A', titulo: 'Actuar', texto: 'Cerrar la brecha entre lo planificado y lo logrado, y mejorar.' },
-];
-
-const compartido = [
-  'Análisis de contexto y partes interesadas',
-  'Control de la información documentada',
-  'Auditoría interna',
-  'Acciones correctivas',
-  'Competencias y capacitación',
-  'Objetivos y seguimiento',
-  'Revisión por la dirección',
-];
-
-const propio = [
-  { norma: 'ISO 9001', foco: 'Requisitos del cliente y conformidad de productos y servicios.' },
-  { norma: 'ISO 14001', foco: 'Aspectos ambientales y obligaciones de cumplimiento.' },
-  { norma: 'ISO 45001', foco: 'Peligros, riesgos laborales y participación de los trabajadores.' },
-  { norma: 'ISO 50001', foco: 'Revisión energética, línea de base e indicadores.' },
-  { norma: 'ISO/IEC 27001', foco: 'Activos de información, evaluación de riesgos y controles del Anexo A.' },
+const entregables = [
+  'Un diagnóstico con brechas y prioridades.',
+  'Procesos y documentación a medida, no una plantilla.',
+  'Riesgos y requisitos legales identificados.',
+  'Auditores internos formados en tu equipo.',
+  'El sistema listo para la auditoría de certificación.',
 ];
 
 const faqs = [
   {
     q: '¿Ustedes certifican?',
-    a: [
-      'No. Certifica un organismo independiente, y quien asesora no puede certificar a la misma organización: así se protege la imparcialidad.',
-      'Nosotros acompañamos la implementación: hacemos la auditoría interna previa, formamos a tus auditores internos y estamos con tu equipo en la auditoría externa.',
-    ],
-  },
-  {
-    q: '¿Hay que tener todo documentado?',
-    a: [
-      'No. Las normas piden documentos en puntos concretos, como el alcance, la política, los objetivos y los registros de auditorías. El resto lo decide cada organización. Preferimos pocos documentos que se usan antes que manuales que nadie lee.',
-    ],
+    a: 'No. Certifica un organismo independiente; quien asesora no puede certificar a la misma organización. Nosotros te preparamos y estamos con tu equipo en la auditoría.',
   },
   {
     q: '¿Sirve para una pyme?',
-    a: [
-      'Sí. Los requisitos son los mismos para cualquier tamaño; cambia cómo se cumplen. En una pyme el sistema suele ser más simple y estar más cerca de la operación, y eso es una ventaja.',
-    ],
+    a: 'Sí. Los requisitos son los mismos para cualquier tamaño; cambia cómo se cumplen. En una pyme el sistema suele ser más simple.',
   },
   {
-    q: '¿Cuánto lleva llegar a la certificación?',
-    a: [
-      'Depende del tamaño, del alcance y de cuánto hay hecho; lo definimos en el diagnóstico. El organismo certificador suele pedir ver el sistema funcionando, con al menos una auditoría interna y una revisión por la dirección completas.',
-    ],
+    q: 'Ya tenemos ISO 9001. ¿Podemos sumar otra norma?',
+    a: 'Sí, y conviene integrarlas: comparten estructura, así que documentación, auditorías y revisión por la dirección sirven para todas. Los certificadores pueden ofrecer auditorías integradas, con honorarios menores.',
   },
   {
     q: '¿Qué pasa después de certificar?',
-    a: [
-      'El certificado dura tres años, con auditorías de seguimiento, normalmente anuales, y una recertificación al final. Podemos acompañar el mantenimiento, las auditorías internas y la actualización cuando sale una nueva edición de la norma.',
-    ],
-  },
-];
-
-const lecturas = [
-  {
-    href: '/blog/iso-9001-e-iso-27001',
-    titulo: '¿ISO 9001 ayuda a implementar ISO/IEC 27001?',
-    texto: 'Qué se puede reutilizar del sistema de gestión de la calidad y qué hay que sumar para un SGSI.',
-  },
-  {
-    href: '/blog/enmienda-cambio-climatico-iso-9001',
-    titulo: 'La enmienda de cambio climático en ISO 9001 y otras normas',
-    texto: 'Qué cambió en los requisitos de contexto y partes interesadas, y qué tienen que hacer las organizaciones certificadas.',
+    a: 'El certificado dura tres años, con auditorías de seguimiento, normalmente anuales. Podemos acompañar el mantenimiento y las actualizaciones de la norma.',
   },
 ];
 
@@ -158,7 +83,7 @@ const jsonLd = [
     mainEntity: faqs.map((f) => ({
       '@type': 'Question',
       name: f.q,
-      acceptedAnswer: { '@type': 'Answer', text: f.a.join(' ') },
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
     })),
   },
 ];
@@ -180,47 +105,8 @@ const jsonLd = [
     <a class="btn btn--ghost btn--white" href="/cursos">Ver cursos</a>
   </PageHeader>
 
-  <!-- ============ LO BÁSICO ============ -->
-  <section class="section">
-    <div class="wrap">
-      <div class="intro">
-        <div>
-          <p class="eyebrow">Lo básico</p>
-          <h2>¿Qué son las normas ISO y para qué sirven?</h2>
-        </div>
-        <div class="intro-copy">
-          <p>
-            ISO, la Organización Internacional de Normalización, publica normas de <strong>sistemas de gestión</strong>:
-            lo que tiene que tener una organización para manejar con orden la calidad, el ambiente, la seguridad
-            de su gente o la energía. Fijan requisitos, no recetas: cada una decide cómo cumplirlos.
-          </p>
-          <p>
-            La certificación es voluntaria. La otorga un organismo independiente y sirve para demostrarlo ante
-            clientes, licitaciones o casas matrices. Muchas organizaciones certifican porque se lo piden; otras
-            implementan la norma sólo para trabajar mejor.
-          </p>
-        </div>
-      </div>
-
-      <div class="pdca-block">
-        <p class="pdca-label">
-          Todas comparten el ciclo PDCA (PHVA, en castellano) y una estructura común de requisitos.
-        </p>
-        <ol class="pdca">
-          {pdca.map((p) => (
-            <li>
-              <span class="pdca-n" aria-hidden="true">{p.letra}</span>
-              <h3>{p.titulo}</h3>
-              <p>{p.texto}</p>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ TABLERO DE NORMAS ============ -->
-  <section class="section section--soft" id="normas">
+  <!-- ============ NORMAS ============ -->
+  <section class="section" id="normas">
     <div class="wrap">
       <div class="section-head">
         <p class="eyebrow">Normas</p>
@@ -237,85 +123,45 @@ const jsonLd = [
                 <span class="norma-codigo">{n.codigo}</span>
                 <span class="norma-tema">{n.tema}</span>
               </h3>
-              <div class="norma-texto">
-                <p>{n.que}</p>
-                <p class="norma-para"><span>Para quién</span>{n.para}</p>
-              </div>
+              <p>{n.que}</p>
               <div class="norma-acciones">
-                <a class="btn btn--ghost btn--small btn--white" href={consultar} aria-label={`Consultar por ${n.codigo}`}>Consultar</a>
-                {curso && <a class="link-arrow norma-curso" href={`/cursos#${curso.slug}`}>Curso de auditor interno</a>}
+                <a class="link-arrow" href={consultar} aria-label={`Consultar por ${n.codigo}`}>Consultar</a>
+                {curso && <a class="norma-curso" href={`/cursos#${curso.slug}`}>Curso de auditor interno</a>}
               </div>
             </li>
           );
         })}
       </ul>
 
-      <div class="otras">
-        <p>
-          <strong>¿Seguridad de la información?</strong>
-          ISO/IEC 27001 la trabajamos desde el servicio de <a href="/servicios/vciso">vCISO</a>.
-        </p>
-        <p>
-          <strong>¿Industria de alimentos?</strong>
-          BPM, ISO 22000 y FSSC 22000 tienen su propia página: <a href="/servicios/inocuidad-alimentaria">Inocuidad alimentaria</a>.
-        </p>
-      </div>
+      <p class="otras">
+        ¿Seguridad de la información? Mirá <a href="/servicios/vciso">vCISO</a>.
+        ¿Alimentos? Mirá <a href="/servicios/inocuidad-alimentaria">Inocuidad alimentaria</a>.
+      </p>
     </div>
   </section>
 
-  <!-- ============ PARA QUIÉN / QUÉ TE LLEVÁS / CUÁNTO DURA ============ -->
-  <section class="section">
-    <div class="wrap">
-      <div class="section-head">
-        <p class="eyebrow">El servicio</p>
-        <h2>Para quién es, qué te llevás y cuánto dura.</h2>
+  <!-- ============ QUÉ TE LLEVÁS ============ -->
+  <section class="section section--soft">
+    <div class="wrap split">
+      <div>
+        <p class="eyebrow">Qué te llevás</p>
+        <h2>Un sistema que tu equipo entiende y sostiene.</h2>
+        <!-- A CONFIRMAR: si Rodrigo quiere dar un rango orientativo de duración (por ejemplo, para una pyme que parte de cero con una sola norma). Mientras tanto, redacción neutra. -->
+        <p class="nota">Los plazos dependen del tamaño, del alcance y del punto de partida. Se acuerdan en el diagnóstico.</p>
       </div>
-
-      <div class="cols">
-        <div class="col">
-          <h3>Para quién es</h3>
-          <ul class="list">
-            <li>Quien tiene que certificar por primera vez, porque lo pide un cliente, una licitación o la casa matriz.</li>
-            <li>Quien ya certificó y quiere un sistema más simple, o tiene que pasar a una nueva edición de la norma.</li>
-            <li>Quien quiere ordenar procesos y riesgos sin certificar por ahora.</li>
-          </ul>
-          <p class="col-note">Trabajamos con empresas de distintos rubros y tamaños.</p>
-        </div>
-
-        <div class="col">
-          <h3>Qué te llevás</h3>
-          <ul class="list">
-            <li>Un diagnóstico con brechas y prioridades.</li>
-            <li>Procesos, documentación y registros hechos a medida de tu operación, no una plantilla.</li>
-            <li>Riesgos, oportunidades y requisitos legales identificados, con criterio para mantenerlos al día.</li>
-            <li>Auditores internos formados dentro de tu equipo.</li>
-            <li>El sistema preparado para la auditoría de certificación.</li>
-          </ul>
-        </div>
-
-        <div class="col">
-          <h3>Cuánto dura</h3>
-          <!-- A CONFIRMAR: si Rodrigo quiere dar un rango orientativo de duración (por ejemplo, para una pyme que parte de cero con una sola norma). Mientras tanto, redacción neutra. -->
-          <p>
-            Depende del tamaño, del alcance y del punto de partida: no es lo mismo empezar de cero que ordenar un
-            sistema que ya existe. Lo definimos en el diagnóstico, con un plan por etapas acordado antes de empezar.
-          </p>
-        </div>
-      </div>
+      <ul class="lista">
+        {entregables.map((e) => <li>{e}</li>)}
+      </ul>
     </div>
   </section>
 
   <!-- ============ CÓMO TRABAJAMOS ============ -->
-  <section class="section section--soft">
+  <section class="section">
     <div class="wrap method">
       <div class="method-intro">
         <p class="eyebrow">Cómo trabajamos</p>
         <h2>Con tu equipo, no para tu equipo.</h2>
-        <p>
-          Las personas que van a sostener el sistema participan desde el diagnóstico: definen los procesos,
-          escriben lo que hace falta escribir y se forman como auditores internos.
-        </p>
-        <a class="link-arrow" href="/cursos">Ver cursos de auditor interno</a>
+        <p>Quienes van a sostener el sistema participan desde el diagnóstico y se forman como auditores internos.</p>
       </div>
       <ol class="steps">
         {pasos.map((p, i) => (
@@ -331,85 +177,22 @@ const jsonLd = [
     </div>
   </section>
 
-  <!-- ============ SISTEMAS INTEGRADOS ============ -->
-  <section class="section" id="integracion">
-    <div class="wrap integ">
-      <div class="integ-copy">
-        <p class="eyebrow">Sistemas integrados</p>
-        <h2>Varias normas, un solo sistema.</h2>
-        <p>
-          Las normas comparten estructura. Si ya tenés ISO 9001, buena parte del camino para sumar ISO 14001,
-          ISO 45001 o ISO/IEC 27001 está hecho.
-        </p>
-        <p>
-          Un sistema integrado evita procedimientos duplicados y auditorías por separado. Además, los organismos
-          certificadores pueden ofrecer auditorías integradas, con honorarios menores.
-        </p>
-        <a class="link-arrow" href="/blog/iso-9001-e-iso-27001">Leer: ISO 9001 e ISO/IEC 27001</a>
-      </div>
-
-      <div class="integ-lists">
-        <div>
-          <h3>Se comparte entre normas</h3>
-          <ul class="shared">
-            {compartido.map((c) => <li>{c}</li>)}
-          </ul>
-        </div>
-        <div>
-          <h3>Es propio de cada norma</h3>
-          <dl class="own">
-            {propio.map((p) => (
-              <div>
-                <dt>{p.norma}</dt>
-                <dd>{p.foco}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- ============ PREGUNTAS FRECUENTES ============ -->
   <section class="section section--soft" id="preguntas">
     <div class="wrap faq">
       <div class="faq-head">
         <p class="eyebrow">Preguntas frecuentes</p>
-        <h2>Lo que más nos preguntan antes de empezar.</h2>
-        <p>¿Tenés otra duda? <a href={consultar}>Contanos tu caso</a>.</p>
+        <h2>Antes de empezar.</h2>
+        <p>¿Otra duda? <a href={consultar}>Contanos tu caso</a>.</p>
       </div>
       <div class="faq-list">
         {faqs.map((f) => (
           <details>
             <summary>{f.q}</summary>
-            <div class="faq-answer">
-              {f.a.map((p) => <p>{p}</p>)}
-            </div>
+            <p class="faq-answer">{f.a}</p>
           </details>
         ))}
       </div>
-    </div>
-  </section>
-
-  <!-- ============ LECTURAS RELACIONADAS ============ -->
-  <section class="section">
-    <div class="wrap">
-      <div class="section-head section-head--row">
-        <div>
-          <p class="eyebrow">Para seguir leyendo</p>
-          <h2>Lecturas relacionadas.</h2>
-        </div>
-        <a class="link-arrow" href="/blog">Ver todos los artículos</a>
-      </div>
-      <ul class="reads">
-        {lecturas.map((l) => (
-          <li>
-            <h3><a href={l.href}>{l.titulo}</a></h3>
-            <p>{l.texto}</p>
-            <a class="link-arrow" href={l.href} aria-label={`Leer: ${l.titulo}`}>Leer</a>
-          </li>
-        ))}
-      </ul>
     </div>
   </section>
 
@@ -418,95 +201,42 @@ const jsonLd = [
 
 <style>
   .btn--white { background: var(--white); }
-  /* La regla global `.section-head p` le gana a `.eyebrow`; acá se restituye el estilo de etiqueta. */
 
-  /* ---------- Lo básico ---------- */
-  .intro { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); gap: 24px 80px; align-items: start; }
-  @media (max-width: 920px) { .intro { grid-template-columns: 1fr; } }
-  .intro h2 { font-size: var(--step-3); max-width: 16ch; }
-  .intro-copy p { max-width: 62ch; }
-  .intro-copy p:last-child { margin-bottom: 0; }
-  .intro-copy strong { color: var(--ink); font-weight: 600; }
-
-  .pdca-block { margin-top: clamp(48px, 6vw, 72px); }
-  .pdca-label { color: var(--muted); font-size: 0.97rem; max-width: 62ch; margin-bottom: 20px; }
-  .pdca {
-    list-style: none; margin: 0; padding: 0;
-    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-    border-top: 1px solid var(--line);
-  }
-  .pdca li { padding: 24px 28px 0 0; }
-  .pdca li + li { padding-left: 28px; border-left: 1px solid var(--line); }
-  @media (max-width: 860px) {
-    .pdca { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .pdca li:nth-child(3) { padding-left: 0; border-left: 0; }
-    .pdca li:nth-child(n + 3) { border-top: 1px solid var(--line); margin-top: 24px; }
-  }
-  @media (max-width: 480px) {
-    .pdca { grid-template-columns: 1fr; }
-    .pdca li, .pdca li + li { padding: 20px 0 0; border-left: 0; }
-    .pdca li + li { border-top: 1px solid var(--line); margin-top: 20px; }
-  }
-  .pdca-n {
-    width: 36px; height: 36px; border-radius: 50%;
-    display: grid; place-items: center; margin-bottom: 14px;
-    border: 1px solid var(--line-strong);
-    font-family: var(--font-display); font-weight: 600; color: var(--primary);
-  }
-  .pdca h3 { font-size: 1.1rem; margin-bottom: 6px; }
-  .pdca p { margin: 0; color: var(--muted); font-size: 0.97rem; }
-
-  /* ---------- Tablero de normas ---------- */
+  /* ---------- Normas ---------- */
   .normas { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
   .norma {
-    display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.6fr) 13rem; gap: 16px 48px;
-    align-items: start; padding-block: 28px; border-bottom: 1px solid var(--line-strong);
+    display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.5fr) 15rem; gap: 10px 40px;
+    align-items: center; padding-block: 22px; border-bottom: 1px solid var(--line-strong);
+    transition: background-color var(--base) var(--ease);
   }
-  @media (max-width: 1080px) { .norma { column-gap: 32px; } }
-  @media (max-width: 860px) { .norma { grid-template-columns: 1fr; gap: 12px; } }
-  .norma h3 { display: grid; gap: 6px; }
+  @media (hover: hover) { .norma:hover { background: var(--paper); } }
+  @media (max-width: 860px) { .norma { grid-template-columns: 1fr; gap: 8px; } }
+  .norma h3 { display: grid; gap: 2px; }
   .norma-codigo { font-size: var(--step-2); letter-spacing: -0.02em; }
-  .norma-tema { font-family: var(--font-body); font-size: 0.97rem; font-weight: 500; color: var(--muted); letter-spacing: 0; }
-  .norma-texto p { margin: 0; }
-  .norma-texto p + p { margin-top: 10px; }
-  .norma-para { color: var(--muted); font-size: 0.97rem; }
-  .norma-para span {
-    display: block; margin-bottom: 2px;
-    font-family: var(--font-display); font-size: 0.78rem; font-weight: 600;
-    letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink);
-  }
-  .norma-acciones { display: grid; justify-items: end; gap: 12px; padding-top: 2px; }
-  @media (max-width: 860px) { .norma-acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; } }
+  .norma-tema { font-size: 0.97rem; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+  .norma > p { margin: 0; }
+  .norma-acciones { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px 20px; }
+  @media (max-width: 860px) { .norma-acciones { justify-content: flex-start; } }
   .norma-curso { font-size: 0.9rem; }
+  .otras { margin: 28px 0 0; color: var(--muted); }
 
-  .otras {
-    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 48px;
-    margin-top: 36px;
+  /* ---------- Qué te llevás ---------- */
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 32px 80px; align-items: start; }
+  @media (max-width: 920px) { .split { grid-template-columns: 1fr; } }
+  .split h2 { font-size: var(--step-3); margin-bottom: 16px; }
+  .nota { color: var(--muted); max-width: 46ch; margin: 0; }
+  .lista { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .lista li { position: relative; padding: 16px 0 16px 28px; border-bottom: 1px solid var(--line); }
+  .lista li::before {
+    content: ''; position: absolute; left: 2px; top: 1.45em; width: 12px; height: 7px;
+    border-left: 2px solid var(--primary); border-bottom: 2px solid var(--primary); transform: rotate(-45deg);
   }
-  @media (max-width: 760px) { .otras { grid-template-columns: 1fr; } }
-  .otras p { margin: 0; padding-left: 16px; border-left: 2px solid var(--brand); color: var(--muted); font-size: 0.97rem; }
-  .otras strong { display: block; color: var(--ink); font-family: var(--font-display); font-weight: 600; }
-
-  /* ---------- Para quién / qué / cuánto ---------- */
-  .cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px 48px; }
-  @media (max-width: 920px) { .cols { grid-template-columns: 1fr; } }
-  .col { border-top: 1px solid var(--line-strong); padding-top: 24px; }
-  .col h3 { font-size: var(--step-1); margin-bottom: 16px; }
-  .col p { max-width: 60ch; }
-  .col p:last-child { margin-bottom: 0; }
-  .list { list-style: none; margin: 0; padding: 0; }
-  .list li { position: relative; padding: 0 0 12px 20px; }
-  .list li::before {
-    content: ''; position: absolute; left: 0; top: 0.72em;
-    width: 8px; height: 1px; background: var(--primary);
-  }
-  .col-note { margin-top: 8px; color: var(--muted); font-size: 0.97rem; }
 
   /* ---------- Método ---------- */
   .method { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 48px 80px; align-items: start; }
   @media (max-width: 920px) { .method { grid-template-columns: 1fr; } }
   .method-intro h2 { font-size: var(--step-3); margin-bottom: 20px; }
-  .method-intro p { max-width: 52ch; }
+  .method-intro p { max-width: 46ch; }
   .steps { list-style: none; margin: 0; padding: 0; display: grid; }
   .steps li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 20px; padding-block: 20px; border-bottom: 1px solid var(--line); }
   .steps li:first-child { padding-top: 0; }
@@ -515,31 +245,10 @@ const jsonLd = [
     width: 44px; height: 44px; border-radius: 50%;
     display: grid; place-items: center;
     background: var(--white); border: 1px solid var(--line-strong);
-    font-family: var(--font-display); font-weight: 600; color: var(--primary);
+    font-weight: 600; color: var(--primary);
   }
   .steps h3 { font-size: 1.1rem; margin-bottom: 4px; }
   .steps p { margin: 0; color: var(--muted); font-size: 0.97rem; }
-
-  /* ---------- Sistemas integrados ---------- */
-  .integ { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 48px 80px; align-items: start; }
-  @media (max-width: 920px) { .integ { grid-template-columns: 1fr; } }
-  .integ-copy h2 { font-size: var(--step-3); margin-bottom: 20px; }
-  .integ-copy p { max-width: 60ch; }
-  .integ-lists { display: grid; gap: 40px; }
-  .integ-lists h3 { font-size: 1.1rem; margin-bottom: 12px; }
-  .shared { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
-  .shared li {
-    font-size: 0.9rem; line-height: 1.3; padding: 7px 12px;
-    border: 1px solid var(--line-strong); border-radius: 999px; color: var(--ink);
-  }
-  .own { margin: 0; border-top: 1px solid var(--line); }
-  .own div {
-    display: grid; grid-template-columns: 124px minmax(0, 1fr); gap: 4px 16px;
-    padding-block: 12px; border-bottom: 1px solid var(--line); font-size: 0.97rem;
-  }
-  @media (max-width: 480px) { .own div { grid-template-columns: 1fr; } }
-  .own dt { font-family: var(--font-display); font-weight: 600; color: var(--ink); }
-  .own dd { margin: 0; color: var(--muted); }
 
   /* ---------- Preguntas frecuentes ---------- */
   .faq { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 32px 80px; align-items: start; }
@@ -552,30 +261,11 @@ const jsonLd = [
     list-style: none; cursor: pointer;
     display: grid; grid-template-columns: minmax(0, 1fr) 20px; gap: 16px; align-items: center;
     padding-block: 20px;
-    font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; color: var(--ink); line-height: 1.3;
+    font-weight: 600; font-size: 1.1rem; color: var(--ink); line-height: 1.3;
   }
   summary::-webkit-details-marker { display: none; }
-  summary::after {
-    content: '+'; justify-self: end;
-    font-family: var(--font-body); font-weight: 400; font-size: 1.5rem; line-height: 1; color: var(--primary);
-  }
+  summary::after { content: '+'; justify-self: end; font-weight: 400; font-size: 1.5rem; line-height: 1; color: var(--primary); }
   details[open] summary::after { content: '\2212'; }
   summary:hover { color: var(--primary); }
-  .faq-answer { padding-bottom: 20px; max-width: 64ch; }
-  .faq-answer p:last-child { margin-bottom: 0; }
-
-  /* ---------- Lecturas ---------- */
-  .section-head--row { max-width: none; display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
-  .section-head--row > div { max-width: 660px; }
-  .reads { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
-  .reads li {
-    display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto; gap: 12px 48px;
-    align-items: start; padding-block: 24px; border-bottom: 1px solid var(--line);
-  }
-  @media (max-width: 860px) { .reads li { grid-template-columns: 1fr; } }
-  .reads h3 { font-size: var(--step-1); }
-  .reads h3 a { color: var(--ink); text-decoration: none; }
-  .reads h3 a:hover { color: var(--primary); }
-  .reads p { margin: 0; color: var(--muted); }
-  .reads .link-arrow { padding-top: 2px; }
+  .faq-answer { margin: 0; padding-bottom: 20px; max-width: 64ch; }
 </style>
