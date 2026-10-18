@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import PageHeader from '../../components/PageHeader.astro';
+import fotoLean from '../../assets/fotos/lean.webp';
 import CursoCard from '../../components/CursoCard.astro';
 import CtaDiagnostico from '../../components/CtaDiagnostico.astro';
 import { obtenerCursos } from '../../lib/cursos';
@@ -124,6 +125,8 @@ const jsonLd = [
   <PageHeader
     eyebrow="Mejora de procesos"
     ilustracion="lean"
+    foto={fotoLean}
+    fotoAlt="Planta ordenada con un tablero de gestión visual y dos personas conversando frente a él"
     title="Lean Manufacturing"
     lead="El Sistema de Producción Toyota aplicado a tu operación, construido con las personas que hacen el trabajo todos los días."
     crumbs={[{ label: 'Servicios', href: '/#servicios' }, { label: 'Lean Manufacturing' }]}

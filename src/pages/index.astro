@@ -9,6 +9,7 @@ import { obtenerCursos, proximoCurso, fechaLarga } from '../lib/cursos';
 import { obtenerNotas } from '../lib/blog';
 import rodrigo from '../assets/rodrigo.png';
 import rodrigoClase from '../assets/rodrigo-clase.jpg';
+import fotoEquipo from '../assets/fotos/inicio.webp';
 
 const cursos = obtenerCursos().slice(0, 3);
 const proximo = proximoCurso();
@@ -139,6 +140,7 @@ const jsonLd = [
           del diagnóstico, del diseño y de las auditorías. Así, cuando terminemos, sigue funcionando sin nosotros.
         </p>
         <a class="btn btn--primary" href="/contacto#formulario">Empezar por un diagnóstico</a>
+        <Image class="method-foto" src={fotoEquipo} alt="Equipo de trabajo frente a un tablero de procesos en una planta" widths={[480, 720, 1024]} sizes="(max-width: 920px) 100vw, 520px" />
       </div>
       <ol class="steps">
         {pasos.map((p, i) => (
@@ -360,6 +362,7 @@ const jsonLd = [
   .method-intro h2 { font-size: var(--step-3); margin-bottom: 20px; }
   .method-intro p { color: var(--text); max-width: 52ch; }
   .method-intro .btn { margin-top: 12px; }
+  .method-intro :global(.method-foto) { display: block; width: 100%; height: auto; margin-top: 36px; border-radius: 14px; border: 1px solid var(--line); }
   .steps { list-style: none; margin: 0; padding: 0; display: grid; }
   .steps li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 20px; padding-block: 20px; border-bottom: 1px solid var(--line); }
   .steps li:first-child { padding-top: 0; }
