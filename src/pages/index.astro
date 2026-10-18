@@ -7,7 +7,7 @@ import CtaDiagnostico from '../components/CtaDiagnostico.astro';
 import { servicios, pasos, testimonios, empresasParticipantes, contacto } from '../data/sitio';
 import { obtenerCursos, proximoCurso, fechaLarga } from '../lib/cursos';
 import { obtenerNotas } from '../lib/blog';
-import rodrigo from '../assets/rodrigo.png';
+import rodrigo from '../assets/rodrigo-retrato.webp';
 import rodrigoClase from '../assets/rodrigo-clase.jpg';
 import fotoEquipo from '../assets/fotos/inicio.webp';
 
@@ -201,7 +201,7 @@ const jsonLd = [
   <section class="section" id="nosotros">
     <div class="wrap about">
       <div class="about-photo">
-        <Image src={rodrigo} alt="Rodrigo Arizmendi, fundador de Procesos Mejores" width={360} widths={[280, 360, 446]} sizes="(max-width: 760px) 280px, 360px" />
+        <Image src={rodrigo} alt="Rodrigo Arizmendi, fundador de Procesos Mejores" width={360} widths={[280, 360, 720]} sizes="(max-width: 760px) 280px, 360px" />
       </div>
       <div class="about-copy">
         <p class="eyebrow">Quién está detrás</p>
