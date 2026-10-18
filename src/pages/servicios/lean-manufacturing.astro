@@ -19,13 +19,13 @@ const curso5s = obtenerCursos().find((c) => c.slug === '5s-profesional');
 
 // Los siete desperdicios (muda) del TPS.
 const desperdicios = [
-  { nombre: 'Sobreproducción', texto: 'Producir más, o antes, de lo que necesita el proceso siguiente. Taiichi Ohno la consideraba el peor desperdicio, porque esconde todos los demás.' },
-  { nombre: 'Esperas', texto: 'Personas o máquinas paradas a la espera de material, información o una decisión.' },
-  { nombre: 'Transporte', texto: 'Mover materiales o documentos de un lado a otro sin agregarles nada.' },
-  { nombre: 'Sobreprocesamiento', texto: 'Hacer más de lo que el cliente pide: pasos, controles o terminaciones que nadie valora.' },
-  { nombre: 'Inventario', texto: 'Materia prima, producto en proceso o terminado acumulado de más. Ocupa lugar, inmoviliza dinero y tapa problemas.' },
-  { nombre: 'Movimientos innecesarios', texto: 'Buscar herramientas, caminar de más, agacharse: esfuerzo de las personas que no agrega valor.' },
-  { nombre: 'Defectos', texto: 'Retrabajos, piezas descartadas y reclamos. Hacer dos veces lo que tenía que salir bien una.' },
+  { nombre: 'Sobreproducción', texto: 'Producir más, o antes, de lo que hace falta. Para Ohno era el peor: esconde a todos los demás.' },
+  { nombre: 'Esperas', texto: 'Personas o máquinas paradas esperando material, información o una decisión.' },
+  { nombre: 'Transporte', texto: 'Mover materiales o papeles de un lado a otro sin agregarles nada.' },
+  { nombre: 'Sobreprocesamiento', texto: 'Pasos, controles o terminaciones que el cliente no valora.' },
+  { nombre: 'Inventario', texto: 'Stock de más: ocupa lugar, inmoviliza dinero y tapa problemas.' },
+  { nombre: 'Movimientos innecesarios', texto: 'Buscar herramientas, caminar de más, agacharse.' },
+  { nombre: 'Defectos', texto: 'Retrabajos, descartes y reclamos: hacer dos veces lo que tenía que salir bien una.' },
 ];
 
 // Qué hacemos. Sin resultados cuantitativos: el alcance se define en el diagnóstico.
@@ -33,27 +33,27 @@ const servicios = [
   {
     nombre: 'Diagnóstico y mapeo del flujo de valor',
     etiquetas: ['VSM', 'Gemba'],
-    texto: 'Recorremos el proceso en el lugar donde se hace el trabajo y dibujamos, con tu equipo, cómo circulan hoy los materiales y la información: dónde se espera, dónde se acumula stock, dónde se retrabaja. Sobre ese mapa del estado actual se define el estado futuro y el plan para llegar.',
+    texto: 'Recorremos el proceso donde se hace el trabajo y dibujamos con tu equipo cómo circulan materiales e información: dónde se espera, se acumula o se retrabaja. De ese mapa salen el estado futuro y el plan.',
   },
   {
     nombre: '5S',
     etiquetas: ['Clasificar', 'Ordenar', 'Limpiar', 'Estandarizar', 'Sostener'],
-    texto: 'Es el punto de partida más visible: un puesto ordenado deja ver los problemas y es la base de cualquier estándar. Lo importante no es la jornada de limpieza, sino que el orden se sostenga en el tiempo, con responsables y verificaciones periódicas.',
+    texto: 'El punto de partida más visible: un puesto ordenado deja ver los problemas. Lo importante es que el orden se sostenga, con responsables y verificaciones.',
   },
   {
     nombre: 'Trabajo estandarizado',
     etiquetas: ['Takt time', 'Secuencia', 'Stock en proceso'],
-    texto: 'Documentamos, junto con quienes hacen la tarea, la mejor forma conocida hoy de hacerla: secuencia, tiempos y material en proceso, al ritmo de la demanda. Sin un estándar no hay contra qué comparar y, por eso, tampoco hay mejora.',
+    texto: 'Con quienes hacen la tarea, documentamos la mejor forma conocida de hacerla: secuencia, tiempos y material en proceso. Sin estándar no hay contra qué mejorar.',
   },
   {
     nombre: 'Kaizen y resolución de problemas',
     etiquetas: ['PDCA', 'A3', '5 porqués'],
-    texto: 'Formamos a los equipos para atacar problemas con método: definir bien el problema, ir a ver, encontrar la causa raíz y probar contramedidas antes de estandarizarlas. En eventos kaizen acotados o como práctica de todos los días.',
+    texto: 'Problemas atacados con método: definirlos bien, ir a ver, encontrar la causa raíz y probar contramedidas. En eventos acotados o como práctica diaria.',
   },
   {
     nombre: 'Gestión visual',
     etiquetas: ['Tableros', 'Andon', 'Indicadores'],
-    texto: 'Tableros en el lugar de trabajo, indicadores a la vista y señales para pedir ayuda. El objetivo es que cualquiera pueda ver si el proceso va según lo planeado y, si no, actuar en el momento.',
+    texto: 'Tableros, indicadores a la vista y señales para pedir ayuda: cualquiera puede ver si el proceso va bien y actuar en el momento.',
   },
 ];
 
@@ -68,27 +68,27 @@ const pdca = [
 const preguntas = [
   {
     q: '¿Lean sirve fuera de la industria automotriz?',
-    a: 'Sí. Nació en Toyota, pero sus principios no dependen de fabricar autos: entender qué valora el cliente, lograr que el trabajo fluya sin esperas y detectar los problemas donde aparecen. Se aplica en plantas de alimentos, metalmecánicas o químicas, en depósitos y en logística. Cambian los ejemplos, no la lógica.',
+    a: 'Sí. Nació en Toyota, pero se aplica en plantas de alimentos, metalmecánicas o químicas, en depósitos y en logística. Cambian los ejemplos, no la lógica.',
   },
   {
     q: '¿Y en una empresa de servicios o en tareas administrativas?',
-    a: 'También. En una oficina los desperdicios se ven menos, pero están: trámites esperando una firma, datos que se cargan dos veces, aprobaciones que no agregan nada, errores que vuelven como reclamos. 5S se aplica a escritorios, archivos y carpetas compartidas, y el mapeo del flujo de valor sirve para seguir un pedido o un expediente igual que una pieza.',
+    a: 'También. En una oficina hay trámites esperando una firma, datos que se cargan dos veces y errores que vuelven como reclamos. 5S y el mapeo del flujo de valor se aplican igual.',
   },
   {
     q: '¿Por dónde se empieza?',
-    a: 'Por mirar el proceso real. En el diagnóstico recorremos la operación, mapeamos el flujo de valor y elegimos con la dirección un área piloto. Muchas veces el primer paso visible es 5S, porque ordena el lugar y deja a la vista los problemas. Para empezar no hace falta comprar software ni equipos.',
+    a: 'Por mirar el proceso real: recorremos la operación, mapeamos el flujo y elegimos con la dirección un área piloto. Muchas veces el primer paso es 5S. No hace falta comprar software ni equipos.',
   },
   {
     q: '¿Cuánto lleva?',
-    a: 'Depende del alcance: no es lo mismo un piloto en una línea que toda la planta. Los plazos se definen en el diagnóstico y se acuerdan con la dirección antes de empezar. Y Lean no tiene fecha de fin: la idea es que la mejora siga cuando nosotros ya no estemos.',
+    a: 'Depende del alcance: no es lo mismo un piloto en una línea que toda la planta. Los plazos se acuerdan en el diagnóstico, antes de empezar.',
   },
   {
     q: '¿Necesito tener ISO 9001 para aplicar Lean?',
-    a: 'No. Se pueden empezar por separado. Si ya tenés un sistema de gestión, Lean le suma herramientas para el día a día del proceso; si todavía no lo tenés, lo que ordenes con Lean es una buena base para implementarlo después.',
+    a: 'No. Se pueden empezar por separado, y lo que ordenes con Lean es una buena base para un sistema de gestión.',
   },
   {
     q: '¿Quiénes tienen que participar?',
-    a: 'La dirección, para fijar prioridades y sostener el cambio, y las personas que hacen el trabajo todos los días, porque son las que mejor conocen los problemas. Lean no se implementa desde una oficina.',
+    a: 'La dirección, para fijar prioridades, y las personas que hacen el trabajo, que son las que mejor conocen los problemas. Lean no se implementa desde una oficina.',
   },
 ];
 
@@ -155,17 +155,13 @@ const jsonLd = [
         <p class="eyebrow">Qué es Lean</p>
         <h2 id="que-es">Lean es el nombre que se le dio en Occidente al Sistema de Producción Toyota.</h2>
         <p>
-          Toyota desarrolló su sistema de producción en Japón después de la Segunda Guerra Mundial, con
-          Taiichi Ohno como uno de sus principales artífices. El desafío era fabricar con calidad y a bajo
-          costo sin grandes volúmenes ni grandes inventarios.
+          Nació en Japón después de la Segunda Guerra Mundial, con Taiichi Ohno como uno de sus artífices: fabricar
+          con calidad y a bajo costo, sin grandes volúmenes ni inventarios. La palabra <em lang="en">lean</em>
+          («esbelto») se difundió a fines de los ochenta, y hoy se aplica en todo tipo de procesos.
         </p>
         <p>
-          La palabra <em lang="en">lean</em> («esbelto», en inglés) se difundió a fines de los años ochenta,
-          a partir de investigaciones del MIT que compararon la industria automotriz de distintos países.
-          Desde entonces el enfoque salió de las automotrices y hoy se aplica en todo tipo de procesos.
-        </p>
-        <p>
-          El Sistema de Producción Toyota (TPS, por su sigla en inglés) se suele explicar como una casa: arriba, el objetivo; dos pilares que lo sostienen, <strong>Just-in-Time</strong> y <strong>Jidoka</strong>; y una base de estabilidad y estandarización.
+          El Sistema de Producción Toyota (TPS) se explica como una casa: arriba, el objetivo; dos pilares,
+          <strong>Just-in-Time</strong> y <strong>Jidoka</strong>; y una base de estabilidad.
         </p>
       </div>
 
@@ -214,16 +210,13 @@ const jsonLd = [
         <p class="eyebrow">El foco</p>
         <h2 id="foco">Eliminar desperdicios. Respetar a las personas.</h2>
         <p>
-          Desperdicio (<em lang="ja">muda</em>, en japonés) es todo lo que consume tiempo, espacio o dinero
-          sin agregar valor para el cliente. Taiichi Ohno identificó siete tipos. Aprender a verlos es el
-          primer paso para sacarlos.
+          Desperdicio (<em lang="ja">muda</em>) es todo lo que consume tiempo, espacio o dinero sin agregar valor
+          para el cliente. Ohno identificó siete. Aprender a verlos es el primer paso para sacarlos.
         </p>
         <h3>Respeto por las personas</h3>
         <p>
-          Toyota resume su forma de trabajar en dos principios: mejora continua y respeto por las personas.
-          El segundo es el que más se olvida. Lean no es recortar personal ni exigir más ritmo: es sacar del
-          camino lo que le impide a la gente hacer bien su trabajo, y escuchar a quienes lo hacen todos los
-          días, porque son quienes mejor conocen los problemas.
+          Lean no es recortar personal ni exigir más ritmo: es sacar del camino lo que le impide a la gente
+          hacer bien su trabajo, y escuchar a quienes mejor conocen los problemas.
         </p>
       </div>
 
@@ -240,9 +233,7 @@ const jsonLd = [
             </li>
           ))}
         </ol>
-        <p class="note">
-          Muchos agregan un octavo: el talento no aprovechado, cuando no se escucha a quienes conocen el proceso.
-        </p>
+        <p class="note">Muchos agregan un octavo: el talento no aprovechado.</p>
       </div>
     </div>
   </section>
@@ -253,7 +244,7 @@ const jsonLd = [
       <div class="section-head">
         <p class="eyebrow">Qué hacemos</p>
         <h2 id="que-hacemos">Herramientas Lean, aplicadas en tu proceso y con tu equipo.</h2>
-        <p>No hace falta hacer todo junto. El diagnóstico define por dónde empezar y con qué alcance, y cada herramienta tu equipo la aprende aplicándola.</p>
+        <p>No hace falta hacer todo junto. El diagnóstico define por dónde empezar, y tu equipo aprende cada herramienta aplicándola.</p>
       </div>
 
       <ul class="offer">
@@ -296,15 +287,9 @@ const jsonLd = [
         <p class="eyebrow">Lean y normas ISO</p>
         <h2 id="lean-iso">La norma pide mejora continua. Lean dice cómo hacerla todos los días.</h2>
         <p>
-          Las normas ISO de sistemas de gestión se basan en el ciclo PDCA (planificar, hacer, verificar,
-          actuar) y exigen mejorar de forma continua. Lo que no dicen es cómo lograr que esa mejora pase en
-          el puesto de trabajo y no sólo en la revisión por la dirección.
-        </p>
-        <p>
-          Lean no es una norma de sistema de gestión como ISO 9001: es una forma de trabajar. Por eso encaja
-          con cualquiera de ellas. Con Lean, los procedimientos se vuelven estándares que la gente usa, y la
-          participación de los trabajadores que pide ISO 45001 va en la misma dirección que el respeto por
-          las personas del TPS.
+          Las normas ISO exigen mejorar de forma continua, pero no dicen cómo lograr que la mejora pase en el
+          puesto de trabajo. Lean no es una norma: es una forma de trabajar, y por eso encaja con cualquiera de
+          ellas. Los procedimientos se vuelven estándares que la gente usa.
         </p>
         <a class="link-arrow" href="/servicios/sistemas-de-gestion-iso">Sistemas de gestión ISO</a>
       </div>
@@ -334,11 +319,8 @@ const jsonLd = [
         <p class="eyebrow">Formación</p>
         <h2 id="curso">5S Profesional: el primer paso, en un curso en vivo.</h2>
         <p>
-          Implementación de 5S en industria y servicios, como base del trabajo estandarizado y la mejora
-          continua. Encuentros sincrónicos por Google Meet, con interacción directa con el docente.
-        </p>
-        <p>
-          Si preferís formar a todo un equipo, armamos la capacitación a medida, en la empresa o en línea.
+          5S en industria y servicios, como base del trabajo estandarizado. En vivo por Google Meet. Para
+          formar a todo un equipo, armamos la capacitación a medida, en la empresa o en línea.
         </p>
         <a class="link-arrow" href="/cursos">Ver todos los cursos</a>
       </div>
