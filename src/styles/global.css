@@ -96,7 +96,10 @@ a:hover { color: var(--primary-dark); }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { transition-duration: 1ms !important; animation-duration: 1ms !important; }
+  *, *::before, *::after {
+    transition-duration: 1ms !important; animation-duration: 1ms !important;
+    transition-delay: 0ms !important; animation-delay: 0ms !important;
+  }
 }
 
 /* ---------- Layout ---------- */
@@ -164,6 +167,41 @@ a:hover { color: var(--primary-dark); }
 /* Aparición al hacer scroll (la clase la pone un script en Base.astro). */
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity 700ms var(--ease), transform 700ms var(--ease); }
 .reveal.is-visible { opacity: 1; transform: none; }
+
+/* Los ítems de las listas entran uno detrás de otro. El estado oculto sólo existe mientras la
+   sección no se vio, así que si el script no corre, todo queda visible. */
+.stagger {
+  transition: opacity 600ms var(--ease), transform 600ms var(--ease);
+  transition-delay: calc(min(var(--i, 0), 8) * 80ms + 120ms);
+}
+.reveal:not(.is-visible) .stagger { opacity: 0; transform: translateY(14px); }
+
+/* Los números de los pasos aparecen con un pequeño rebote, también en orden. */
+.step-n { transition: transform 500ms cubic-bezier(0.3, 1.5, 0.5, 1), background-color var(--base) var(--ease), color var(--base) var(--ease); }
+.reveal:not(.is-visible) .step-n { transform: scale(0.4); }
+li:hover > .step-n { background: var(--primary); color: var(--white); border-color: var(--primary); }
+
+/* Encabezados de página: el texto entra en cascada al cargar. */
+@keyframes subir { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.entrada > * { animation: subir 700ms var(--ease) both; }
+.entrada > :nth-child(2) { animation-delay: 80ms; }
+.entrada > :nth-child(3) { animation-delay: 160ms; }
+.entrada > :nth-child(4) { animation-delay: 240ms; }
+.entrada > :nth-child(n + 5) { animation-delay: 320ms; }
+
+/* Preguntas frecuentes: se abren deslizando en lugar de saltar (en los navegadores que lo permiten). */
+:root { interpolate-size: allow-keywords; }
+details::details-content {
+  block-size: 0; overflow: clip;
+  transition: block-size 380ms var(--ease), content-visibility 380ms allow-discrete;
+}
+details[open]::details-content { block-size: auto; }
+
+/* Tarjetas: se levantan apenas al pasar el mouse. */
+.grid-3 > * { transition: transform var(--base) var(--ease), box-shadow var(--base) var(--ease); }
+@media (hover: hover) {
+  .grid-3 > *:hover { transform: translateY(-4px); box-shadow: 0 18px 36px -28px rgba(17, 34, 46, 0.45); }
+}
 
 /* ---------- Utilidades ---------- */
 .visually-hidden {

@@ -4,7 +4,7 @@ import Base from '../layouts/Base.astro';
 import PageHeader from '../components/PageHeader.astro';
 import CtaDiagnostico from '../components/CtaDiagnostico.astro';
 import { contacto } from '../data/sitio';
-import rodrigo from '../assets/rodrigo.png';
+import rodrigo from '../assets/rodrigo-retrato.webp';
 
 const url = 'https://www.procesosmejores.com/nosotros';
 
@@ -93,7 +93,7 @@ const jsonLd = [
   <PageHeader
     eyebrow="Nosotros"
     title="Consultoría y docencia, desde 2012."
-    lead="Somos una consultora argentina de sistemas de gestión y capacitación. Trabajamos con los equipos de cada organización para que, cuando terminemos, el sistema siga funcionando sin nosotros."
+    lead="Somos una consultora argentina de sistemas de gestión y capacitación. Trabajamos con los equipos de cada organización para que el conocimiento quede adentro."
     crumbs={[{ label: 'Nosotros' }]}
   />
 
@@ -105,7 +105,7 @@ const jsonLd = [
           src={rodrigo}
           alt="Rodrigo Arizmendi, fundador de Procesos Mejores"
           width={360}
-          widths={[280, 360, 446]}
+          widths={[280, 360, 720]}
           sizes="(max-width: 860px) 280px, 360px"
         />
         <figcaption>
@@ -167,13 +167,9 @@ const jsonLd = [
             Lo que vende es transferencia de conocimiento.
           </p>
           <p>
-            Si el sistema sólo lo entiende el consultor, deja de funcionar el día que el consultor se va:
-            los registros se atrasan, las auditorías internas se postergan y cada visita del organismo certificador
-            se vuelve una urgencia.
-          </p>
-          <p>
-            Por eso medimos nuestro trabajo por lo que tu equipo sabe hacer cuando nos vamos. Y por eso la docencia
-            no es un servicio aparte: enseñar es la forma en que hacemos consultoría.
+            Si el sistema sólo lo entiende el consultor, deja de funcionar el día que se va: los registros se
+            atrasan y cada auditoría se vuelve una urgencia. Por eso la docencia no es un servicio aparte: enseñar
+            es la forma en que hacemos consultoría.
           </p>
         </div>
 
@@ -207,7 +203,6 @@ const jsonLd = [
       <div class="section-head">
         <p class="eyebrow">Política, misión, visión y valores</p>
         <h2>Nuestro nombre explica nuestra misión.</h2>
-        <p>Lo que nos proponemos, hacia dónde vamos y los compromisos que asumimos con clientes, participantes y proveedores.</p>
       </div>
 
       <div class="rows">
@@ -246,6 +241,8 @@ const jsonLd = [
               mejoren sus procesos y crezcan de forma sostenible; con las capacitaciones, a que las personas desarrollen
               competencias profesionales de valor.
             </p>
+            <details class="politica">
+              <summary>Leer la política completa</summary>
             <p>
               Nos comprometemos a cumplir los requisitos aplicables y a mejorar de forma continua nuestro sistema de
               gestión de la calidad, para perdurar aportando a la sociedad y generar relaciones de beneficio mutuo con
@@ -257,6 +254,7 @@ const jsonLd = [
               <li>Mejorar nuestro desempeño de forma continua.</li>
             </ol>
             <p class="signed">Síntesis de la política firmada por Rodrigo Arizmendi, fundador, el 13 de enero de 2023.</p>
+            </details>
           </div>
         </div>
       </div>
@@ -426,4 +424,15 @@ const jsonLd = [
   .rocs-badge dt { font-size: var(--step--1); color: var(--muted); }
   .rocs-badge dd { margin: 0; font-family: var(--font-display); font-weight: 600; color: var(--ink); }
   .rocs-media { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; }
+
+  /* Política completa, desplegable */
+  .politica summary {
+    list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+    font-weight: 700; font-size: 1rem; color: var(--primary);
+  }
+  .politica summary::-webkit-details-marker { display: none; }
+  .politica summary::after { content: '+'; font-weight: 400; font-size: 1.3rem; line-height: 1; transition: transform var(--base) var(--ease); }
+  .politica[open] summary::after { transform: rotate(45deg); }
+  .politica summary:hover { color: var(--primary-dark); }
+  .politica[open] summary { margin-bottom: 16px; }
 </style>

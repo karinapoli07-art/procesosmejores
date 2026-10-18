@@ -1,29 +1,43 @@
 ---
-// Encabezado de páginas internas: etiqueta, título, bajada y acciones opcionales.
+// Encabezado de páginas internas: etiqueta, título, bajada, acciones e imagen opcionales.
+// Si hay `foto`, se muestra la foto; si no, la ilustración dibujada.
+import { Image } from 'astro:assets';
+import Ilustracion from './Ilustracion.astro';
+
 interface Props {
   eyebrow?: string;
   title: string;
   lead?: string;
   crumbs?: { label: string; href?: string }[];
+  ilustracion?: 'iso' | 'alimentaria' | 'lean' | 'vciso' | 'cursos' | 'contacto';
+  foto?: ImageMetadata;
+  fotoAlt?: string;
 }
-const { eyebrow, title, lead, crumbs = [] } = Astro.props;
+const { eyebrow, title, lead, crumbs = [], ilustracion, foto, fotoAlt = '' } = Astro.props;
 ---
 <section class="page-header">
-  <div class="wrap">
-    {crumbs.length > 0 && (
-      <nav class="crumbs" aria-label="Ubicación">
-        <ol>
-          <li><a href="/">Inicio</a></li>
-          {crumbs.map((c) => (
-            <li>{c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>
-          ))}
-        </ol>
-      </nav>
-    )}
-    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-    <h1>{title}</h1>
-    {lead && <p class="lead">{lead}</p>}
-    {Astro.slots.has('default') && <div class="actions"><slot /></div>}
+  <div class:list={['wrap', { 'con-ilus': ilustracion && !foto, 'con-foto': foto }]}>
+    <div class="entrada">
+      {crumbs.length > 0 && (
+        <nav class="crumbs" aria-label="Ubicación">
+          <ol>
+            <li><a href="/">Inicio</a></li>
+            {crumbs.map((c) => (
+              <li>{c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>
+            ))}
+          </ol>
+        </nav>
+      )}
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1>{title}</h1>
+      {lead && <p class="lead">{lead}</p>}
+      {Astro.slots.has('default') && <div class="actions"><slot /></div>}
+    </div>
+    {foto ? (
+      <figure class="foto">
+        <Image src={foto} alt={fotoAlt} widths={[480, 720, 1024]} sizes="(max-width: 860px) 100vw, 500px" loading="eager" />
+      </figure>
+    ) : ilustracion && <Ilustracion tema={ilustracion} />}
   </div>
 </section>
 
@@ -32,6 +46,27 @@ const { eyebrow, title, lead, crumbs = [] } = Astro.props;
     background: var(--soft);
     border-bottom: 1px solid var(--line);
     padding-block: clamp(48px, 6vw, 80px) clamp(44px, 5vw, 64px);
+    overflow: hidden;
+  }
+  .con-ilus { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: 24px 56px; align-items: center; }
+  @media (max-width: 860px) {
+    .con-ilus { grid-template-columns: 1fr; }
+    .con-ilus :global(.ilus) { max-width: 260px; justify-self: center; margin-top: 8px; }
+  }
+  @media (max-width: 520px) { .con-ilus :global(.ilus) { max-width: 200px; } }
+
+  .con-foto { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 32px 56px; align-items: center; }
+  @media (max-width: 860px) { .con-foto { grid-template-columns: 1fr; } }
+  @keyframes aparecer { from { opacity: 0; transform: scale(0.97); } to { opacity: 1; transform: none; } }
+  .foto { margin: 0; width: 100%; max-width: 520px; justify-self: end; }
+  .foto img {
+    width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover;
+    border-radius: 14px; border: 1px solid var(--line);
+    animation: aparecer 900ms var(--ease) 150ms both;
+  }
+  @media (max-width: 860px) {
+    .foto { max-width: none; justify-self: stretch; }
+    .foto img { aspect-ratio: 16 / 9; }
   }
   h1 { font-size: var(--step-4); max-width: 18ch; }
   .lead { font-size: var(--step-1); color: var(--muted); line-height: 1.55; max-width: 60ch; margin: 20px 0 0; }
