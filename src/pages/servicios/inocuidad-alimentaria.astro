@@ -404,6 +404,11 @@ const jsonLd = [
   .tabs:not([hidden]) ~ .normas .norma:not([hidden]) { animation: subir 450ms var(--ease) both; }
   .tabs:not([hidden]) ~ .normas .norma-tipo { display: none; }
   .norma[hidden] { display: none; }
+  @media (max-width: 560px) {
+    .tabs { gap: 6px; }
+    .tabs button { flex: 1 1 0; padding: 12px 8px; font-size: 0.95rem; text-align: center; }
+    .tabs button span { display: none; }
+  }
 
   /* ---------- Para quién ---------- */
   .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 40px 80px; align-items: start; }
