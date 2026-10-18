@@ -167,7 +167,16 @@ const jsonLd = [
       <div class="section-head">
         <p class="eyebrow">Normas alimentarias</p>
         <h2 id="normas-titulo">BPM, ISO 22000 y FSSC 22000: qué es cada una.</h2>
-        <p>Se nombran juntas, pero no son lo mismo. Una es un requisito base, otra es un sistema de gestión y la tercera es un esquema de certificación.</p>
+        <p>Se nombran juntas, pero no son lo mismo: un requisito base, un sistema de gestión y un esquema de certificación.</p>
+      </div>
+
+      <!-- Pestañas: el script de abajo las muestra. Sin JavaScript se ven las tres normas una abajo de la otra. -->
+      <div class="tabs" role="tablist" aria-label="Normas alimentarias" hidden>
+        {normas.map((n, i) => (
+          <button type="button" role="tab" id={`tab-${n.id}`} aria-controls={n.id} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+            <span>{n.tipo}</span>{n.sigla}
+          </button>
+        ))}
       </div>
 
       <ul class="normas">
@@ -340,7 +349,62 @@ const jsonLd = [
   />
 </Base>
 
+<script>
+  // Pestañas de las tres normas. Se activan sólo con JavaScript; las flechas del teclado
+  // también cambian de pestaña, y un enlace a #bpm, #iso-22000 o #fssc-22000 abre la que corresponde.
+  const lista = document.querySelector<HTMLElement>('.tabs');
+  if (lista) {
+    const tabs = Array.from(lista.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const paneles = tabs.map((t) => document.getElementById(t.getAttribute('aria-controls')!)!);
+    lista.hidden = false;
+    paneles[0].parentElement!.setAttribute('role', 'presentation');
+    paneles.forEach((p, i) => {
+      p.setAttribute('role', 'tabpanel');
+      p.setAttribute('aria-labelledby', tabs[i].id);
+      p.tabIndex = 0;
+    });
+    const mostrar = (i: number, foco = false) => {
+      tabs.forEach((t, j) => {
+        t.setAttribute('aria-selected', String(i === j));
+        t.tabIndex = i === j ? 0 : -1;
+        paneles[j].hidden = i !== j;
+      });
+      if (foco) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => mostrar(i));
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') mostrar((i + 1) % tabs.length, true);
+        if (e.key === 'ArrowLeft') mostrar((i - 1 + tabs.length) % tabs.length, true);
+      });
+    });
+    const desdeEnlace = paneles.findIndex((p) => `#${p.id}` === location.hash);
+    mostrar(desdeEnlace >= 0 ? desdeEnlace : 0);
+  }
+</script>
+
 <style>
+  /* ---------- Pestañas de normas ---------- */
+  .tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+  .tabs[hidden] { display: none; }
+  .tabs button {
+    flex: 1 1 200px; display: grid; gap: 4px; text-align: left; cursor: pointer;
+    padding: 16px 20px; font: inherit; font-size: var(--step-1); font-weight: 700; line-height: 1.2;
+    color: var(--ink); background: var(--white);
+    border: 1px solid var(--line-strong); border-radius: var(--radius);
+    transition: background-color var(--base) var(--ease), border-color var(--base) var(--ease), color var(--base) var(--ease);
+  }
+  .tabs button span {
+    font-size: var(--step--2); letter-spacing: 0.085em; text-transform: uppercase; color: var(--muted);
+    transition: color var(--base) var(--ease);
+  }
+  .tabs button:hover { border-color: var(--primary); }
+  .tabs button[aria-selected='true'] { background: var(--primary); border-color: var(--primary); color: var(--white); }
+  .tabs button[aria-selected='true'] span { color: rgba(255, 255, 255, 0.82); }
+  .tabs:not([hidden]) ~ .normas .norma:not([hidden]) { animation: subir 450ms var(--ease) both; }
+  .tabs:not([hidden]) ~ .normas .norma-tipo { display: none; }
+  .norma[hidden] { display: none; }
+
   /* ---------- Para quién ---------- */
   .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 40px 80px; align-items: start; }
   @media (max-width: 920px) { .split { grid-template-columns: 1fr; } }
