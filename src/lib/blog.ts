@@ -45,6 +45,14 @@ const archivos = import.meta.glob<{
   getHeadings: () => Encabezado[];
 }>('../content/blog/*.md', { eager: true });
 
+// Notas en inglés: src/content/blog-en/*.md, con los mismos campos. El nombre del archivo es el
+// slug en inglés; la equivalencia con la nota en castellano está en `rutas` (src/i18n.ts).
+const archivosEn = import.meta.glob<{
+  frontmatter: Record<string, any>;
+  Content: any;
+  getHeadings: () => Encabezado[];
+}>('../content/blog-en/*.md', { eager: true });
+
 function lista(valor: unknown): string[] {
   return Array.isArray(valor) ? valor.map((v) => String(v).trim()).filter(Boolean) : [];
 }
@@ -57,15 +65,15 @@ function normalizarFecha(valor: unknown): string {
 }
 
 /** "12 de febrero de 2024". Devuelve cadena vacía si no hay fecha. */
-export function fechaNota(fecha: string): string {
+export function fechaNota(fecha: string, lang: 'es' | 'en' = 'es'): string {
   if (!fecha) return '';
-  return new Date(`${fecha}T12:00:00-03:00`).toLocaleDateString('es-AR', {
+  return new Date(`${fecha}T12:00:00-03:00`).toLocaleDateString(lang === 'en' ? 'en-US' : 'es-AR', {
     day: 'numeric', month: 'long', year: 'numeric', timeZone: 'America/Argentina/Buenos_Aires',
   });
 }
 
-export function obtenerNotas(): Nota[] {
-  return Object.entries(archivos)
+export function obtenerNotas(lang: 'es' | 'en' = 'es'): Nota[] {
+  return Object.entries(lang === 'en' ? archivosEn : archivos)
     .map(([ruta, mod]) => {
       const fm = mod.frontmatter;
       const slug = ruta.split('/').pop()!.replace(/\.md$/, '');

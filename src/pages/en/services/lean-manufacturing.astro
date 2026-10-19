@@ -1,0 +1,301 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../../layouts/Base.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import fotoLean from '../../../assets/fotos/lean.webp';
+import CursoCard from '../../../components/CursoCard.astro';
+import CtaDiagnostico from '../../../components/CtaDiagnostico.astro';
+import { obtenerCursos } from '../../../lib/cursos';
+import rodrigo from '../../../assets/rodrigo-retrato.webp';
+
+const SITIO = 'https://www.procesosmejores.com';
+const URL_PAGINA = `${SITIO}/en/services/lean-manufacturing`;
+const contactoLean = '/en/contact?servicio=lean#formulario';
+
+const titulo = 'Lean Manufacturing (TPS) consulting | Procesos Mejores';
+const descripcion =
+  'Lean Manufacturing from the Toyota Production System: value stream mapping, 5S, standardized work, kaizen and visual management, with your team.';
+
+const curso5s = obtenerCursos('en').find((c) => c.slug === '5s-profesional');
+
+// The seven wastes (muda) of TPS, one line each.
+const desperdicios = [
+  { nombre: 'Overproduction', texto: 'Producing more, or sooner, than needed.' },
+  { nombre: 'Waiting', texto: 'People or machines standing idle.' },
+  { nombre: 'Transportation', texto: 'Moving things around without adding anything.' },
+  { nombre: 'Overprocessing', texto: 'Steps the customer does not value.' },
+  { nombre: 'Inventory', texto: 'Excess stock that hides problems.' },
+  { nombre: 'Motion', texto: 'Searching, extra walking, bending down.' },
+  { nombre: 'Defects', texto: 'Doing the same thing twice.' },
+];
+
+// What we do. No quantitative results: the scope is defined in the assessment.
+const servicios = [
+  {
+    nombre: 'Value stream mapping',
+    etiquetas: ['VSM', 'Gemba'],
+    texto: 'We walk the process with your team and map where things wait, pile up or get reworked. The plan comes from there.',
+  },
+  {
+    nombre: '5S',
+    etiquetas: ['Sort', 'Set in order', 'Shine', 'Standardize', 'Sustain'],
+    texto: 'An orderly workstation makes problems visible. What matters is that the order lasts.',
+  },
+  {
+    nombre: 'Standardized work',
+    etiquetas: ['Takt time', 'Sequence'],
+    texto: 'The best known way to do each task, defined with the people who do it.',
+  },
+  {
+    nombre: 'Kaizen and problem solving',
+    etiquetas: ['PDCA', 'A3', '5 whys'],
+    texto: 'Tackling problems with method: go and see, find the root cause and test solutions.',
+  },
+  {
+    nombre: 'Visual management',
+    etiquetas: ['Boards', 'Andon'],
+    texto: 'Indicators in plain sight to know, at a glance, whether the process is on track.',
+  },
+];
+
+const preguntas = [
+  {
+    q: 'Does Lean work outside the automotive industry?',
+    a: 'Yes. It was born at Toyota, but it applies in food, metalworking and chemical plants, in warehouses and in logistics.',
+  },
+  {
+    q: 'What about office work?',
+    a: 'That too: paperwork waiting for a signature, data entered twice, errors that come back as complaints. 5S and flow mapping apply the same way.',
+  },
+  {
+    q: 'Where do you start?',
+    a: 'By looking at the real process and choosing a pilot area. Often the first step is 5S. There is no need to buy software or equipment.',
+  },
+  {
+    q: 'Do I need ISO 9001?',
+    a: 'No. They can be started separately, and what you organize with Lean is a good foundation for a management system.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Lean Manufacturing consulting',
+    serviceType: 'Lean Manufacturing and Toyota Production System consulting',
+    description: descripcion,
+    url: URL_PAGINA,
+    areaServed: 'AR',
+    availableLanguage: ['es', 'en'],
+    provider: {
+      '@type': 'ProfessionalService',
+      name: 'Procesos Mejores',
+      url: `${SITIO}/`,
+    },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Lean Manufacturing',
+      itemListElement: servicios.map((s) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: s.nombre },
+      })),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITIO}/en/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${SITIO}/en/#servicios` },
+      { '@type': 'ListItem', position: 3, name: 'Lean Manufacturing', item: URL_PAGINA },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: preguntas.map((p) => ({
+      '@type': 'Question',
+      name: p.q,
+      acceptedAnswer: { '@type': 'Answer', text: p.a },
+    })),
+  },
+];
+---
+<Base title={titulo} description={descripcion} jsonLd={jsonLd}>
+  <PageHeader
+    eyebrow="Process improvement"
+    ilustracion="lean"
+    foto={fotoLean}
+    fotoAlt="An orderly plant with a visual management board and two people talking in front of it"
+    title="Lean Manufacturing"
+    lead="The Toyota Production System applied to your operation, built with the people who do the work every day."
+    crumbs={[{ label: 'Services', href: '/en/#servicios' }, { label: 'Lean Manufacturing' }]}
+  >
+    <a class="btn btn--primary" href={contactoLean}>Request an initial assessment</a>
+    <a class="btn btn--ghost btn--onsoft" href="/en/courses#5s-profesional">5S Professional course</a>
+  </PageHeader>
+
+  <!-- ============ QUÉ ES LEAN ============ -->
+  <section class="section" aria-labelledby="que-es">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">What Lean is</p>
+        <h2 id="que-es">Removing everything that adds no value from the process.</h2>
+        <p>Lean is the name the West gave to the Toyota Production System. It targets seven wastes:</p>
+      </div>
+      <ol class="mudas">
+        {desperdicios.map((d) => (
+          <li>
+            <h3>{d.nombre}</h3>
+            <p>{d.texto}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ QUÉ HACEMOS ============ -->
+  <section class="section section--soft" aria-labelledby="que-hacemos">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">What we do</p>
+        <h2 id="que-hacemos">Lean tools, in your process and with your team.</h2>
+        <p>You do not need to do it all at once: the assessment defines where to start.</p>
+      </div>
+
+      <ul class="offer">
+        {servicios.map((s) => (
+          <li class="offer-item">
+            <h3>{s.nombre}</h3>
+            <p>{s.texto}</p>
+            <ul class="chips">{s.etiquetas.map((e) => <li class="chip">{e}</li>)}</ul>
+          </li>
+        ))}
+      </ul>
+      <!-- A CONFIRMAR: modalidad (presencial en planta / mixta) y zona de cobertura para este servicio. -->
+    </div>
+  </section>
+
+  <!-- ============ DIFERENCIAL: TOYOTA ============ -->
+  <section class="section toyota" aria-labelledby="por-que">
+    <div class="wrap toyota-grid">
+      <div class="toyota-photo">
+        <Image src={rodrigo} alt="Rodrigo Arizmendi, founder of Procesos Mejores" width={160} widths={[120, 160, 320]} sizes="(max-width: 640px) 120px, 160px" />
+      </div>
+      <div class="toyota-copy">
+        <p class="eyebrow">Why us</p>
+        <h2 id="por-que">Continuous improvement, seen from inside Toyota.</h2>
+        <p>
+          For us, Lean is not a set of loose tools. It is a way of working that starts where the work
+          is done and is sustained by the people who do it.
+        </p>
+        <a class="link-arrow" href="/en/about">Read our story</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CURSO RELACIONADO ============ -->
+  <section class="section section--soft" aria-labelledby="curso">
+    <div class="wrap course">
+      <div class="course-copy">
+        <p class="eyebrow">Training</p>
+        <h2 id="curso">5S Professional, as a live course.</h2>
+        <p>On Google Meet, taught in Spanish. For a whole team, we tailor it.</p>
+        <a class="link-arrow" href="/en/courses">See all courses</a>
+      </div>
+      {curso5s && (
+        <div class="course-card">
+          <CursoCard curso={curso5s} />
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- ============ PREGUNTAS FRECUENTES ============ -->
+  <section class="section" aria-labelledby="faq">
+    <div class="wrap faq">
+      <div class="section-head">
+        <p class="eyebrow">Frequently asked questions</p>
+        <h2 id="faq">What people usually ask us.</h2>
+      </div>
+      <div class="faq-list">
+        {preguntas.map((p) => (
+          <details>
+            <summary><h3>{p.q}</h3></summary>
+            <p>{p.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaDiagnostico
+    servicio="lean"
+    title="Where to start? By walking through your process."
+    text="We look at how work flows today and suggest where to begin."
+  />
+</Base>
+
+<style>
+  .btn--onsoft { background: var(--white); }
+
+  /* ---------- The seven wastes ---------- */
+  .mudas {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px;
+  }
+  .mudas li {
+    padding: 20px; border: 1px solid var(--line-strong); border-radius: var(--radius); background: var(--white);
+    transition: border-color var(--base) var(--ease), transform var(--base) var(--ease);
+  }
+  @media (hover: hover) { .mudas li:hover { border-color: var(--primary); transform: translateY(-3px); } }
+  .mudas h3 { font-size: 1.1rem; margin-bottom: 4px; }
+  .mudas p { margin: 0; color: var(--muted); font-size: 0.95rem; line-height: 1.45; }
+
+  /* ---------- Qué hacemos ---------- */
+  .offer {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 12px;
+  }
+  .offer-item {
+    display: grid; align-content: start; gap: 10px;
+    padding: 24px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+  }
+  .offer-item h3 { font-size: var(--step-1); }
+  .offer-item > p { margin: 0; color: var(--muted); }
+
+  /* ---------- Toyota ---------- */
+  .toyota-grid { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 32px 56px; align-items: center; }
+  @media (max-width: 640px) { .toyota-grid { grid-template-columns: 1fr; } }
+  .toyota-copy { max-width: 720px; }
+  .toyota-photo img { width: 100%; max-width: 160px; border-radius: var(--radius); border: 1px solid var(--line); background: var(--white); }
+  @media (max-width: 640px) { .toyota-photo img { max-width: 120px; } }
+  .toyota-copy h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .toyota-copy > p { max-width: 60ch; }
+
+  /* ---------- Curso ---------- */
+  .course { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 40px 72px; align-items: center; }
+  @media (max-width: 860px) { .course { grid-template-columns: 1fr; } }
+  .course-copy h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .course-copy p { max-width: 56ch; }
+  .course-card { max-width: 440px; width: 100%; }
+
+  /* ---------- Preguntas frecuentes ---------- */
+  .faq-list { border-top: 1px solid var(--line); max-width: 820px; }
+  details { border-bottom: 1px solid var(--line); }
+  summary {
+    display: flex; justify-content: space-between; align-items: center; gap: 24px;
+    padding-block: 22px; cursor: pointer; list-style: none;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary h3 { font-size: 1.1rem; font-weight: 600; }
+  summary::after {
+    content: '+'; flex: none; width: 28px; height: 28px; display: grid; place-items: center;
+    border: 1px solid var(--line-strong); border-radius: 50%;
+    font-family: var(--font-display); font-size: 1.1rem; line-height: 1; color: var(--primary);
+    transition: transform .15s ease;
+  }
+  details[open] summary::after { transform: rotate(45deg); }
+  summary:hover h3 { color: var(--primary); }
+  details p { margin: 0 0 24px; color: var(--text); max-width: 68ch; }
+</style>

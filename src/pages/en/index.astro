@@ -1,0 +1,420 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import CursoCard from '../../components/CursoCard.astro';
+import TestimonioCard from '../../components/TestimonioCard.astro';
+import CtaDiagnostico from '../../components/CtaDiagnostico.astro';
+import { servicios, pasos, testimonios, empresasParticipantes, contacto } from '../../data/sitio-en';
+import { obtenerCursos, proximoCurso, fechaLarga } from '../../lib/cursos';
+import { obtenerNotas } from '../../lib/blog';
+import rodrigo from '../../assets/rodrigo-retrato.webp';
+import rodrigoClase from '../../assets/rodrigo-clase.jpg';
+import fotoEquipo from '../../assets/fotos/inicio.webp';
+
+const cursos = obtenerCursos('en').slice(0, 3);
+const proximo = proximoCurso('en');
+const destacados = testimonios.filter((t) => t.destacado);
+const notas = obtenerNotas('en').slice(0, 2);
+
+// Line icons for each service (24×24, trazo del color del texto).
+const trazo = (d: string) =>
+  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+const iconos: Record<string, string> = {
+  iso: trazo('<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1"/><path d="m9 13 2 2 4-4"/>'),
+  alimentaria: trazo('<path d="M5 20c0-9 5.5-14 15-15 0 9.5-5.5 15-15 15Z"/><path d="M5 20c3-4.5 6.5-7.5 11-10"/>'),
+  lean: trazo('<path d="M4 12a8 8 0 0 1 13.7-5.6"/><path d="M18 3v4h-4"/><path d="M20 12a8 8 0 0 1-13.7 5.6"/><path d="M6 21v-4h4"/>'),
+  vciso: trazo('<path d="M12 3 5 6v6c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6Z"/><rect x="9.5" y="11" width="5" height="4" rx="1"/><path d="M10.5 11V9.5a1.5 1.5 0 0 1 3 0V11"/>'),
+  formacion: trazo('<path d="m2 9 10-5 10 5-10 5Z"/><path d="M6 11v5c3 2 9 2 12 0v-5"/><path d="M22 9v6"/>'),
+};
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    name: 'Procesos Mejores',
+    url: 'https://www.procesosmejores.com/',
+    logo: 'https://www.procesosmejores.com/logo.png',
+    email: contacto.email,
+    telephone: '+54 11 3404-0401',
+    foundingDate: '2012',
+    founder: { '@type': 'Person', name: 'Rodrigo Arizmendi', sameAs: contacto.linkedin },
+    areaServed: 'AR',
+    address: { '@type': 'PostalAddress', addressLocality: 'Buenos Aires', addressCountry: 'AR' },
+    knowsAbout: ['ISO 9001', 'ISO 14001', 'ISO 45001', 'ISO/IEC 27001', 'ISO 22000', 'FSSC 22000', 'Lean Manufacturing'],
+    sameAs: [contacto.linkedin],
+  },
+];
+---
+<Base
+  title="ISO consulting and internal auditor courses | Procesos Mejores"
+  description="ISO standards, food safety, Lean Manufacturing and vCISO. Live internal auditor courses. An Argentine consulting firm, since 2012."
+  jsonLd={jsonLd}
+>
+  <!-- ============ PORTADA ============ -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy entrada">
+        <p class="eyebrow">Management systems consulting and training</p>
+        <h1>Management systems your team <span>knows how to sustain.</span></h1>
+        <p class="lead">
+          ISO standards, food safety, Lean Manufacturing and information security.
+          We work with your team so the knowledge stays inside your organization.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn--primary" href="/en/contact#formulario">Request an initial assessment</a>
+          <a class="btn btn--ghost btn--wa" href={contacto.whatsapp} target="_blank" rel="noopener">
+            <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3.2A12.7 12.7 0 0 0 5.1 22.4L3.3 28.8l6.6-1.7A12.8 12.8 0 1 0 16 3.2Zm0 23.3a10.6 10.6 0 0 1-5.4-1.5l-.4-.2-3.9 1 1-3.8-.2-.4A10.6 10.6 0 1 1 16 26.5Zm5.8-7.9c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-1 1.2-.4.2-.7.1a8.7 8.7 0 0 1-4.3-3.8c-.3-.6.3-.5.9-1.7a.6.6 0 0 0 0-.5l-1-2.4c-.3-.6-.5-.5-.7-.5h-.6a1.2 1.2 0 0 0-.9.4 3.7 3.7 0 0 0-1.1 2.7 6.4 6.4 0 0 0 1.3 3.4 14.6 14.6 0 0 0 5.6 5c2.1.9 2.9 1 4 .8a3.4 3.4 0 0 0 2.2-1.6 2.8 2.8 0 0 0 .2-1.6c-.1-.1-.3-.2-.6-.4Z" /></svg>
+            Message us on WhatsApp
+          </a>
+        </div>
+      </div>
+
+      {proximo && (
+        <aside class="next" data-inicio={proximo.inicio} aria-label="Next course">
+          <p class="next-label">Next course</p>
+          <div data-estado="abierto">
+            <h2>{proximo.titulo}</h2>
+            <dl>
+              <div><dt>Starts</dt><dd>{fechaLarga(proximo.inicio, 'en')}</dd></div>
+              <div><dt>Length</dt><dd>{proximo.horas} hours, live (in Spanish)</dd></div>
+              {proximo.precio && <div><dt>Price</dt><dd>{proximo.precio} {proximo.precioNota}</dd></div>}
+            </dl>
+            <p class="cuenta dato" data-cuenta hidden></p>
+            <div class="next-actions">
+              {proximo.inscripcion && <a class="btn btn--primary btn--small" href={proximo.inscripcion} target="_blank" rel="noopener">Enroll</a>}
+              <a class="link-arrow" href="/en/courses">See courses</a>
+            </div>
+          </div>
+          <div data-estado="espera" hidden>
+            <h2>New editions in preparation</h2>
+            <p>Check the calendar and join the waiting list for the course you are interested in.</p>
+            <a class="link-arrow" href="/en/courses#calendario">See calendar</a>
+          </div>
+        </aside>
+      )}
+    </div>
+  </section>
+
+  <!-- ============ CREDENCIALES ============ -->
+  <section class="facts" aria-label="About Procesos Mejores">
+    <ul class="wrap facts-list">
+      <li><strong>Since 2012</strong><span>Management systems consulting and training</span></li>
+      <li><strong>Toyota experience</strong><span>The founder worked at Toyota Argentina</span></li>
+      <li><strong>Live courses</strong><span>On Google Meet, in Spanish, with case studies</span></li>
+      <li><strong>Registered in ROCS</strong><span>Registry of Organizations Committed to Sustainability (IRAM)</span></li>
+    </ul>
+  </section>
+
+  <!-- ============ SERVICIOS ============ -->
+  <section class="section" id="servicios">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">What we do</p>
+        <h2>Quality, risk and compliance, end to end.</h2>
+        </div>
+
+      <ul class="services">
+        {servicios.map((s) => (
+          <li class="service" id={s.id}>
+            <div class="service-name">
+              <span class="service-icon" aria-hidden="true" set:html={iconos[s.id]} />
+              <h3><a href={s.href}>{s.nombre}</a></h3>
+              <ul class="chips">{s.normas.map((n) => <li class="chip">{n}</li>)}</ul>
+            </div>
+            <p>{s.resumen}</p>
+            <a class="link-arrow" href={s.href} aria-label={`Learn more about ${s.nombre}`}>Learn more</a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ FORMA DE TRABAJAR ============ -->
+  <section class="section section--soft">
+    <div class="wrap method">
+      <div class="method-intro">
+        <p class="eyebrow">How we work</p>
+        <h2>What we leave behind is not a binder. It is knowledge.</h2>
+        <p>
+          We work with your team, not for your team: the people who will sustain the system take part in the
+          assessment, the design and the audits. So when we are done, it keeps working without us.
+        </p>
+        <a class="btn btn--primary" href="/en/contact#formulario">Start with an assessment</a>
+        <Image class="method-foto" src={fotoEquipo} alt="A team in front of a process board at a plant" widths={[480, 720, 1024]} sizes="(max-width: 920px) 100vw, 520px" />
+      </div>
+      <ol class="steps">
+        {pasos.map((p, i) => (
+          <li>
+            <span class="step-n" aria-hidden="true">{i + 1}</span>
+            <div>
+              <h3>{p.titulo}</h3>
+              <p>{p.texto}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ CURSOS ============ -->
+  <section class="section" id="cursos">
+    <div class="wrap">
+      <div class="section-head section-head--row">
+        <div>
+          <p class="eyebrow">Training</p>
+          <h2>Live internal auditor courses.</h2>
+          <p>On Google Meet, taught in Spanish, with case studies and study materials.</p>
+        </div>
+        <a class="link-arrow" href="/en/courses">See all courses</a>
+      </div>
+      <div class="grid-3">
+        {cursos.map((c) => <CursoCard curso={c} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIOS ============ -->
+  <section class="section section--soft">
+    <div class="wrap">
+      <div class="testi-head">
+        <div class="section-head">
+          <p class="eyebrow">What past participants say</p>
+          <h2>Learning from the instructor and from classmates too.</h2>
+        </div>
+        <figure class="testi-foto">
+          <Image src={rodrigoClase} alt="Rodrigo Arizmendi with a microphone, explaining in front of a group" width={240} widths={[240, 289]} sizes="240px" />
+          <figcaption>Rodrigo Arizmendi, teaching.</figcaption>
+        </figure>
+      </div>
+      <div class="grid-3">
+        {destacados.map((t) => <TestimonioCard {...t} />)}
+      </div>
+      <div class="participants">
+        <p>Participants came from</p>
+        <ul>{empresasParticipantes.map((e) => <li>{e}</li>)}</ul>
+        <a class="link-arrow" href="/en/testimonials">Read all testimonials</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ QUIÉN ESTÁ DETRÁS ============ -->
+  <section class="section" id="nosotros">
+    <div class="wrap about">
+      <div class="about-photo">
+        <Image src={rodrigo} alt="Rodrigo Arizmendi, founder of Procesos Mejores" width={360} widths={[280, 360, 720]} sizes="(max-width: 760px) 280px, 360px" />
+      </div>
+      <div class="about-copy">
+        <p class="eyebrow">Who is behind it</p>
+        <h2>Rodrigo Arizmendi</h2>
+        <p class="role">Founder of Procesos Mejores</p>
+        <p>
+          He is an electronics engineer with a postgraduate degree in Management Engineering. His professional
+          career has developed in industrial and management environments, including his time at Toyota
+          Argentina, where he consolidated his interest in continuous improvement, process optimization and
+          the development of solutions applied especially to small and medium-sized companies.
+        </p>
+        <p>
+          Since 2012 he has led his own consulting firm, through which he supports organizations of different
+          sectors and sizes in the design, development and transformation of their processes. His approach
+          combines a technical and management perspective with a comprehensive understanding of each
+          organization's needs, seeking concrete and sustainable improvements aligned with its objectives.
+        </p>
+        <p>
+          To this experience he adds a strong vocation for training and developing people. Throughout his
+          career he has designed and facilitated learning experiences at institutions such as UTN Delta, the
+          Escuela Técnica Roberto Rocca and the Escuela Técnica Henry Ford, as well as training programs for
+          companies and individuals. His teaching work also includes tailored training proposals, designed to
+          respond to the specific challenges of each organization and context.
+        </p>
+        <div class="about-links">
+          <a class="link-arrow" href="/en/about">Our story</a>
+          <a class="link-arrow" href={contacto.linkedin} target="_blank" rel="noopener">LinkedIn profile</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NOTAS DEL BLOG ============ -->
+  <section class="section notas-sec" id="notas">
+    <div class="wrap">
+      <div class="section-head section-head--row">
+        <div>
+          <p class="eyebrow">Blog</p>
+          <h2>Notes on management systems.</h2>
+        </div>
+        <a class="link-arrow" href="/en/blog">See all posts</a>
+      </div>
+      <ul class="notas">
+        {notas.map((n) => (
+          <li class="nota">
+            <ul class="chips">{n.etiquetas.slice(0, 2).map((e) => <li class="chip">{e}</li>)}</ul>
+            <h3><a href={`/en/blog/${n.slug}`}>{n.titulo}</a></h3>
+            <p>{n.descripcion}</p>
+            <span class="link-arrow" aria-hidden="true">Read post</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <CtaDiagnostico />
+</Base>
+
+<script>
+  // Countdown to the next course, calculated in the browser.
+  const ficha = document.querySelector('.next[data-inicio]');
+  const salida = document.querySelector('[data-cuenta]');
+  const inicio = ficha?.getAttribute('data-inicio');
+  if (ficha && salida && inicio) {
+    const hoy = new Date();
+    const arranque = new Date(inicio + 'T09:00:00-03:00');
+    const dias = Math.ceil((arranque.getTime() - hoy.getTime()) / 86400000);
+    if (dias > 1) { salida.textContent = `${dias} days until the first session`; salida.hidden = false; }
+    else if (dias === 1) { salida.textContent = 'Starts tomorrow'; salida.hidden = false; }
+    else if (dias === 0) { salida.textContent = 'Starts today'; salida.hidden = false; }
+  }
+</script>
+
+<style>
+  /* ---------- Portada ---------- */
+  .hero {
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    padding-block: clamp(56px, 8vw, 112px);
+  }
+  .hero-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 48px 64px; align-items: center; }
+  @media (max-width: 920px) { .hero-grid { grid-template-columns: 1fr; } }
+  h1 { font-size: var(--step-4); max-width: 17ch; letter-spacing: -0.03em; }
+  h1 span { display: block; }
+  .lead { font-size: var(--step-1); line-height: 1.55; color: var(--muted); max-width: 54ch; margin: 24px 0 0; }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
+  .hero-actions .btn--ghost { background: #fff; }
+  .btn--wa svg { fill: var(--wa); }
+
+  .next {
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 28px; position: relative;
+  }
+  .next [hidden] { display: none; }
+  .next-label { font-family: var(--font-display); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin: 0 0 12px; }
+  .next h2 { font-size: var(--step-2); }
+  .next h2 a { color: var(--ink); text-decoration: none; }
+  .next h2 a:hover { color: var(--primary); }
+  .next dl { margin: 20px 0 0; display: grid; gap: 10px; }
+  .next dl div { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 12px; font-size: 0.97rem; }
+  .next dt { color: var(--muted); }
+  .next dd { margin: 0; color: var(--ink); font-weight: 500; }
+  .next dd::first-letter { text-transform: uppercase; }
+  .cuenta {
+    margin: 16px 0 0; padding-top: 14px; border-top: 1px dashed var(--line);
+    color: var(--primary); font-weight: 700; display: flex; align-items: center; gap: 9px;
+  }
+  .cuenta::before {
+    content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--brand);
+    box-shadow: 0 0 0 0 rgba(56, 182, 255, 0.55);
+    animation: pulso 2.4s var(--ease) infinite;
+  }
+  @keyframes pulso {
+    0%, 70%, 100% { box-shadow: 0 0 0 0 rgba(56, 182, 255, 0.5); }
+    35% { box-shadow: 0 0 0 6px rgba(56, 182, 255, 0); }
+  }
+  @media (prefers-reduced-motion: reduce) { .cuenta::before { animation: none; } }
+  .next-actions { display: flex; align-items: center; gap: 20px; margin-top: 24px; padding-top: 20px; border-top: 1px solid var(--line); }
+  .next p { color: var(--muted); margin: 12px 0 16px; }
+
+  /* ---------- Credenciales ---------- */
+  .facts { border-bottom: 1px solid var(--line); }
+  .facts-list {
+    list-style: none; margin: 0 auto; padding-block: 28px;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px;
+  }
+  @media (max-width: 920px) { .facts-list { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 480px) { .facts-list { grid-template-columns: 1fr; } }
+  .facts li { display: grid; gap: 2px; align-content: start; padding-left: 16px; border-left: 2px solid var(--brand); }
+  .facts strong { font-weight: 700; color: var(--ink); font-size: 1.0625rem; }
+  .facts span { font-size: 0.9rem; color: var(--muted); line-height: 1.45; }
+
+  /* ---------- Servicios ---------- */
+  .services { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .service {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) auto; gap: 16px 48px;
+    align-items: start; padding-block: 28px; border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 860px) { .service { grid-template-columns: 1fr; gap: 12px; } }
+  .service h3 { font-size: var(--step-1); margin-bottom: 12px; }
+  .service h3 a { color: var(--ink); text-decoration: none; }
+  .service h3 a:hover { color: var(--primary); }
+  .service p { margin: 0; color: var(--muted); }
+  .service .link-arrow { padding-top: 4px; position: relative; z-index: 1; }
+  .service { position: relative; }
+  .service h3 a::after { content: ''; position: absolute; inset: 0; }
+  .service-icon { display: block; width: 30px; height: 30px; margin-bottom: 14px; color: var(--primary); transition: transform var(--base) var(--ease); }
+  .service-icon :global(svg) { width: 100%; height: 100%; display: block; }
+  .service:hover h3 a { color: var(--primary); }
+  .service:hover .service-icon { transform: translateY(-3px); }
+  .service:hover .link-arrow::after { transform: translateX(4px); }
+
+  /* ---------- Método ---------- */
+  .method { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 48px 80px; align-items: start; }
+  @media (max-width: 920px) { .method { grid-template-columns: 1fr; } }
+  .method-intro h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .method-intro p { color: var(--text); max-width: 52ch; }
+  .method-intro .btn { margin-top: 12px; }
+  .method-intro :global(.method-foto) { display: block; width: 100%; height: auto; margin-top: 36px; border-radius: 14px; border: 1px solid var(--line); }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; }
+  .steps li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 20px; padding-block: 20px; border-bottom: 1px solid var(--line); }
+  .steps li:first-child { padding-top: 0; }
+  .steps li:last-child { border-bottom: 0; }
+  .step-n {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: #fff; border: 1px solid var(--line-strong);
+    font-family: var(--font-display); font-weight: 600; color: var(--primary);
+  }
+  .steps h3 { font-size: 1.1rem; margin-bottom: 4px; }
+  .steps p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  /* ---------- Grillas ---------- */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  @media (max-width: 980px) { .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) { .grid-3 { grid-template-columns: 1fr; } }
+  .section-head--row { max-width: none; display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; }
+  .section-head--row > div { max-width: 660px; }
+
+  .testi-head { display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 24px 56px; align-items: end; margin-bottom: clamp(30px, 4vw, 48px); }
+  .testi-head .section-head { margin-bottom: 0; }
+  @media (max-width: 760px) { .testi-head { grid-template-columns: 1fr; } }
+  .testi-foto { margin: 0; }
+  .testi-foto img { width: 100%; max-width: 240px; border-radius: 12px; border: 1px solid var(--line); }
+  .testi-foto figcaption { margin-top: 8px; font-size: var(--step--2); color: var(--muted); }
+  .notas-sec { border-top: 1px solid var(--line); }
+  .notas { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  @media (max-width: 760px) { .notas { grid-template-columns: 1fr; } }
+  .nota {
+    position: relative; display: grid; gap: 14px; align-content: start; padding: 28px;
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    transition: border-color var(--base) var(--ease);
+  }
+  .nota:hover { border-color: var(--primary); }
+  .nota h3 { font-size: var(--step-1); }
+  .nota h3 a { color: var(--ink); text-decoration: none; }
+  .nota h3 a::after { content: ''; position: absolute; inset: 0; }
+  .nota:hover h3 a { color: var(--primary); }
+  .nota p { margin: 0; color: var(--muted); }
+  .nota:hover .link-arrow::after { transform: translateX(4px); }
+  .participants { margin-top: 36px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 24px; }
+  .participants p { margin: 0; font-size: 0.9rem; color: var(--muted); }
+  .participants ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; }
+  .participants li { font-family: var(--font-display); font-weight: 600; color: var(--ink); }
+  .participants .link-arrow { margin-left: auto; }
+
+  /* ---------- Quién ---------- */
+  .about { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 40px 72px; align-items: start; }
+  @media (max-width: 860px) { .about { grid-template-columns: 1fr; } }
+  .about-photo img { width: 100%; max-width: 360px; border-radius: 14px; background: var(--soft); border: 1px solid var(--line); }
+  @media (max-width: 860px) { .about-photo img { max-width: 280px; } }
+  .about-copy h2 { font-size: var(--step-3); }
+  .role { color: var(--muted); font-size: 0.97rem; margin: 10px 0 24px; }
+  .about-copy p:not(.role):not(.eyebrow) { max-width: 60ch; }
+  .about-links { display: flex; flex-wrap: wrap; gap: 12px 28px; margin-top: 8px; }
+</style>

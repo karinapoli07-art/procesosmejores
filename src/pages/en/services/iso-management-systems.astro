@@ -1,0 +1,274 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import fotoIso from '../../../assets/fotos/iso.webp';
+import CtaDiagnostico from '../../../components/CtaDiagnostico.astro';
+import { servicios, pasos } from '../../../data/sitio-en';
+import { obtenerCursos } from '../../../lib/cursos';
+
+const servicio = servicios.find((s) => s.id === 'iso')!;
+const consultar = '/en/contact?servicio=iso#formulario';
+const sitio = 'https://www.procesosmejores.com';
+const url = `${sitio}${servicio.href}`;
+
+// Related courses (from src/content/cursos).
+const cursos = new Map(obtenerCursos('en').map((c) => [c.slug, c]));
+
+const normas = [
+  { codigo: 'ISO 9001', tema: 'Quality management', que: 'Clear processes to always deliver what the customer asks for. The foundation of many others.', curso: 'iso-9001' },
+  { codigo: 'ISO 14001', tema: 'Environmental management', que: 'Environmental aspects and legal obligations under control. New edition in 2026.', curso: 'iso-14001-2026' },
+  { codigo: 'ISO 45001', tema: 'Occupational health and safety', que: 'Preventing work-related injuries and illnesses. It replaced OHSAS 18001.', curso: 'iso-45001' },
+  { codigo: 'ISO 50001', tema: 'Energy management', que: 'Measuring and improving energy use.', curso: '' },
+  { codigo: 'ISO 21001', tema: 'Educational organizations', que: 'Management systems for schools, institutes and training departments.', curso: '' },
+];
+
+const entregables = [
+  'An assessment with gaps and priorities.',
+  'Tailored processes and documentation, not a template.',
+  'Risks and legal requirements identified.',
+  'Trained internal auditors on your team.',
+  'The system ready for the certification audit.',
+];
+
+const faqs = [
+  {
+    q: 'Do you certify?',
+    a: 'No. An independent body certifies; whoever advises an organization cannot certify it. We get you ready and stand with your team during the audit.',
+  },
+  {
+    q: 'Does it work for a small company?',
+    a: 'Yes. The requirements are the same for any size; what changes is how you meet them. In a small company the system is usually simpler.',
+  },
+  {
+    q: 'We already have ISO 9001. Can we add another standard?',
+    a: 'Yes, and it pays to integrate them: they share a structure, so documentation, audits and management review work for all of them. Certification bodies can offer integrated audits, with lower fees.',
+  },
+  {
+    q: 'What happens after certification?',
+    a: 'The certificate lasts three years, with surveillance audits, usually every year. We can support the upkeep of the system and updates to the standard.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'ISO management systems',
+    serviceType: 'ISO management systems consulting',
+    description:
+      'Implementation, maintenance and auditing of ISO 9001, ISO 14001, ISO 45001, ISO 50001 and ISO 21001 management systems, focused on risk management and compliance.',
+    url,
+    areaServed: 'AR',
+    provider: { '@type': 'ProfessionalService', name: 'Procesos Mejores', url: `${sitio}/` },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'Management system standards',
+      itemListElement: normas.map((n) => ({
+        '@type': 'Offer',
+        itemOffered: { '@type': 'Service', name: `${n.codigo}: ${n.tema.toLowerCase()}`, description: n.que },
+      })),
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${sitio}/en/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${sitio}/en/#servicios` },
+      { '@type': 'ListItem', position: 3, name: servicio.nombre, item: url },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  },
+];
+---
+<Base
+  title="ISO 9001, 14001, 45001 and 50001 consulting | Procesos Mejores"
+  description="Implementation, maintenance and auditing of ISO 9001, 14001, 45001, 50001 and 21001 management systems. Risk management and compliance."
+  jsonLd={jsonLd}
+>
+  <!-- A CONFIRMAR: que el acompañamiento llegue hasta la auditoría de certificación (bajada de la cabecera). -->
+  <PageHeader
+    eyebrow="Consulting"
+    ilustracion="iso"
+    foto={fotoIso}
+    fotoAlt="A team reviewing a process map on a table, next to the plant floor"
+    title="ISO management systems"
+    lead="Quality, environment, occupational health and safety, energy and education. We work alongside your team, from the assessment to the certification audit."
+    crumbs={[{ label: 'Services', href: '/en/#servicios' }, { label: servicio.nombre }]}
+  >
+    <a class="btn btn--primary" href={consultar}>Request an initial assessment</a>
+    <a class="btn btn--ghost btn--white" href="/en/courses">See courses</a>
+  </PageHeader>
+
+  <!-- ============ NORMAS ============ -->
+  <section class="section" id="normas">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Standards</p>
+        <h2>The standards we work with.</h2>
+        <p>On their own or integrated into one system. If you are not sure which one you need, we will work it out in the assessment.</p>
+      </div>
+
+      <ul class="normas">
+        {normas.map((n) => {
+          const curso = n.curso ? cursos.get(n.curso) : undefined;
+          return (
+            <li class="norma">
+              <h3>
+                <span class="norma-codigo">{n.codigo}</span>
+                <span class="norma-tema">{n.tema}</span>
+              </h3>
+              <p>{n.que}</p>
+              <div class="norma-acciones">
+                <a class="link-arrow" href={consultar} aria-label={`Ask about ${n.codigo}`}>Ask about it</a>
+                {curso && <a class="norma-curso" href={`/cursos#${curso.slug}`}>Internal auditor course</a>}
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+
+      <p class="otras">
+        Information security? See <a href="/en/services/vciso">vCISO</a>.
+        Food industry? See <a href="/en/services/food-safety">Food safety</a>.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ QUÉ TE LLEVÁS ============ -->
+  <section class="section section--soft">
+    <div class="wrap split">
+      <div>
+        <p class="eyebrow">What you get</p>
+        <h2>A system your team understands and sustains.</h2>
+        <!-- A CONFIRMAR: si Rodrigo quiere dar un rango orientativo de duración (por ejemplo, para una pyme que parte de cero con una sola norma). Mientras tanto, redacción neutra. -->
+        <p class="nota">Timelines depend on size, scope and starting point. They are agreed in the assessment.</p>
+      </div>
+      <ul class="lista">
+        {entregables.map((e) => <li>{e}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ CÓMO TRABAJAMOS ============ -->
+  <section class="section">
+    <div class="wrap method">
+      <div class="method-intro">
+        <p class="eyebrow">How we work</p>
+        <h2>With your team, not for your team.</h2>
+        <p>The people who will sustain the system take part from the assessment on and train as internal auditors.</p>
+      </div>
+      <ol class="steps">
+        {pasos.map((p, i) => (
+          <li>
+            <span class="step-n" aria-hidden="true">{i + 1}</span>
+            <div>
+              <h3>{p.titulo}</h3>
+              <p>{p.texto}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ PREGUNTAS FRECUENTES ============ -->
+  <section class="section section--soft" id="preguntas">
+    <div class="wrap faq">
+      <div class="faq-head">
+        <p class="eyebrow">Frequently asked questions</p>
+        <h2>Before you start.</h2>
+        <p>Any other question? <a href={consultar}>Tell us about your case</a>.</p>
+      </div>
+      <div class="faq-list">
+        {faqs.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p class="faq-answer">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <CtaDiagnostico servicio="iso" />
+</Base>
+
+<style>
+  .btn--white { background: var(--white); }
+
+  /* ---------- Normas ---------- */
+  .normas { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .norma {
+    display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.5fr) 15rem; gap: 10px 40px;
+    align-items: center; padding-block: 22px; border-bottom: 1px solid var(--line-strong);
+    transition: background-color var(--base) var(--ease);
+  }
+  @media (hover: hover) { .norma:hover { background: var(--paper); } }
+  @media (max-width: 860px) { .norma { grid-template-columns: 1fr; gap: 8px; } }
+  .norma h3 { display: grid; gap: 2px; }
+  .norma-codigo { font-size: var(--step-2); letter-spacing: -0.02em; }
+  .norma-tema { font-size: 0.97rem; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+  .norma > p { margin: 0; }
+  .norma-acciones { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 8px 20px; }
+  @media (max-width: 860px) { .norma-acciones { justify-content: flex-start; } }
+  .norma-curso { font-size: 0.9rem; }
+  .otras { margin: 28px 0 0; color: var(--muted); }
+
+  /* ---------- Qué te llevás ---------- */
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 32px 80px; align-items: start; }
+  @media (max-width: 920px) { .split { grid-template-columns: 1fr; } }
+  .split h2 { font-size: var(--step-3); margin-bottom: 16px; }
+  .nota { color: var(--muted); max-width: 46ch; margin: 0; }
+  .lista { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .lista li { position: relative; padding: 16px 0 16px 28px; border-bottom: 1px solid var(--line); }
+  .lista li::before {
+    content: ''; position: absolute; left: 2px; top: 1.45em; width: 12px; height: 7px;
+    border-left: 2px solid var(--primary); border-bottom: 2px solid var(--primary); transform: rotate(-45deg);
+  }
+
+  /* ---------- Método ---------- */
+  .method { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 48px 80px; align-items: start; }
+  @media (max-width: 920px) { .method { grid-template-columns: 1fr; } }
+  .method-intro h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .method-intro p { max-width: 46ch; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; }
+  .steps li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 20px; padding-block: 20px; border-bottom: 1px solid var(--line); }
+  .steps li:first-child { padding-top: 0; }
+  .steps li:last-child { border-bottom: 0; }
+  .step-n {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--white); border: 1px solid var(--line-strong);
+    font-weight: 600; color: var(--primary);
+  }
+  .steps h3 { font-size: 1.1rem; margin-bottom: 4px; }
+  .steps p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  /* ---------- Preguntas frecuentes ---------- */
+  .faq { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 32px 80px; align-items: start; }
+  @media (max-width: 920px) { .faq { grid-template-columns: 1fr; } }
+  .faq-head h2 { font-size: var(--step-3); margin-bottom: 16px; }
+  .faq-head p:last-child { color: var(--muted); }
+  .faq-list { border-top: 1px solid var(--line-strong); }
+  details { border-bottom: 1px solid var(--line-strong); }
+  summary {
+    list-style: none; cursor: pointer;
+    display: grid; grid-template-columns: minmax(0, 1fr) 20px; gap: 16px; align-items: center;
+    padding-block: 20px;
+    font-weight: 600; font-size: 1.1rem; color: var(--ink); line-height: 1.3;
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; justify-self: end; font-weight: 400; font-size: 1.5rem; line-height: 1; color: var(--primary); }
+  details[open] summary::after { content: '\2212'; }
+  summary:hover { color: var(--primary); }
+  .faq-answer { margin: 0; padding-bottom: 20px; max-width: 64ch; }
+</style>
