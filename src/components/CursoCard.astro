@@ -4,39 +4,53 @@
 // de hoy, así un curso vencido nunca aparece como abierto.
 import type { Curso } from '../lib/cursos';
 import { fechaLarga } from '../lib/cursos';
-import { formularios } from '../data/sitio';
+import { idioma, datos } from '../i18n';
 
 interface Props { curso: Curso; }
 const { curso } = Astro.props;
 const abierto = curso.abierto;
+const lang = idioma(Astro.currentLocale);
+const { formularios } = datos(lang);
+const t = {
+  es: {
+    abierta: 'Inscripción abierta', espera: 'Lista de espera', inicio: 'Inicio', encuentros: 'Encuentros',
+    horario: 'Horario', duracion: 'Duración', horas: 'horas', modalidad: 'Modalidad', precio: 'Precio',
+    inscribirme: 'Inscribirme', aConfirmar: 'Próxima edición a confirmar', avisame: 'Avisame cuando abra',
+  },
+  en: {
+    abierta: 'Enrollment open', espera: 'Waiting list', inicio: 'Starts', encuentros: 'Sessions',
+    horario: 'Schedule', duracion: 'Length', horas: 'hours', modalidad: 'Format', precio: 'Price',
+    inscribirme: 'Enroll', aConfirmar: 'Next edition to be confirmed', avisame: 'Let me know when it opens',
+  },
+}[lang];
 ---
 <article class="curso" id={curso.slug} data-inicio={curso.inicio}>
   <div class="top">
     <p class="area">{curso.area}</p>
-    <span class="badge badge--abierto" data-estado="abierto" hidden={!abierto}>Inscripción abierta</span>
-    <span class="badge badge--espera" data-estado="espera" hidden={abierto}>Lista de espera</span>
+    <span class="badge badge--abierto" data-estado="abierto" hidden={!abierto}>{t.abierta}</span>
+    <span class="badge badge--espera" data-estado="espera" hidden={abierto}>{t.espera}</span>
   </div>
   <h3>{curso.titulo}</h3>
   <p class="desc">{curso.descripcion}</p>
 
   <div class="estado" data-estado="abierto" hidden={!abierto}>
     <dl>
-      {curso.inicio && <div><dt>Inicio</dt><dd>{fechaLarga(curso.inicio)}</dd></div>}
-      {curso.sesiones && <div><dt>Encuentros</dt><dd>{curso.sesiones}</dd></div>}
-      {curso.horario && <div><dt>Horario</dt><dd>{curso.horario}</dd></div>}
-      {curso.horas > 0 && <div><dt>Duración</dt><dd>{curso.horas} horas</dd></div>}
-      {curso.modalidad && <div><dt>Modalidad</dt><dd>{curso.modalidad}</dd></div>}
-      {curso.precio && <div><dt>Precio</dt><dd>{curso.precio} {curso.precioNota}</dd></div>}
+      {curso.inicio && <div><dt>{t.inicio}</dt><dd>{fechaLarga(curso.inicio, lang)}</dd></div>}
+      {curso.sesiones && <div><dt>{t.encuentros}</dt><dd>{curso.sesiones}</dd></div>}
+      {curso.horario && <div><dt>{t.horario}</dt><dd>{curso.horario}</dd></div>}
+      {curso.horas > 0 && <div><dt>{t.duracion}</dt><dd>{curso.horas} {t.horas}</dd></div>}
+      {curso.modalidad && <div><dt>{t.modalidad}</dt><dd>{curso.modalidad}</dd></div>}
+      {curso.precio && <div><dt>{t.precio}</dt><dd>{curso.precio} {curso.precioNota}</dd></div>}
     </dl>
     <div class="acciones">
-      {curso.inscripcion && <a class="btn btn--primary btn--small" href={curso.inscripcion} target="_blank" rel="noopener">Inscribirme</a>}
+      {curso.inscripcion && <a class="btn btn--primary btn--small" href={curso.inscripcion} target="_blank" rel="noopener">{t.inscribirme}</a>}
     </div>
   </div>
 
   <div class="estado" data-estado="espera" hidden={abierto}>
-    <p class="proxima">{curso.proximaEdicion || 'Próxima edición a confirmar'}</p>
+    <p class="proxima">{curso.proximaEdicion || t.aConfirmar}</p>
     <div class="acciones">
-      <a class="btn btn--ghost btn--small" href={formularios.listaDeEspera} target="_blank" rel="noopener">Avisame cuando abra</a>
+      <a class="btn btn--ghost btn--small" href={formularios.listaDeEspera} target="_blank" rel="noopener">{t.avisame}</a>
     </div>
   </div>
 </article>

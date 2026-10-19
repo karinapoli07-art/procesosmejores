@@ -1,19 +1,18 @@
 ---
 // Banda de cierre que invita al diagnóstico inicial.
-// `servicio` preselecciona la opción en el formulario de /contacto.
-import { contacto } from '../data/sitio';
+// `servicio` preselecciona la opción en el formulario de contacto.
+import { idioma, datos, ui, ruta } from '../i18n';
 
 interface Props {
   servicio?: string;
   title?: string;
   text?: string;
 }
-const {
-  servicio = '',
-  title = '¿Por dónde empezar? Por un diagnóstico.',
-  text = 'Relevamos cómo trabajás hoy y qué te piden la norma, tus clientes o la ley. Con eso te decimos qué hace falta, en qué orden y cuánto trabajo lleva.',
-} = Astro.props;
-const href = servicio ? `/contacto?servicio=${encodeURIComponent(servicio)}#formulario` : '/contacto#formulario';
+const lang = idioma(Astro.currentLocale);
+const t = ui[lang];
+const { contacto } = datos(lang);
+const { servicio = '', title = t.ctaTitulo, text = t.ctaTexto } = Astro.props;
+const href = ruta(lang, servicio ? `/contacto?servicio=${encodeURIComponent(servicio)}#formulario` : '/contacto#formulario');
 ---
 <section class="cta">
   <div class="wrap inner">
@@ -22,8 +21,8 @@ const href = servicio ? `/contacto?servicio=${encodeURIComponent(servicio)}#form
       <p>{text}</p>
     </div>
     <div class="actions">
-      <a class="btn btn--primary" href={href}>Solicitar diagnóstico inicial</a>
-      <a class="btn btn--ghost" href={contacto.whatsapp} target="_blank" rel="noopener">Escribir por WhatsApp</a>
+      <a class="btn btn--primary" href={href}>{t.solicitarDiagnosticoInicial}</a>
+      <a class="btn btn--ghost" href={contacto.whatsapp} target="_blank" rel="noopener">{t.escribirWhatsapp}</a>
     </div>
   </div>
 </section>

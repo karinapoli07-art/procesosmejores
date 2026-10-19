@@ -3,6 +3,7 @@
 // Si hay `foto`, se muestra la foto; si no, la ilustración dibujada.
 import { Image } from 'astro:assets';
 import Ilustracion from './Ilustracion.astro';
+import { idioma, ui, ruta } from '../i18n';
 
 interface Props {
   eyebrow?: string;
@@ -14,14 +15,15 @@ interface Props {
   fotoAlt?: string;
 }
 const { eyebrow, title, lead, crumbs = [], ilustracion, foto, fotoAlt = '' } = Astro.props;
+const lang = idioma(Astro.currentLocale);
 ---
 <section class="page-header">
   <div class:list={['wrap', { 'con-ilus': ilustracion && !foto, 'con-foto': foto }]}>
     <div class="entrada">
       {crumbs.length > 0 && (
-        <nav class="crumbs" aria-label="Ubicación">
+        <nav class="crumbs" aria-label={ui[lang].ubicacion}>
           <ol>
-            <li><a href="/">Inicio</a></li>
+            <li><a href={ruta(lang, '/')}>{ui[lang].inicio}</a></li>
             {crumbs.map((c) => (
               <li>{c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}</li>
             ))}

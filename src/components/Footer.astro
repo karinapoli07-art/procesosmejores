@@ -1,26 +1,30 @@
 ---
-import { contacto, servicios } from '../data/sitio';
+import { idioma, datos, ui, ruta } from '../i18n';
+
+const lang = idioma(Astro.currentLocale);
+const t = ui[lang];
+const { contacto, servicios } = datos(lang);
 const anio = new Date().getFullYear();
 ---
 <footer class="site-footer">
   <div class="wrap cols">
     <div class="about">
-      <a class="brand" href="/">
+      <a class="brand" href={ruta(lang, '/')}>
         <img src="/logo.png" alt="" width="32" height="32" loading="lazy" />
         <span>Procesos Mejores</span>
       </a>
-      <p>Consultoría y formación en sistemas de gestión y mejora de procesos. Buenos Aires, Argentina. Desde 2012.</p>
+      <p>{t.pie}</p>
     </div>
 
-    <nav aria-label="Servicios">
-      <h2>Servicios</h2>
+    <nav aria-label={t.servicios}>
+      <h2>{t.servicios}</h2>
       <ul>
         {servicios.map((s) => <li><a href={s.href}>{s.nombre}</a></li>)}
       </ul>
     </nav>
 
     <div>
-      <h2>Contacto</h2>
+      <h2>{t.contacto}</h2>
       <ul>
         <li><a href={`mailto:${contacto.email}`}>{contacto.email}</a></li>
         <li><a href={contacto.telefonoLink}>{contacto.telefono}</a></li>
@@ -32,7 +36,7 @@ const anio = new Date().getFullYear();
 
   <div class="wrap legal">
     <p>© {anio} Procesos Mejores</p>
-    <a href="/privacidad">Política de privacidad</a>
+    <a href={ruta(lang, '/privacidad')}>{t.privacidad}</a>
   </div>
 </footer>
 

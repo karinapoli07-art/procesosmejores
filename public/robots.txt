@@ -3,5 +3,6 @@ Allow: /
 
 # Página de confirmación de envío del formulario: no aporta a la búsqueda.
 Disallow: /gracias
+Disallow: /en/thank-you
 
 Sitemap: https://www.procesosmejores.com/sitemap-index.xml

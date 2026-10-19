@@ -1,23 +1,30 @@
 ---
-import { servicios } from '../data/sitio';
+import { idioma, datos, ui, ruta, rutaEnOtroIdioma } from '../i18n';
+
+const lang = idioma(Astro.currentLocale);
+const t = ui[lang];
+const { servicios } = datos(lang);
+const r = (rutaEs: string) => ruta(lang, rutaEs);
+// La misma página en el otro idioma (o su inicio, si no tiene traducción).
+const otroIdioma = rutaEnOtroIdioma(Astro.url.pathname, lang === 'es' ? 'en' : 'es');
 ---
 <header class="site-header">
   <div class="wrap bar">
-    <a class="brand" href="/" aria-label="Procesos Mejores, inicio">
+    <a class="brand" href={r('/')} aria-label={t.marcaInicio}>
       <img src="/logo.png" alt="" width="34" height="34" />
       <span>Procesos Mejores</span>
     </a>
 
     <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="menu">
-      <span class="visually-hidden">Abrir menú</span>
+      <span class="visually-hidden">{t.abrirMenu}</span>
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
     </button>
 
-    <nav id="menu" class="nav" aria-label="Principal">
+    <nav id="menu" class="nav" aria-label={t.navPrincipal}>
       <ul>
         <li class="has-sub">
           <button class="sub-toggle" type="button" aria-expanded="false" aria-controls="submenu-servicios">
-            Servicios
+            {t.servicios}
             <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" /></svg>
           </button>
           <!-- El contenedor arranca pegado al botón: el relleno de arriba hace
@@ -30,12 +37,16 @@ import { servicios } from '../data/sitio';
             </ul>
           </div>
         </li>
-        <li><a href="/cursos">Cursos</a></li>
-        <li><a href="/nosotros">Nosotros</a></li>
-        <li><a href="/blog">Blog</a></li>
-        <li><a href="/contacto">Contacto</a></li>
+        <li><a href={r('/cursos')}>{t.cursos}</a></li>
+        <li><a href={r('/nosotros')}>{t.nosotros}</a></li>
+        <li><a href={r('/blog')}>{t.blog}</a></li>
+        <li><a href={r('/contacto')}>{t.contacto}</a></li>
       </ul>
-      <a class="btn btn--primary btn--small nav-cta" href="/contacto#formulario">Solicitar diagnóstico</a>
+      <a class="lang-switch" href={otroIdioma} hreflang={t.otroIdiomaLang} lang={t.otroIdiomaLang} title={t.otroIdiomaLargo}>
+        <span class="lang-corto" aria-hidden="true">{t.otroIdioma}</span>
+        <span class="lang-largo">{t.otroIdiomaLargo}</span>
+      </a>
+      <a class="btn btn--primary btn--small nav-cta" href={r('/contacto#formulario')}>{t.solicitarDiagnostico}</a>
     </nav>
   </div>
 </header>
@@ -165,6 +176,21 @@ import { servicios } from '../data/sitio';
   .nav a.nav-cta::after { display: none; }
   .nav a.nav-cta:hover { color: var(--white); background: var(--primary-dark); }
 
+  /* --- Selector de idioma: en escritorio, el código (EN / ES); en celular, la frase entera --- */
+  .lang-switch {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-width: 40px; height: 36px; padding: 0 10px;
+    border: 1px solid var(--line-strong); border-radius: var(--radius);
+    font-size: 0.85rem; font-weight: 700; letter-spacing: 0.06em;
+    color: var(--text); text-decoration: none;
+    transition: border-color var(--fast) var(--ease), color var(--fast) var(--ease);
+  }
+  .lang-switch:hover { border-color: var(--primary); color: var(--primary); }
+  .lang-largo {
+    position: absolute; width: 1px; height: 1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap;
+  }
+
   /* --- Desplegable --- */
   .has-sub { position: relative; }
   .sub {
@@ -226,5 +252,8 @@ import { servicios } from '../data/sitio';
     .sub ul { border: 0; box-shadow: none; padding: 0 0 6px 14px; }
     .sub a { padding: 10px 2px; }
     .nav a.nav-cta { width: 100%; justify-content: center; padding: 13px 15px; }
+    .lang-switch { height: auto; padding: 12px 15px; letter-spacing: 0; font-size: 0.97rem; font-weight: 400; }
+    .lang-corto { display: none; }
+    .lang-largo { position: static; width: auto; height: auto; overflow: visible; clip: auto; }
   }
 </style>
