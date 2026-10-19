@@ -1,0 +1,356 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import fotoInocuidad from '../../../assets/fotos/inocuidad.webp';
+import CtaDiagnostico from '../../../components/CtaDiagnostico.astro';
+import { servicios } from '../../../data/sitio-en';
+
+const servicio = servicios.find((s) => s.id === 'alimentaria')!;
+const contactoHref = '/en/contact?servicio=alimentaria#formulario';
+
+const title = 'GMP, ISO 22000 and FSSC 22000 consulting | Procesos Mejores';
+const description =
+  'We implement GMP, ISO 22000 and FSSC 22000 in the food industry: prerequisite programs, hazard analysis, internal audit and certification readiness.';
+
+const perfiles = [
+  { titulo: 'Processing plants', texto: 'Food and beverage manufacturers.' },
+  { titulo: 'Packers and repackers', texto: 'That repackage third-party products.' },
+  { titulo: 'Warehouses and distribution', texto: 'That store and transport food.' },
+  { titulo: 'Industry suppliers', texto: 'Whose customers require GMP or a certification.' },
+];
+
+const normas = [
+  {
+    id: 'bpm',
+    sigla: 'GMP',
+    nombre: 'Good Manufacturing Practices',
+    tipo: 'The baseline requirement',
+    texto: 'The hygiene and operating conditions set by the Argentine Food Code. They are the floor that health authorities inspect and the first thing your customers look at.',
+    incluye: ['Personal hygiene', 'Cleaning and sanitation', 'Pest control', 'Water', 'Storage'],
+    verifica: 'Health authorities and customer audits.',
+  },
+  {
+    id: 'iso-22000',
+    sigla: 'ISO 22000',
+    nombre: 'Food safety management system',
+    tipo: 'The management system',
+    texto: 'The international standard for managing food safety: prerequisite programs, HACCP and system management. It integrates with ISO 9001 or ISO 14001.',
+    incluye: ['PRPs', 'HACCP', 'Hazard control plan'],
+    verifica: 'An independent certification body.',
+  },
+  {
+    id: 'fssc-22000',
+    sigla: 'FSSC 22000',
+    nombre: 'Certification scheme',
+    tipo: 'International recognition',
+    texto: 'ISO 22000 plus sector and scheme requirements, such as allergens and food fraud. It is recognized by GFSI, which is what many retail chains and big brands ask for.',
+    incluye: ['ISO 22000', 'Sector PRPs', 'GFSI-recognized'],
+    verifica: 'A body licensed by the Foundation FSSC.',
+  },
+];
+
+const etapas = [
+  { titulo: 'On-site survey', texto: 'We see how the plant works and what is missing. You get a report with priorities.' },
+  { titulo: 'Prerequisite programs', texto: 'Cleaning, pests, water, hygiene, maintenance and suppliers.' },
+  { titulo: 'Hazard analysis', texto: 'With your food safety team, along with its controls.' },
+  { titulo: 'Documentation and training', texto: 'Records used on the line, and people who know why.' },
+  { titulo: 'Internal audit and certification', texto: 'We audit before the certification body does and support you during its audit.' },
+];
+
+const pageUrl = new URL('/en/services/food-safety', Astro.site).href;
+const siteUrl = new URL('/en/', Astro.site).href;
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'Food safety consulting: GMP, ISO 22000 and FSSC 22000',
+    serviceType: 'Food safety management systems consulting',
+    description,
+    url: pageUrl,
+    provider: {
+      '@type': 'ProfessionalService',
+      name: 'Procesos Mejores',
+      url: siteUrl,
+    },
+    areaServed: { '@type': 'Country', name: 'Argentina' },
+    audience: {
+      '@type': 'BusinessAudience',
+      audienceType: 'Food and beverage processing plants, packers, warehouses and industry suppliers',
+    },
+    about: servicio.normas.map((n) => ({ '@type': 'Thing', name: n })),
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: new URL('/en/#servicios', Astro.site).href },
+      { '@type': 'ListItem', position: 3, name: servicio.nombre, item: pageUrl },
+    ],
+  },
+];
+---
+<Base title={title} description={description} jsonLd={jsonLd}>
+  <!-- A CONFIRMAR: que el acompañamiento llegue hasta la auditoría de certificación (bajada de la cabecera). -->
+  <PageHeader
+    eyebrow="Food and beverage industry"
+    ilustracion="alimentaria"
+    foto={fotoInocuidad}
+    fotoAlt="A worker in a hairnet and gloves checking jars on a packaging line"
+    title="Food safety: GMP, ISO 22000 and FSSC 22000"
+    lead="We work on site, with your team, from the first survey to the certification audit."
+    crumbs={[{ label: 'Services', href: '/en/#servicios' }, { label: servicio.nombre }]}
+  >
+    <a class="btn btn--primary" href={contactoHref}>Request an initial assessment</a>
+    <a class="btn btn--ghost" href="#normas">See the standards</a>
+  </PageHeader>
+
+  <!-- ============ PARA QUIÉN ES ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Who it is for</p>
+        <h2>For companies whose customers have started asking for more.</h2>
+      </div>
+      <ul class="perfiles">
+        {perfiles.map((p) => (
+          <li>
+            <h3>{p.titulo}</h3>
+            <p>{p.texto}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ LAS NORMAS ============ -->
+  <section class="section section--soft" id="normas" aria-labelledby="normas-titulo">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Food safety standards</p>
+        <h2 id="normas-titulo">They are mentioned together, but they are not the same.</h2>
+      </div>
+
+      <!-- Pestañas: el script de abajo las muestra. Sin JavaScript se ven las tres normas una abajo de la otra. -->
+      <div class="tabs" role="tablist" aria-label="Food safety standards" hidden>
+        {normas.map((n, i) => (
+          <button type="button" role="tab" id={`tab-${n.id}`} aria-controls={n.id} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+            <span>{n.tipo}</span>{n.sigla}
+          </button>
+        ))}
+      </div>
+
+      <ul class="normas">
+        {normas.map((n) => (
+          <li class="norma" id={n.id}>
+            <div>
+              <h3>{n.sigla}</h3>
+              <p class="norma-nombre">{n.nombre}</p>
+            </div>
+            <div class="norma-body">
+              <p>{n.texto}</p>
+              <ul class="chips" aria-label={`What ${n.sigla} includes`}>
+                {n.incluye.map((i) => <li class="chip">{i}</li>)}
+              </ul>
+              <p class="norma-verifica"><strong>Who checks it:</strong> {n.verifica}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+
+      <p class="nota">
+        <strong>You do not need to go through all three.</strong> For some companies GMP is enough; others go
+        straight to FSSC 22000. It depends on what your customers ask for.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ CÓMO TRABAJAMOS ============ -->
+  <section class="section">
+    <div class="wrap method">
+      <div class="method-intro">
+        <p class="eyebrow">How we work</p>
+        <h2>On the plant floor, with the people who produce.</h2>
+        <p>Because they are the ones who sustain the system every day afterwards.</p>
+        <!-- A CONFIRMAR: si Rodrigo tiene experiencia previa en ISO 22000 y FSSC 22000 (el sitio anterior no lo dice). Si la confirma, puede volver «Tenemos experiencia en ISO 22000 y FSSC 22000, y también en ISO 9001, ISO 14001 e ISO 45001.» -->
+        <!-- A CONFIRMAR: si Rodrigo quiere dar rangos de duración orientativos para BPM, ISO 22000 y FSSC 22000. -->
+        <p class="nota-chica">If you already have ISO 9001 or another system, we integrate it. Timelines are agreed in the assessment.</p>
+        <a class="btn btn--primary" href={contactoHref}>Start with an assessment</a>
+      </div>
+      <ol class="steps">
+        {etapas.map((e, i) => (
+          <li>
+            <span class="step-n" aria-hidden="true">{i + 1}</span>
+            <div>
+              <h3>{e.titulo}</h3>
+              <p>{e.texto}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ PREGUNTAS FRECUENTES ============ -->
+  <section class="section section--soft" aria-labelledby="faq-titulo">
+    <div class="wrap faq-grid">
+      <div class="faq-intro">
+        <p class="eyebrow">Frequently asked questions</p>
+        <h2 id="faq-titulo">What people ask us most.</h2>
+        <p>Any other question? <a href={contactoHref}>Write to us</a>.</p>
+      </div>
+
+      <div class="faq">
+        <details>
+          <summary>ISO 22000 or FSSC 22000?</summary>
+          <p class="faq-a">It depends on your customer. If they require a GFSI-recognized certification, it has to be FSSC 22000. If not, ISO 22000 may be enough, and it covers a good part of the way.</p>
+        </details>
+        <details>
+          <summary>Do I need GMP before going for ISO 22000?</summary>
+          <p class="faq-a">Yes: GMP is the foundation ISO 22000 requires, and in Argentina it is also mandated by the Argentine Food Code. If you already have it, we build from there.</p>
+        </details>
+        <details>
+          <summary>Do you certify?</summary>
+          <p class="faq-a">No. Whoever implements the system cannot certify it. An independent body of your choice certifies; we get you ready and support you during the audit.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <CtaDiagnostico
+    servicio="alimentaria"
+    title="Were you asked for GMP or a certification? Let’s start with an assessment."
+    text="We walk through your plant and tell you what is needed and in what order."
+  />
+</Base>
+
+<script>
+  // Tabs for the three standards (JavaScript only). Arrow keys switch tabs, and a link to
+  // #bpm, #iso-22000 or #fssc-22000 opens the matching one.
+  const lista = document.querySelector<HTMLElement>('.tabs');
+  if (lista) {
+    const tabs = Array.from(lista.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
+    const paneles = tabs.map((t) => document.getElementById(t.getAttribute('aria-controls')!)!);
+    lista.hidden = false;
+    paneles[0].parentElement!.setAttribute('role', 'presentation');
+    paneles.forEach((p, i) => {
+      p.setAttribute('role', 'tabpanel');
+      p.setAttribute('aria-labelledby', tabs[i].id);
+      p.tabIndex = 0;
+    });
+    const mostrar = (i: number, foco = false) => {
+      tabs.forEach((t, j) => {
+        t.setAttribute('aria-selected', String(i === j));
+        t.tabIndex = i === j ? 0 : -1;
+        paneles[j].hidden = i !== j;
+      });
+      if (foco) tabs[i].focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => mostrar(i));
+      t.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') mostrar((i + 1) % tabs.length, true);
+        if (e.key === 'ArrowLeft') mostrar((i - 1 + tabs.length) % tabs.length, true);
+      });
+    });
+    const desdeEnlace = paneles.findIndex((p) => `#${p.id}` === location.hash);
+    mostrar(desdeEnlace >= 0 ? desdeEnlace : 0);
+  }
+</script>
+
+<style>
+  /* ---------- Para quién ---------- */
+  .perfiles {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 12px;
+  }
+  .perfiles li {
+    padding: 22px; border: 1px solid var(--line-strong); border-radius: var(--radius);
+    transition: border-color var(--base) var(--ease), transform var(--base) var(--ease);
+  }
+  @media (hover: hover) { .perfiles li:hover { border-color: var(--primary); transform: translateY(-3px); } }
+  .perfiles h3 { font-size: 1.1rem; margin-bottom: 4px; }
+  .perfiles p { margin: 0; color: var(--muted); font-size: 0.95rem; line-height: 1.45; }
+
+  /* ---------- Pestañas de normas ---------- */
+  .tabs { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 8px; }
+  .tabs[hidden] { display: none; }
+  .tabs button {
+    flex: 1 1 200px; display: grid; gap: 4px; text-align: left; cursor: pointer;
+    padding: 16px 20px; font: inherit; font-size: var(--step-1); font-weight: 700; line-height: 1.2;
+    color: var(--ink); background: var(--white);
+    border: 1px solid var(--line-strong); border-radius: var(--radius);
+    transition: background-color var(--base) var(--ease), border-color var(--base) var(--ease), color var(--base) var(--ease);
+  }
+  .tabs button span {
+    font-size: var(--step--2); letter-spacing: 0.085em; text-transform: uppercase; color: var(--muted);
+    transition: color var(--base) var(--ease);
+  }
+  .tabs button:hover { border-color: var(--primary); }
+  .tabs button[aria-selected='true'] { background: var(--primary); border-color: var(--primary); color: var(--white); }
+  .tabs button[aria-selected='true'] span { color: rgba(255, 255, 255, 0.82); }
+  @media (max-width: 560px) {
+    .tabs { gap: 6px; }
+    .tabs button { flex: 1 1 0; padding: 12px 8px; font-size: 0.95rem; text-align: center; }
+    .tabs button span { display: none; }
+  }
+
+  /* ---------- Normas ---------- */
+  .normas { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .norma {
+    display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 2fr); gap: 16px 64px;
+    padding-block: 32px; border-bottom: 1px solid var(--line-strong);
+    scroll-margin-top: 88px;
+  }
+  .norma[hidden] { display: none; }
+  .tabs:not([hidden]) ~ .normas .norma:not([hidden]) { animation: subir 450ms var(--ease) both; }
+  @media (max-width: 860px) { .norma { grid-template-columns: 1fr; gap: 12px; padding-block: 24px; } }
+  .norma h3 { font-size: var(--step-3); }
+  .norma-nombre { margin: 6px 0 0; color: var(--muted); font-size: 0.97rem; }
+  .norma-body p { max-width: 64ch; }
+  .norma-body .chips { margin: 16px 0 0; }
+  .norma-verifica { margin: 16px 0 0; font-size: 0.95rem; color: var(--muted); }
+  .norma-verifica strong { color: var(--ink); }
+  .nota { margin: 24px 0 0; max-width: 72ch; color: var(--muted); }
+  .nota strong { color: var(--ink); }
+
+  /* ---------- Método ---------- */
+  .method { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 48px 80px; align-items: start; }
+  @media (max-width: 920px) { .method { grid-template-columns: 1fr; } }
+  .method-intro h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .method-intro p { max-width: 46ch; }
+  .nota-chica { color: var(--muted); font-size: 0.97rem; }
+  .method-intro .btn { margin-top: 8px; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; }
+  .steps li { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 20px; padding-block: 18px; border-bottom: 1px solid var(--line); }
+  .steps li:first-child { padding-top: 0; }
+  .steps li:last-child { border-bottom: 0; }
+  .step-n {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: #fff; border: 1px solid var(--line-strong);
+    font-weight: 600; color: var(--primary);
+  }
+  .steps h3 { font-size: 1.1rem; margin-bottom: 4px; }
+  .steps p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  /* ---------- Preguntas frecuentes ---------- */
+  .faq-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.8fr); gap: 32px 80px; align-items: start; }
+  @media (max-width: 920px) { .faq-grid { grid-template-columns: 1fr; } }
+  .faq-intro h2 { font-size: var(--step-3); margin-bottom: 16px; }
+  .faq-intro p:not(.eyebrow) { color: var(--muted); }
+  .faq { border-top: 1px solid var(--line-strong); }
+  .faq details { border-bottom: 1px solid var(--line-strong); }
+  .faq summary {
+    list-style: none; cursor: pointer;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: baseline;
+    padding-block: 20px;
+    font-weight: 600; font-size: 1.1rem; color: var(--ink); line-height: 1.3;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; font-weight: 400; font-size: 1.5rem; line-height: 1; color: var(--primary); }
+  .faq details[open] summary::after { content: '−'; }
+  .faq summary:hover { color: var(--primary); }
+  .faq-a { margin: 0; padding-bottom: 20px; max-width: 68ch; }
+</style>

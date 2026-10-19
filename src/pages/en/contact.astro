@@ -1,0 +1,260 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import ContactForm from '../../components/ContactForm.astro';
+import { contacto, formularios } from '../../data/sitio-en';
+
+const sitio = 'https://www.procesosmejores.com/';
+const url = 'https://www.procesosmejores.com/en/contact';
+
+// Visible LinkedIn profile text, without protocol or trailing slash.
+const linkedinTexto = contacto.linkedin.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '');
+
+// A CONFIRMAR: Rodrigo has not validated these three steps yet.
+const despues = [
+  {
+    titulo: 'We read your message',
+    texto: 'We go over what you told us and, if anything is missing, we ask you for it.',
+  },
+  {
+    titulo: 'We arrange a first conversation',
+    texto: 'We get in touch to understand your situation: what you need, the scope and the timeline.',
+  },
+  {
+    titulo: 'If it makes sense, an initial assessment',
+    texto: 'We look at how you work today and what the standard, your customers or the law require. With that, we put together a work proposal.',
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ContactPage',
+    name: 'Contact | Procesos Mejores',
+    url,
+    inLanguage: 'en',
+    isPartOf: { '@type': 'WebSite', name: 'Procesos Mejores', url: sitio },
+    mainEntity: {
+      '@type': 'ProfessionalService',
+      name: 'Procesos Mejores',
+      url: sitio,
+      logo: 'https://www.procesosmejores.com/logo.png',
+      email: contacto.email,
+      telephone: contacto.telefono,
+      address: { '@type': 'PostalAddress', addressLocality: 'Buenos Aires', addressCountry: 'AR' },
+      sameAs: [contacto.linkedin],
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'customer service',
+        email: contacto.email,
+        telephone: contacto.telefono,
+        availableLanguage: 'es',
+      },
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${sitio}en/` },
+      { '@type': 'ListItem', position: 2, name: 'Contact', item: url },
+    ],
+  },
+];
+---
+<Base
+  title="Contact and initial assessment | Procesos Mejores"
+  description="Tell us what you need: ISO standards, food safety, Lean, vCISO or training. Reach us through the form, WhatsApp, email or phone."
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow="Contact"
+    ilustracion="contacto"
+    title="Tell us what you need."
+    lead="An implementation project, an audit, training for your team or a question about a standard. Fill in the form or reach us through the channel you prefer."
+    crumbs={[{ label: 'Contact' }]}
+  />
+
+  <!-- ============ FORMULARIO Y CANALES ============ -->
+  <section class="section">
+    <div class="wrap contact">
+      <div class="form-panel" id="formulario">
+        <h2>Write to us</h2>
+        <p class="form-intro">
+          To request an initial assessment or ask about a service or training. Your name and email are enough;
+          if you tell us a bit about your situation, we will be better prepared for the first conversation.
+        </p>
+        <ContactForm />
+      </div>
+
+      <aside class="side" aria-label="Other ways to reach us">
+        <div class="block">
+          <h2>Direct channels</h2>
+          <dl class="channels">
+            <div>
+              <dt>WhatsApp</dt>
+              <dd>
+                <a href={contacto.whatsapp} target="_blank" rel="noopener">Start a chat</a>
+                <span class="hint">For quick questions.</span>
+              </dd>
+            </div>
+            <div>
+              <dt>Email</dt>
+              <dd><a href={`mailto:${contacto.email}`}>{contacto.email}</a></dd>
+            </div>
+            <div>
+              <dt>Phone</dt>
+              <dd><a href={contacto.telefonoLink}>{contacto.telefono}</a></dd>
+            </div>
+            <div>
+              <dt>LinkedIn</dt>
+              <dd>
+                <a href={contacto.linkedin} target="_blank" rel="noopener">{linkedinTexto}</a>
+                <span class="hint">Rodrigo Arizmendi, founder.</span>
+              </dd>
+            </div>
+            <div>
+              <dt>Location</dt>
+              <dd>
+                Buenos Aires, Argentina
+                <span class="hint">Courses are live on Google Meet and taught in Spanish.</span>
+              </dd>
+            </div>
+          </dl>
+        </div>
+
+        <div class="block">
+          <h2>What happens next</h2>
+          <ol class="after">
+            {despues.map((p, i) => (
+              <li>
+                <span class="after-n" aria-hidden="true">{i + 1}</span>
+                <div>
+                  <h3>{p.titulo}</h3>
+                  <p>{p.texto}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ============ PREGUNTAS FRECUENTES ============ -->
+  <section class="section section--soft" aria-labelledby="titulo-faq">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Before you write</p>
+        <h2 id="titulo-faq">Some common questions.</h2>
+      </div>
+
+      <div class="faq">
+        <details>
+          <summary>I am not sure which standard I need. Can I still ask?</summary>
+          <div class="answer">
+            <p>
+              Yes. Tell us what your customer, the market or the law requires, and how you work today. In the first
+              conversation we will work out together where it makes sense to start.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>I want to enroll in a course. Is it here?</summary>
+          <div class="answer">
+            <p>
+              No need: every scheduled course has its own enrollment button on the <a href="/en/courses">courses page</a>.
+              If the one you want has no date yet, join the
+              <a href={formularios.listaDeEspera} target="_blank" rel="noopener">waiting list</a> and we will let you know when enrollment opens.
+              Courses are taught in Spanish.
+            </p>
+            <p>
+              If you are looking for tailored training for your team, use the form on this page
+              and choose <a href="/en/contact?servicio=formacion#formulario">Training</a>.
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>What do you do with the data I send?</summary>
+          <div class="answer">
+            <p>
+              We use it only to answer your inquiry, and we do not sell it or share it with third parties without your consent, unless required by law. You can ask us
+              at any time to correct or delete it. The details are in the
+              <a href="/en/privacy">privacy policy</a>.
+            </p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---------- Formulario y canales ---------- */
+  .contact {
+    display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 48px 72px; align-items: start;
+  }
+  @media (max-width: 920px) { .contact { grid-template-columns: 1fr; } }
+
+  .form-panel {
+    position: relative; padding: clamp(20px, 4vw, 36px);
+    background: var(--white); border: 1px solid var(--line); border-radius: 14px;
+    scroll-margin-top: 96px;
+  }
+  .form-panel h2 { font-size: var(--step-2); }
+  .form-intro { color: var(--muted); margin: 12px 0 28px; max-width: 60ch; }
+
+  .side { display: grid; gap: 48px; }
+  .block h2 { font-size: var(--step-1); margin-bottom: 16px; }
+
+  .channels { margin: 0; border-top: 1px solid var(--line-strong); }
+  .channels > div {
+    display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 4px 16px;
+    padding-block: 14px; border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 400px) { .channels > div { grid-template-columns: 1fr; } }
+  .channels dt { color: var(--muted); font-size: var(--step--1); padding-top: 2px; }
+  .channels dd { margin: 0; color: var(--ink); display: grid; gap: 2px; }
+  .channels a { font-weight: 500; overflow-wrap: anywhere; }
+  .hint { color: var(--muted); font-size: var(--step--1); line-height: 1.5; }
+
+  .after { list-style: none; margin: 0; padding: 0; display: grid; }
+  .after li {
+    display: grid; grid-template-columns: 32px minmax(0, 1fr); gap: 16px;
+    padding-block: 16px; border-bottom: 1px solid var(--line);
+  }
+  .after li:first-child { padding-top: 0; }
+  .after li:last-child { border-bottom: 0; }
+  .after-n {
+    width: 32px; height: 32px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--white); border: 1px solid var(--line-strong);
+    font-family: var(--font-display); font-weight: 600; font-size: 0.9rem; color: var(--primary);
+  }
+  .after h3 { font-size: 1.02rem; margin: 5px 0 4px; }
+  .after p { margin: 0; color: var(--muted); font-size: 0.95rem; }
+
+  /* ---------- Preguntas frecuentes ---------- */
+  /* La regla global `.section-head p` le gana a `.eyebrow`; acá se restituye el estilo de etiqueta. */
+  .faq { max-width: 820px; border-top: 1px solid var(--line-strong); }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary {
+    list-style: none; cursor: pointer;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center;
+    padding-block: 20px;
+    font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; line-height: 1.35; color: var(--ink);
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: '+'; width: 28px; height: 28px; display: grid; place-items: center;
+    border: 1px solid var(--line-strong); border-radius: 50%;
+    font-weight: 400; font-size: 1.1rem; line-height: 1; color: var(--primary); background: var(--white);
+  }
+  .faq details[open] summary::after { content: '−'; }
+  .faq summary:hover { color: var(--primary); }
+  .answer { padding-bottom: 22px; max-width: 68ch; }
+  .answer p:last-child { margin-bottom: 0; }
+</style>

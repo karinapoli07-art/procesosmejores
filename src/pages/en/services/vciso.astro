@@ -1,0 +1,334 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHeader from '../../../components/PageHeader.astro';
+import fotoVciso from '../../../assets/fotos/vciso.webp';
+import ContactForm from '../../../components/ContactForm.astro';
+import { contacto } from '../../../data/sitio-en';
+
+const inicio = new URL('/', Astro.site).href;
+const url = new URL('/en/services/vciso', Astro.site).href;
+
+const titulo = 'vCISO: information security and ISO/IEC 27001 | Procesos Mejores';
+const descripcion =
+  'An external information security lead, a few hours a month: risks, policies, ISO/IEC 27001, customer questionnaires and Argentina’s Law 25,326.';
+
+// When the need usually shows up in a small or medium-sized company.
+const disparadores = [
+  { titulo: 'A customer sends you a security questionnaire', texto: 'Or requires ISO/IEC 27001 in the contract.' },
+  { titulo: 'Your insurer asks for minimum controls', texto: 'Two-factor authentication, backups, access control.' },
+  { titulo: 'Your company handles personal data', texto: 'Argentina’s Law 25,326 requires you to protect it.' },
+];
+
+// What the service includes.
+const incluye = [
+  { titulo: 'Risk analysis', texto: 'Which information is critical and what can go wrong.' },
+  { titulo: 'Policy and documentation', texto: 'Clear rules and tailored records, without unnecessary binders.' },
+  { titulo: 'ISO/IEC 27001 controls', texto: 'Which ones apply, each with an owner and evidence.' },
+  { titulo: 'Customer questionnaires', texto: 'We answer them with your team, with the evidence in order.' },
+  { titulo: 'Reporting to management', texto: 'Risks, progress and pending decisions, in business language.' },
+  { titulo: 'Awareness', texto: 'To spot a phishing attempt and know whom to tell.' },
+];
+
+// Who does what in the company’s information security.
+const roles = [
+  { quien: 'Management', verbo: 'Decides', texto: 'Approves the policy and how much risk it accepts.' },
+  { quien: 'The vCISO', verbo: 'Governs', texto: 'Analyzes risks, builds the plan, coordinates and reports.', nosotros: true },
+  { quien: 'IT or your provider', verbo: 'Operates', texto: 'Configures and runs the technology.' },
+  { quien: 'Internal audit', verbo: 'Checks', texto: 'Trained people from your team, or an external auditor.' },
+  { quien: 'Certification body', verbo: 'Certifies', texto: 'If you decide to certify, it audits and issues the certificate.' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: 'vCISO: responsable externo de seguridad de la información',
+    serviceType: 'vCISO (CISO virtual)',
+    description: descripcion,
+    url,
+    areaServed: { '@type': 'Country', name: 'Argentina' },
+    provider: {
+      '@type': 'ProfessionalService',
+      name: 'Procesos Mejores',
+      url: inicio,
+      foundingDate: '2012',
+    },
+    about: ['ISO/IEC 27001', 'Information security risk management', 'Law 25,326'],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: new URL('/en/', Astro.site).href },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: new URL('/en/#servicios', Astro.site).href },
+      { '@type': 'ListItem', position: 3, name: 'vCISO', item: url },
+    ],
+  },
+];
+---
+<Base title={titulo} description={descripcion} jsonLd={jsonLd}>
+  <PageHeader
+    eyebrow="Information security · ISO/IEC 27001"
+    ilustracion="vciso"
+    foto={fotoVciso}
+    fotoAlt="A work meeting in front of a laptop showing a dashboard"
+    title="vCISO, your external information security lead."
+    lead="Someone who takes charge of your company’s information security: organizes the risks, sets priorities and reports to management. Part-time."
+    crumbs={[{ label: 'Services', href: '/en/#servicios' }, { label: 'vCISO' }]}
+  >
+    <a class="btn btn--primary" href="#formulario-vciso">Request an initial assessment</a>
+    <a class="btn btn--ghost btn--white" href="#incluye">See what it includes</a>
+  </PageHeader>
+
+  <!-- ============ CUÁNDO HACE FALTA ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">When you need it</p>
+        <h2>When someone starts asking you about security.</h2>
+      </div>
+      <!-- A CONFIRMAR: antes decía que «los informes de la industria ubican a Argentina entre los países más atacados de la región, y la mayoría de los ataques apunta a pymes». Se sacó por no tener fuente; si se consigue el informe (nombre y año), se puede volver a poner citándolo. -->
+      <ul class="tiles tiles--3">
+        {disparadores.map((d) => (
+          <li>
+            <h3>{d.titulo}</h3>
+            <p>{d.texto}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ QUÉ INCLUYE ============ -->
+  <section class="section section--soft" id="incluye">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">What it includes</p>
+        <h2>What ISO/IEC 27001 asks for, sustained month after month.</h2>
+      </div>
+      <ul class="tiles">
+        {incluye.map((item) => (
+          <li>
+            <h3>{item.titulo}</h3>
+            <p>{item.texto}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ QUIÉN HACE QUÉ ============ -->
+  <section class="section" id="roles">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Who does what</p>
+        <h2>Everyone in their place, so no one checks their own work.</h2>
+      </div>
+
+      <ol class="roles">
+        {roles.map((r) => (
+          <li class:list={['rol', { 'rol--nosotros': r.nosotros }]}>
+            <p class="rol-verbo">{r.verbo}</p>
+            <h3>{r.quien}{r.nosotros && <span class="rol-tag">Us</span>}</h3>
+            <p>{r.texto}</p>
+          </li>
+        ))}
+      </ol>
+
+      <div class="limits">
+        <p>
+          <strong>Why we do not audit or certify.</strong> If we build the system, reviewing it ourselves would mean
+          checking our own work. We put this in writing in the proposal.
+        </p>
+        <!-- A CONFIRMAR: si hay un socio técnico para estos servicios. Antes decía «los coordinamos con socios técnicos especializados»; se sacó por no estar confirmado. -->
+        <p>
+          <strong>What it does not include.</strong> Penetration testing, 24/7 monitoring or technical incident
+          response: the vCISO governs, it does not operate.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CÓMO SE CONTRATA ============ -->
+  <section class="section section--soft">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">How it works</p>
+        <h2>Assessment first, ongoing support after.</h2>
+      </div>
+      <!-- A CONFIRMAR: duración típica del diagnóstico inicial, y horizonte del plan (antes decía «plan a 12 meses», sin fuente). -->
+      <ol class="fases">
+        <li>
+          <span class="step-n" aria-hidden="true">1</span>
+          <div>
+            <h3>Initial assessment</h3>
+            <p>We look at how information is handled today and what is being asked of you. You get a plan with priorities.</p>
+          </div>
+        </li>
+        <li>
+          <span class="step-n" aria-hidden="true">2</span>
+          <div>
+            <h3>Monthly support</h3>
+            <p>A few hours a month, based on what the assessment shows. Reviewed with management.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ PREGUNTAS FRECUENTES ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Common questions</p>
+        <h2>Frequently asked questions</h2>
+      </div>
+
+      <div class="faq">
+        <details>
+          <summary>How is it different from an in-house CISO?</summary>
+          <p class="answer">The role is the same; the time commitment changes. And even though the support is ongoing, the knowledge stays with your people.</p>
+        </details>
+        <details>
+          <summary>How many hours a month does it take?</summary>
+          <!-- A CONFIRMAR: si se quiere publicar un rango orientativo de horas mensuales. -->
+          <p class="answer">It is defined in the assessment, based on the size of the company and what customers, insurers or the law require.</p>
+        </details>
+        <details>
+          <summary>Do I need to get ISO/IEC 27001 certified?</summary>
+          <p class="answer">No. It is the working framework. If a contract requires certification, the work aims at that audit.</p>
+        </details>
+        <details>
+          <summary>Can you train our internal auditors?</summary>
+          <p class="answer">Yes, with the <a href="/en/courses#iso-27001">ISO/IEC 27001 internal auditor course</a> (taught in Spanish).</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FORMULARIO ============ -->
+  <section class="section section--soft" id="formulario-vciso">
+    <div class="wrap contact">
+      <div class="contact-intro">
+        <p class="eyebrow">Contact</p>
+        <h2>Tell us what you are being asked for.</h2>
+        <p>With that, we will arrange a first conversation.</p>
+        <div class="contact-direct">
+          <p>Prefer to write to us directly?</p>
+          <a href={`mailto:${contacto.email}`}>{contacto.email}</a>
+          <a href={contacto.telefonoLink}>{contacto.telefono}</a>
+          <a class="link-arrow" href={contacto.whatsapp} target="_blank" rel="noopener">Message us on WhatsApp</a>
+        </div>
+      </div>
+
+      <div class="form-panel">
+        <ContactForm servicio="vciso" />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .btn--white { background: var(--white); }
+
+  /* ---------- One-line cards ---------- */
+  .tiles {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr)); gap: 12px;
+  }
+  .tiles--3 { grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr)); }
+  .tiles li {
+    padding: 22px; background: var(--white);
+    border: 1px solid var(--line-strong); border-radius: var(--radius);
+    transition: border-color var(--base) var(--ease), transform var(--base) var(--ease);
+  }
+  @media (hover: hover) { .tiles li:hover { border-color: var(--primary); transform: translateY(-3px); } }
+  .tiles h3 { font-size: 1.1rem; margin-bottom: 4px; }
+  .tiles p { margin: 0; color: var(--muted); font-size: 0.95rem; line-height: 1.45; }
+
+  /* ---------- Quién hace qué ---------- */
+  .roles {
+    list-style: none; margin: 0 0 32px; padding: 0;
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px;
+  }
+  .rol {
+    padding: 22px 20px; background: var(--white);
+    border: 1px solid var(--line-strong); border-radius: var(--radius);
+    transition: transform var(--base) var(--ease), border-color var(--base) var(--ease);
+  }
+  @media (hover: hover) { .rol:hover { transform: translateY(-4px); border-color: var(--primary); } }
+  .rol--nosotros { background: var(--primary-soft); border-color: var(--primary); }
+  .rol-verbo {
+    margin: 0 0 10px; font-size: var(--step--2); font-weight: 700;
+    letter-spacing: 0.085em; text-transform: uppercase; color: var(--primary);
+  }
+  .rol h3 { font-size: 1.1rem; margin-bottom: 8px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+  .rol-tag {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.04em; line-height: 1;
+    padding: 4px 8px; border-radius: 999px; background: var(--primary); color: var(--white);
+  }
+  .rol p:last-child { margin: 0; color: var(--muted); font-size: 0.95rem; line-height: 1.5; }
+  @media (max-width: 980px) {
+    .roles { grid-template-columns: 1fr; gap: 8px; }
+    .rol { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 2px 20px; padding: 18px 20px; }
+    .rol-verbo { grid-row: span 2; margin: 3px 0 0; }
+  }
+  @media (max-width: 480px) { .rol { grid-template-columns: 1fr; } .rol-verbo { grid-row: auto; } }
+
+  .limits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 48px; }
+  @media (max-width: 860px) { .limits { grid-template-columns: 1fr; } }
+  .limits p { margin: 0; color: var(--muted); max-width: 58ch; }
+  .limits strong { color: var(--ink); }
+
+  /* ---------- Cómo se contrata ---------- */
+  .fases { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 760px) { .fases { grid-template-columns: 1fr; } }
+  .fases li {
+    display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 18px; align-items: start;
+    padding: 22px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+  }
+  .step-n {
+    width: 44px; height: 44px; border-radius: 50%;
+    display: grid; place-items: center;
+    background: var(--white); border: 1px solid var(--line-strong);
+    font-weight: 600; color: var(--primary);
+  }
+  .fases h3 { font-size: 1.15rem; margin-bottom: 4px; }
+  .fases p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  /* ---------- Preguntas frecuentes ---------- */
+  .faq { max-width: 820px; border-top: 1px solid var(--line-strong); }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary {
+    list-style: none; cursor: pointer;
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px; align-items: center;
+    padding-block: 20px;
+    font-weight: 600; font-size: 1.1rem; line-height: 1.35; color: var(--ink);
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: '+'; width: 28px; height: 28px; display: grid; place-items: center;
+    border: 1px solid var(--line-strong); border-radius: 50%;
+    font-weight: 400; font-size: 1.1rem; line-height: 1; color: var(--primary); background: var(--white);
+  }
+  .faq details[open] summary::after { content: '−'; }
+  .faq summary:hover { color: var(--primary); }
+  .answer { margin: 0; padding-bottom: 22px; max-width: 68ch; }
+
+  /* ---------- Formulario ---------- */
+  .contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: 40px 72px; align-items: start; }
+  @media (max-width: 920px) { .contact { grid-template-columns: 1fr; } }
+  .contact-intro h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .contact-intro p:not(.eyebrow) { max-width: 52ch; }
+  .contact-direct {
+    display: grid; justify-items: start; gap: 6px;
+    margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--line);
+  }
+  .contact-direct p { margin: 0 0 4px; color: var(--muted); font-size: 0.95rem; }
+  .contact-direct a { overflow-wrap: anywhere; }
+  .contact-direct .link-arrow { margin-top: 6px; }
+  .form-panel {
+    position: relative; padding: clamp(20px, 4vw, 36px);
+    background: var(--white); border: 1px solid var(--line); border-radius: 14px;
+  }
+</style>

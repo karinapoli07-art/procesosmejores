@@ -33,6 +33,23 @@ const archivos = import.meta.glob<{ frontmatter: Record<string, any>; Content: a
   { eager: true },
 );
 
+// Versión en inglés: src/content/cursos-en/<mismo slug>.md, sólo con los textos traducidos
+// (titulo, area, sesiones, horario, modalidad, proximaEdicion, resumen). Fechas, precios y
+// enlaces salen siempre del archivo en castellano, así se cargan una sola vez.
+// Ojo: "sesiones" y "horario" son texto, así que si cambian hay que traducirlos de nuevo.
+const traducciones = import.meta.glob<{ frontmatter: Record<string, any> }>(
+  '../content/cursos-en/*.md',
+  { eager: true },
+);
+const CAMPOS_TRADUCIBLES = ['titulo', 'area', 'sesiones', 'horario', 'modalidad', 'proximaEdicion', 'resumen'];
+
+function enIngles(slug: string, fm: Record<string, any>): Record<string, any> {
+  const en = traducciones[`../content/cursos-en/${slug}.md`]?.frontmatter ?? {};
+  const resultado = { ...fm };
+  for (const campo of CAMPOS_TRADUCIBLES) if (en[campo] !== undefined) resultado[campo] = en[campo];
+  return resultado;
+}
+
 /** Fin del día de inicio, en hora de Argentina. */
 export function finDelDiaDeInicio(inicio: string): Date | null {
   if (!inicio) return null;
@@ -44,19 +61,19 @@ export function estaAbierto(inicio: string, hoy = new Date()): boolean {
   return fin !== null && fin.getTime() >= hoy.getTime();
 }
 
-export function fechaLarga(inicio: string): string {
+export function fechaLarga(inicio: string, lang: 'es' | 'en' = 'es'): string {
   const d = finDelDiaDeInicio(inicio);
   if (!d) return '';
-  return d.toLocaleDateString('es-AR', {
+  return d.toLocaleDateString(lang === 'en' ? 'en-US' : 'es-AR', {
     weekday: 'long', day: 'numeric', month: 'long', timeZone: 'America/Argentina/Buenos_Aires',
   });
 }
 
-export function obtenerCursos(): Curso[] {
+export function obtenerCursos(lang: 'es' | 'en' = 'es'): Curso[] {
   return Object.entries(archivos)
     .map(([ruta, mod]) => {
-      const fm = mod.frontmatter;
       const slug = ruta.split('/').pop()!.replace(/\.md$/, '');
+      const fm = lang === 'en' ? enIngles(slug, mod.frontmatter) : mod.frontmatter;
       const inicio = String(fm.inicio ?? '');
       return {
         slug,
@@ -86,6 +103,6 @@ export function obtenerCursos(): Curso[] {
     });
 }
 
-export function proximoCurso(): Curso | undefined {
-  return obtenerCursos().find((c) => c.abierto);
+export function proximoCurso(lang: 'es' | 'en' = 'es'): Curso | undefined {
+  return obtenerCursos(lang).find((c) => c.abierto);
 }

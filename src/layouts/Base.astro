@@ -3,6 +3,7 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import WhatsApp from '../components/WhatsApp.astro';
+import { idioma, ui, alternativas } from '../i18n';
 
 interface Props {
   title: string;
@@ -14,9 +15,13 @@ interface Props {
 
 const { title, description, jsonLd = [], noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const lang = idioma(Astro.currentLocale);
+const t = ui[lang];
+// Versión de esta página en cada idioma, para que los buscadores muestren la que corresponde.
+const pares = alternativas(Astro.url.pathname);
 ---
 <!doctype html>
-<html lang="es-AR">
+<html lang={t.htmlLang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -26,9 +31,16 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="icon" type="image/png" href="/favicon.png" />
     <link rel="sitemap" href="/sitemap-index.xml" />
+    {pares && (
+      <>
+        <link rel="alternate" hreflang="es" href={new URL(pares.es, Astro.site)} />
+        <link rel="alternate" hreflang="en" href={new URL(pares.en, Astro.site)} />
+        <link rel="alternate" hreflang="x-default" href={new URL(pares.es, Astro.site)} />
+      </>
+    )}
 
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="es_AR" />
+    <meta property="og:locale" content={t.ogLocale} />
     <meta property="og:site_name" content="Procesos Mejores" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -36,7 +48,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:image" content={new URL('/og.png', Astro.site)} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Procesos Mejores. Sistemas de gestión que tu equipo sabe sostener." />
+    <meta property="og:image:alt" content={t.ogImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
@@ -47,7 +59,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     ))}
   </head>
   <body>
-    <a class="skip" href="#contenido">Saltar al contenido</a>
+    <a class="skip" href="#contenido">{t.saltar}</a>
     <Header />
     <main id="contenido">
       <slot />

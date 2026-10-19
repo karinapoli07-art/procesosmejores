@@ -1,0 +1,3 @@
+# Direcciones en inglés que no existen: Netlify muestra la página 404 en inglés.
+# (Las páginas que sí existen tienen prioridad sobre esta regla.)
+/en/*  /en/404/  404

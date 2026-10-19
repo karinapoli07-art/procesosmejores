@@ -1,0 +1,275 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { contacto } from '../../data/sitio-en';
+
+const sitio = 'https://www.procesosmejores.com/';
+const url = 'https://www.procesosmejores.com/en/privacy';
+const mail = `mailto:${contacto.email}`;
+
+const indice = [
+  { id: 'responsable', label: 'Who is responsible' },
+  { id: 'datos', label: 'What data we receive' },
+  { id: 'uso', label: 'What we use it for' },
+  { id: 'terceros', label: 'Who we share it with' },
+  { id: 'conservacion', label: 'How long we keep it' },
+  { id: 'seguridad', label: 'How we protect it' },
+  { id: 'derechos', label: 'Your rights' },
+  { id: 'otros-sitios', label: 'Links to other sites' },
+  { id: 'cambios', label: 'Changes to this policy' },
+  { id: 'consultas', label: 'Questions' },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: 'Privacy policy',
+    url,
+    inLanguage: 'en',
+    isPartOf: { '@type': 'WebSite', name: 'Procesos Mejores', url: sitio },
+    publisher: { '@type': 'Organization', name: 'Procesos Mejores', url: sitio },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${sitio}en/` },
+      { '@type': 'ListItem', position: 2, name: 'Privacy policy', item: url },
+    ],
+  },
+];
+---
+<Base
+  title="Privacy policy | Procesos Mejores"
+  description="What personal data we receive through the contact form, email, WhatsApp or LinkedIn, what we use it for and how to exercise your rights under Argentina’s Law 25,326."
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow="Legal"
+    title="Privacy policy"
+    lead="What personal data we receive, what we use it for and how you can ask us to correct or delete it."
+    crumbs={[{ label: 'Privacy policy' }]}
+  />
+
+  <section class="section">
+    <div class="wrap policy">
+      <nav class="toc" aria-labelledby="titulo-indice">
+        <p class="toc-title" id="titulo-indice">On this page</p>
+        <ol>
+          {indice.map((s) => <li><a href={`#${s.id}`}>{s.label}</a></li>)}
+        </ol>
+      </nav>
+
+      <div class="body">
+        <p class="updated">Last updated: September 2026</p>
+        <!-- A CONFIRMAR: que Rodrigo esté de acuerdo con que prevalezca la versión en castellano. -->
+        <p class="updated">This is an English translation for convenience. If there is any difference, the <a href="/privacidad">Spanish version</a> prevails.</p>
+
+        <div class="summary">
+          <h2 class="summary-title">In a nutshell</h2>
+          <ul>
+            <li>We use your data only to answer your inquiry or to handle your course enrollment.</li>
+            <li>We do not sell it or share it with third parties without your consent, unless required by law.</li>
+            <li>You can ask to see, correct or delete it by writing to <a href={mail}>{contacto.email}</a>.</li>
+          </ul>
+        </div>
+
+        <section id="responsable" aria-labelledby="h-responsable">
+          <h2 id="h-responsable">Who is responsible for your data</h2>
+          <p>
+            Procesos Mejores, a management systems consulting firm based in Buenos Aires, Argentina, is responsible
+            for the personal data it receives through this site and its communication channels.
+          </p>
+          <!-- A CONFIRMAR: razón social o nombre del titular, CUIT y domicilio legal del responsable de la base de datos
+               (el artículo 6 de la Ley 25.326 pide informar la identidad y el domicilio del responsable).
+               Si la base está inscripta en el Registro Nacional de Bases de Datos de la AAIP, agregar el número de inscripción. -->
+          <p>For any privacy matter, write to us at <a href={mail}>{contacto.email}</a>.</p>
+        </section>
+
+        <section id="datos" aria-labelledby="h-datos">
+          <h2 id="h-datos">What data we receive</h2>
+          <p>Only the data you choose to give us, through one of these channels:</p>
+          <ul>
+            <li>
+              <strong>Contact form.</strong> Full name and email, which are required because without them we cannot
+              reply. Company, phone, the service you are interested in and your message are optional.
+            </li>
+            <li>
+              <strong>Course enrollment and waiting list.</strong> The data you enter in the enrollment form, which is
+              built with Google Forms.
+            </li>
+            <li>
+              <strong>Email, WhatsApp, phone and LinkedIn.</strong> The data you share when you contact us, such as your
+              name, your contact details and the content of your message.
+            </li>
+          </ul>
+          <p>
+            We do not ask for sensitive data (for example, about health, religion or political opinions); please do
+            not include it in your messages. This site does not process payments or ask for card details either.
+          </p>
+          <p>
+            The site does not currently use analytics tools or advertising or tracking cookies. Like any website, the
+            service that hosts it (Netlify) may log technical data about visits, such as the IP address, in order to
+            work and protect itself from abuse.
+          </p>
+          <!-- A CONFIRMAR: si se incorpora una herramienta de analítica o cualquier script de terceros, nombrarla en este párrafo
+               y explicar qué datos registra. -->
+        </section>
+
+        <section id="uso" aria-labelledby="h-uso">
+          <h2 id="h-uso">What we use it for</h2>
+          <ul>
+            <li>
+              Data from the contact form and the messages you send us, only to answer your inquiry and follow up on
+              that conversation: arranging a meeting, sending you a proposal or the information you asked for.
+            </li>
+            <li>
+              Enrollment data, to manage your place in the course, send you information about the sessions and issue
+              your certificate.
+            </li>
+            <li>Waiting list data, to let you know when enrollment opens for the course you are interested in.</li>
+          </ul>
+          <!-- A CONFIRMAR: la política anterior decía que los datos también se usan para "enviar información relevante sobre
+               nuestros servicios y actividades". Si se mandan novedades o avisos de nuevos cursos a contactos anteriores,
+               agregarlo acá, con la forma de darse de baja. -->
+          <p>We do not use your data for any other purpose without asking for your consent first.</p>
+        </section>
+
+        <section id="terceros" aria-labelledby="h-terceros">
+          <h2 id="h-terceros">Who we share it with</h2>
+          <p>
+            We do not sell or share your personal data with third parties without your consent, unless a law or a
+            competent authority requires us to.
+          </p>
+          <p>
+            To work, the site and the forms use third-party services that process data on our behalf and only to
+            provide that service to us: the site hosting (Netlify), whose Netlify Forms service receives contact form
+            submissions; Google Forms, for enrollments; and the email service we use to reply to you. Some of these
+            services may store information on servers outside Argentina.
+          </p>
+        </section>
+
+        <section id="conservacion" aria-labelledby="h-conservacion">
+          <h2 id="h-conservacion">How long we keep it</h2>
+          <p>
+            We keep your data for a limited time: as long as needed to answer your inquiry and follow up, or for the
+            duration of the work or course you do with us, plus whatever legal obligations require. When it is no
+            longer needed for those purposes, we delete it.
+          </p>
+          <!-- A CONFIRMAR: si se quiere fijar un plazo concreto de conservación. -->
+        </section>
+
+        <section id="seguridad" aria-labelledby="h-seguridad">
+          <h2 id="h-seguridad">How we protect it</h2>
+          <p>
+            We take security measures to protect the personal information we receive and to prevent it from being
+            lost, altered or accessed by unauthorized people.
+          </p>
+        </section>
+
+        <section id="derechos" aria-labelledby="h-derechos">
+          <h2 id="h-derechos">Your rights</h2>
+          <p>Under Argentina’s Personal Data Protection Law 25,326, you have the right to:</p>
+          <ul>
+            <li><strong>Access:</strong> know what data of yours we hold and ask us for a copy.</li>
+            <li><strong>Rectification and updating:</strong> correct data that is wrong or out of date.</li>
+            <li><strong>Erasure:</strong> ask us to delete it, for example when it is no longer needed or if you withdraw your consent.</li>
+          </ul>
+          <p>
+            To exercise them, write to <a href={mail}>{contacto.email}</a> from the address you used to contact us,
+            or tell us how we can verify your identity. The law sets a period of 10 calendar days to answer an access
+            request and 5 business days to rectify, update or erase data.
+          </p>
+          <p class="legal-note">
+            The data subject has the right to access their personal data free of charge at intervals of no less than
+            six months, unless a legitimate interest is shown, as established in article 14, paragraph 3 of Law
+            No. 25,326. The
+            <a href="https://www.argentina.gob.ar/aaip" target="_blank" rel="noopener">Agency for Access to Public Information (AAIP)</a>,
+            as the supervisory authority for Law No. 25,326, has the power to handle complaints and claims filed by
+            anyone whose rights are affected by non-compliance with the personal data protection rules in force.
+          </p>
+        </section>
+
+        <section id="otros-sitios" aria-labelledby="h-otros-sitios">
+          <h2 id="h-otros-sitios">Links to other sites</h2>
+          <p>
+            This site links to external services, such as WhatsApp, LinkedIn and Google Forms, and courses are taught
+            on Google Meet. When you use them, each one’s own privacy policy applies.
+          </p>
+        </section>
+
+        <section id="cambios" aria-labelledby="h-cambios">
+          <h2 id="h-cambios">Changes to this policy</h2>
+          <p>
+            If we change this policy, we publish the new version on this same page, with the date it was updated.
+          </p>
+        </section>
+
+        <section id="consultas" aria-labelledby="h-consultas">
+          <h2 id="h-consultas">Questions</h2>
+          <p>
+            If you have questions about this policy or your data, write to
+            <a href={mail}>{contacto.email}</a> or use the <a href="/en/contact#formulario">contact form</a>.
+          </p>
+        </section>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .policy {
+    display: grid; grid-template-columns: 240px minmax(0, 1fr);
+    gap: 40px 72px; align-items: start;
+  }
+  @media (max-width: 920px) { .policy { grid-template-columns: 1fr; } }
+
+  /* ---------- Índice ---------- */
+  .toc { position: sticky; top: 104px; }
+  @media (max-width: 920px) { .toc { position: static; } }
+  .toc-title {
+    font-family: var(--font-display); font-size: 0.78rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted);
+    margin: 0 0 12px;
+  }
+  .toc ol { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .toc li { border-bottom: 1px solid var(--line); }
+  .toc a {
+    display: block; padding-block: 9px; font-size: 0.95rem; line-height: 1.4;
+    color: var(--text); text-decoration: none;
+  }
+  .toc a:hover { color: var(--primary); }
+  @media (max-width: 920px) {
+    .toc ol { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 24px; }
+  }
+  @media (max-width: 480px) {
+    .toc ol { grid-template-columns: 1fr; }
+  }
+
+  /* ---------- Texto ---------- */
+  .body { max-width: 72ch; }
+  .updated { color: var(--muted); font-size: var(--step--1); margin: 0 0 24px; }
+
+  .summary {
+    background: var(--soft); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: clamp(20px, 3vw, 28px);
+  }
+  .summary-title { font-size: var(--step-1); margin-bottom: 12px; }
+  .summary ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+  .summary li::marker { color: var(--primary); }
+
+  .body section { padding-block: 36px; border-bottom: 1px solid var(--line); scroll-margin-top: 96px; }
+  .body section:last-child { border-bottom: 0; padding-bottom: 0; }
+  .body section h2 { font-size: var(--step-2); margin-bottom: 16px; }
+  .body section ul { margin: 0 0 1em; padding-left: 1.2em; display: grid; gap: 10px; }
+  .body section li::marker { color: var(--primary); }
+  .body section p:last-child, .body section ul:last-child { margin-bottom: 0; }
+  .body strong { color: var(--ink); font-weight: 600; }
+
+  .legal-note {
+    margin-top: 24px; padding: 18px 20px;
+    border-left: 2px solid var(--brand); background: var(--soft);
+    font-size: 0.93rem; color: var(--muted);
+  }
+</style>
