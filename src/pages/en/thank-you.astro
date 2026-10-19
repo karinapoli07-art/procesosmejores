@@ -1,0 +1,84 @@
+---
+// Confirmation page: the form on /en/contact (Netlify Forms) redirects here.
+// No se indexa: Base.astro acepta la prop noindex y además queda fuera del sitemap
+// y bloqueada en robots.txt.
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { contacto } from '../../data/sitio-en';
+
+const mientras = [
+  { href: '/en/courses', nombre: 'Courses and dates', texto: 'Internal auditor and 5S courses, live on Google Meet (in Spanish).' },
+  { href: '/en/blog', nombre: 'Blog', texto: 'Articles on ISO standards and management systems.' },
+  { href: '/en/about', nombre: 'About us', texto: 'Who is behind Procesos Mejores and how we work.' },
+];
+---
+<Base
+  title="Thank you for writing to us | Procesos Mejores"
+  description="We received your message. We will get in touch to arrange a first conversation. Meanwhile, you can see the upcoming courses or read the blog."
+  noindex
+>
+  <PageHeader
+    eyebrow="Message sent"
+    title="Thank you. We received your message."
+    lead="We will get in touch to arrange a first conversation and, if it makes sense, an initial assessment."
+  >
+    <a class="btn btn--primary" href="/en/">Back to home</a>
+    <a class="btn btn--ghost" href="/en/courses">See upcoming courses</a>
+  </PageHeader>
+
+  <section class="section">
+    <div class="wrap thanks">
+      <div class="urgent">
+        <h2>Is it urgent?</h2>
+        <p>Message us on WhatsApp or call us, and mention that you already filled in the form.</p>
+        <ul class="direct">
+          <li><a href={contacto.whatsapp} target="_blank" rel="noopener">Message us on WhatsApp</a></li>
+          <li><a href={contacto.telefonoLink}>{contacto.telefono}</a></li>
+          <li><a href={`mailto:${contacto.email}`}>{contacto.email}</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h2>Meanwhile</h2>
+        <ul class="links">
+          {mientras.map((m) => (
+            <li>
+              <a href={m.href}>
+                <span class="links-name">{m.nombre}</span>
+                <span class="links-text">{m.texto}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .thanks {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr);
+    gap: 48px 72px; align-items: start;
+  }
+  @media (max-width: 860px) { .thanks { grid-template-columns: 1fr; } }
+  .thanks h2 { font-size: var(--step-1); margin-bottom: 16px; }
+
+  .urgent p { color: var(--muted); max-width: 44ch; }
+  .direct { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .direct a { font-weight: 500; overflow-wrap: anywhere; }
+
+  .links { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .links li { border-bottom: 1px solid var(--line); }
+  .links a {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 16px;
+    padding-block: 16px; text-decoration: none; color: var(--ink);
+  }
+  .links a::after {
+    content: '→'; grid-column: 2; grid-row: 1 / span 2; align-self: center;
+    color: var(--primary); transition: transform .15s ease;
+  }
+  .links a:hover::after { transform: translateX(3px); }
+  .links a:hover .links-name { color: var(--primary); }
+  .links-name { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; }
+  .links-text { color: var(--muted); font-size: 0.93rem; }
+</style>

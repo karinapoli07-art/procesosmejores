@@ -1,0 +1,87 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { servicios } from '../../data/sitio-en';
+
+// "Training" points to /en/courses, which is already under "Other sections".
+// Netlify shows this page for missing /en/ addresses (see public/_redirects).
+const listaServicios = servicios.filter((s) => s.href.startsWith('/en/services/'));
+
+const secciones = [
+  { href: '/en/courses', nombre: 'Courses and dates', texto: 'Live internal auditor and 5S courses (in Spanish).' },
+  { href: '/en/about', nombre: 'About us', texto: 'Who is behind it and how we work.' },
+  { href: '/en/testimonials', nombre: 'Testimonials', texto: 'What past participants say.' },
+  { href: '/en/blog', nombre: 'Blog', texto: 'Articles on standards and management systems.' },
+  { href: '/en/contact', nombre: 'Contact', texto: 'Form, WhatsApp, email and phone.' },
+];
+---
+<Base
+  title="Page not found | Procesos Mejores"
+  description="The page you are looking for does not exist or has moved. From here you can go to our consulting services, live courses or the contact page."
+  noindex
+>
+  <PageHeader
+    eyebrow="Error 404"
+    title="We could not find this page."
+    lead="The address may have a typo, or the page may have moved with the new site. These links may help."
+  >
+    <a class="btn btn--primary" href="/en/">Go to home</a>
+    <a class="btn btn--ghost" href="/en/contact#formulario">Tell us what you were looking for</a>
+  </PageHeader>
+
+  <section class="section">
+    <div class="wrap groups">
+      <nav aria-labelledby="titulo-servicios">
+        <h2 id="titulo-servicios">Services</h2>
+        <ul class="links">
+          {listaServicios.map((s) => (
+            <li>
+              <a href={s.href}>
+                <span class="links-name">{s.nombre}</span>
+                <span class="links-text">{s.normas.join(' · ')}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="titulo-secciones">
+        <h2 id="titulo-secciones">Other sections</h2>
+        <ul class="links">
+          {secciones.map((s) => (
+            <li>
+              <a href={s.href}>
+                <span class="links-name">{s.nombre}</span>
+                <span class="links-text">{s.texto}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .groups {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px 72px; align-items: start;
+  }
+  @media (max-width: 860px) { .groups { grid-template-columns: 1fr; } }
+  .groups h2 { font-size: var(--step-1); margin-bottom: 16px; }
+
+  .links { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .links li { border-bottom: 1px solid var(--line); }
+  .links a {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 16px;
+    padding-block: 16px; text-decoration: none; color: var(--ink);
+  }
+  .links a::after {
+    content: '→'; grid-column: 2; grid-row: 1 / span 2; align-self: center;
+    color: var(--primary); transition: transform .15s ease;
+  }
+  .links a:hover::after { transform: translateX(3px); }
+  .links a:hover .links-name { color: var(--primary); }
+  .links-name { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; }
+  .links-text { color: var(--muted); font-size: 0.93rem; }
+</style>

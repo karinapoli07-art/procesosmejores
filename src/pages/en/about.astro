@@ -1,0 +1,437 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import CtaDiagnostico from '../../components/CtaDiagnostico.astro';
+import { contacto } from '../../data/sitio-en';
+import rodrigo from '../../assets/rodrigo-retrato.webp';
+
+const url = 'https://www.procesosmejores.com/en/about';
+
+// Sitio oficial de ROCS (registro desarrollado por IRAM).
+const rocsSitio = 'https://rocs.org.ar/';
+
+// A CONFIRMAR: sello ROCS y URL del perfil público de Procesos Mejores.
+// Cuando estén disponibles (perfil ROCS > Descarga de archivos digitales):
+//   1. Guardar el sello y el QR en src/assets/ (por ejemplo rocs-sello.png y rocs-qr.png).
+//   2. Importarlos arriba y asignarlos a selloRocs y qrRocs.
+//   3. Pegar la URL del perfil público en perfilRocs.
+const selloRocs: ImageMetadata | null = null;
+const qrRocs: ImageMetadata | null = null;
+const perfilRocs = '';
+
+// Facts the biography does not mention. The biography is a faithful translation of Timbini's text.
+const recorrido = [
+  {
+    label: 'Standards',
+    datos: ['ISO 9001, ISO 14001, ISO 45001 (formerly OHSAS 18001), ISO 21001, ISO 50001, ISO/IEC 27001, ISO 22000 and FSSC 22000.'],
+  },
+];
+
+// A CONFIRMAR: Rodrigo has not validated these four points yet.
+const metodo = [
+  {
+    titulo: 'We work with your team, not for your team',
+    texto: 'The people who will sustain the system take part in the assessment, the process design and the audits.',
+  },
+  {
+    titulo: 'We train along the way',
+    texto: 'Every stage includes training on the requirements of the standard and the tools used, applied to real processes.',
+  },
+  {
+    titulo: 'We document what is actually done',
+    texto: 'Procedures and records built with the people who use them, so they reflect how work is done and do not end up in a drawer.',
+  },
+  {
+    titulo: 'We train internal auditors',
+    texto: 'Your team learns to audit its own system before the certification body does, and to keep doing it afterwards.',
+  },
+];
+
+const valores = ['Honesty', 'Transparency', 'Compliance', 'Commitment'];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'About | Procesos Mejores',
+    url,
+    inLanguage: 'en',
+    mainEntity: {
+      '@type': 'ProfessionalService',
+      name: 'Procesos Mejores',
+      url: 'https://www.procesosmejores.com/',
+      logo: 'https://www.procesosmejores.com/logo.png',
+      email: contacto.email,
+      foundingDate: '2012',
+      founder: {
+        '@type': 'Person',
+        name: 'Rodrigo Arizmendi',
+        jobTitle: 'Founder',
+        description: 'Electronics engineer with a postgraduate degree in Management Engineering.',
+        sameAs: contacto.linkedin,
+      },
+      address: { '@type': 'PostalAddress', addressLocality: 'Buenos Aires', addressCountry: 'AR' },
+      sameAs: [contacto.linkedin],
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://www.procesosmejores.com/en/' },
+      { '@type': 'ListItem', position: 2, name: 'About', item: url },
+    ],
+  },
+];
+---
+<Base
+  title="About us: consulting and teaching since 2012 | Procesos Mejores"
+  description="An Argentine management systems consulting firm founded in 2012 by Rodrigo Arizmendi. We work with your team so the system keeps running without us."
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow="About us"
+    title="Consulting and teaching, since 2012."
+    lead="We are an Argentine management systems consulting and training firm. We work with each organization’s teams so the knowledge stays inside."
+    crumbs={[{ label: 'About us' }]}
+  />
+
+  <!-- ============ HISTORIA ============ -->
+  <section class="section" id="historia">
+    <div class="wrap story">
+      <figure class="story-photo">
+        <Image
+          src={rodrigo}
+          alt="Rodrigo Arizmendi, founder of Procesos Mejores"
+          width={360}
+          widths={[280, 360, 720]}
+          sizes="(max-width: 860px) 280px, 360px"
+        />
+        <figcaption>
+          <strong>Rodrigo Arizmendi</strong>
+          <span>Founder of Procesos Mejores</span>
+        </figcaption>
+      </figure>
+
+      <div class="story-copy">
+        <p class="eyebrow">Our story</p>
+        <h2>From Toyota Argentina to Procesos Mejores.</h2>
+        <p>
+          Rodrigo Arizmendi is an electronics engineer with a postgraduate degree in Management Engineering. His
+          professional career has developed in industrial and management environments, including his time at
+          Toyota Argentina, where he consolidated his interest in continuous improvement, process optimization
+          and the development of solutions applied especially to small and medium-sized companies.
+        </p>
+        <p>
+          Since 2012 he has led his own consulting firm, through which he supports organizations of different
+          sectors and sizes in the design, development and transformation of their processes. His approach
+          combines a technical and management perspective with a comprehensive understanding of each
+          organization's needs, seeking concrete and sustainable improvements aligned with its objectives.
+        </p>
+        <p>
+          To this experience he adds a strong vocation for training and developing people. Throughout his
+          career he has designed and facilitated learning experiences at institutions such as UTN Delta, the
+          Escuela Técnica Roberto Rocca and the Escuela Técnica Henry Ford, as well as training programs for
+          companies and individuals. His teaching work also includes tailored training proposals, designed to
+          respond to the specific challenges of each organization and context.
+        </p>
+
+        <dl class="path">
+          {recorrido.map((r) => (
+            <div>
+              <dt>{r.label}</dt>
+              <dd>{r.datos.length > 1 ? <ul>{r.datos.map((d) => <li>{d}</li>)}</ul> : r.datos[0]}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <a class="link-arrow" href={contacto.linkedin} target="_blank" rel="noopener">Rodrigo’s LinkedIn profile</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TRANSFERENCIA DE CONOCIMIENTO ============ -->
+  <section class="section section--soft transfer" id="transferencia-de-conocimiento">
+    <div class="wrap">
+      <div class="transfer-head">
+        <p class="eyebrow">What we do, in one idea</p>
+        <h2>Knowledge transfer. The system has to keep running without us.</h2>
+      </div>
+
+      <div class="transfer-grid">
+        <div class="transfer-copy">
+          <p class="transfer-lead">
+            A management systems consulting firm does not sell binders, hours or a certificate to hang on the wall.
+            What it sells is knowledge transfer.
+          </p>
+          <p>
+            If only the consultant understands the system, it stops working the day they leave: records fall
+            behind and every audit becomes an emergency. That is why teaching is not a separate service: teaching
+            is how we do consulting.
+          </p>
+        </div>
+
+        <div class="transfer-goal">
+          <h3>The goal: when we finish, your team can</h3>
+          <ul>
+            <li>Explain why each process, procedure and record exists.</li>
+            <li>Plan and carry out its own internal audits.</li>
+            <li>Handle nonconformities and follow them up with corrective actions.</li>
+            <li>Prepare the management review with its own data.</li>
+            <li>Update the system when the standard, the customers or the organization change.</li>
+          </ul>
+        </div>
+      </div>
+
+      <ol class="how" aria-label="How we do it">
+        {metodo.map((m, i) => (
+          <li>
+            <span class="how-n" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{m.titulo}</h3>
+            <p>{m.texto}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ POLÍTICA, MISIÓN, VISIÓN Y VALORES ============ -->
+  <section class="section" id="politica">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Policy, mission, vision and values</p>
+        <h2>Our name explains our mission.</h2>
+      </div>
+
+      <div class="rows">
+        <div class="row">
+          <h3>Mission</h3>
+          <div>
+            <p>
+              We advise on process management and we train. We exist to live up to our name: better processes
+              («procesos mejores»). We work with the teams and people who choose us so they can do their work
+              more effectively and sustainably, planning, acting and evaluating the results.
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <h3>Vision</h3>
+          <div>
+            <p>
+              To be a reference in the Spanish-speaking market for process improvement, change management and training.
+            </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <h3>Values</h3>
+          <ul class="values">
+            {valores.map((v) => <li>{v}</li>)}
+          </ul>
+        </div>
+
+        <div class="row">
+          <h3>Quality policy</h3>
+          <div>
+            <p>
+              We are a consulting and training company. Through consulting we help organizations improve their
+              processes and grow sustainably; through training, we help people develop valuable professional
+              skills.
+            </p>
+            <details class="politica">
+              <summary>Read the full policy</summary>
+            <p>
+              We are committed to meeting applicable requirements and to continually improving our quality management
+              system, so that we endure while contributing to society and building mutually beneficial relationships
+              with customers and suppliers. Our pillars:
+            </p>
+            <ol class="pillars">
+              <li>Satisfying our customers and offering them more and better solutions.</li>
+              <li>Working as a team, also with our suppliers: open communication and ongoing evaluation of their performance.</li>
+              <li>Continually improving our performance.</li>
+            </ol>
+            <p class="signed">Summary of the policy signed by Rodrigo Arizmendi, founder, on January 13, 2023.</p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ROCS ============ -->
+  <section class="section section--soft" id="rocs">
+    <div class="wrap rocs">
+      <div class="rocs-copy">
+        <p class="eyebrow">Sustainability</p>
+        <h2>Registered in ROCS.</h2>
+        <p>
+          ROCS is Latin America’s first Registry of Organizations Committed to Sustainability, developed by IRAM,
+          the Argentine standards body. It brings together organizations that build environmental, social and
+          governance (ESG) criteria into their management and back them up with evidence.
+        </p>
+        <p>Procesos Mejores is registered in ROCS: our ESG commitment has been validated.</p>
+        <div class="rocs-links">
+          <a class="link-arrow" href={rocsSitio} target="_blank" rel="noopener">About ROCS</a>
+          {perfilRocs && (
+            <a class="link-arrow" href={perfilRocs} target="_blank" rel="noopener">See our ROCS profile</a>
+          )}
+        </div>
+      </div>
+
+      <!-- A CONFIRMAR: sello ROCS (descargar desde el perfil ROCS > Descarga de archivos digitales) y URL del perfil público -->
+      <aside class="rocs-badge" aria-label="ROCS registration">
+        {(selloRocs || qrRocs) ? (
+          <div class="rocs-media">
+            {selloRocs && <Image src={selloRocs} alt="Procesos Mejores ROCS seal" width={180} />}
+            {qrRocs && <Image src={qrRocs} alt="QR code for the Procesos Mejores ROCS profile" width={120} />}
+          </div>
+        ) : (
+          <dl>
+            <div><dt>Registry</dt><dd>ROCS, Registry of Organizations Committed to Sustainability</dd></div>
+            <div><dt>Developed by</dt><dd>IRAM</dd></div>
+            <div><dt>Status</dt><dd>ESG commitment validated</dd></div>
+          </dl>
+        )}
+      </aside>
+    </div>
+  </section>
+
+  <CtaDiagnostico />
+</Base>
+
+<style>
+  /* ---------- Historia ---------- */
+  .story { display: grid; grid-template-columns: 360px minmax(0, 1fr); gap: 40px 72px; align-items: start; }
+  @media (max-width: 860px) { .story { grid-template-columns: 1fr; } }
+  .story-photo { margin: 0; }
+  .story-photo img {
+    width: 100%; max-width: 360px; border-radius: 14px;
+    background: var(--soft); border: 1px solid var(--line);
+  }
+  @media (max-width: 860px) { .story-photo img { max-width: 280px; } }
+  .story-photo figcaption { display: grid; gap: 2px; margin-top: 16px; font-size: 0.92rem; }
+  .story-photo strong { font-family: var(--font-display); font-weight: 600; color: var(--ink); }
+  .story-photo span { color: var(--muted); }
+  .story-copy h2 { font-size: var(--step-3); margin-bottom: 24px; }
+  .story-copy > p:not(.eyebrow) { max-width: 62ch; }
+
+  .path { margin: 32px 0; padding: 0; border-top: 1px solid var(--line); }
+  .path div {
+    display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 4px 24px;
+    padding-block: 14px; border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 560px) { .path div { grid-template-columns: 1fr; } }
+  .path dt { font-family: var(--font-display); font-weight: 600; color: var(--ink); }
+  .path dd { margin: 0; color: var(--muted); }
+  .path dd ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+
+  /* ---------- Transferencia de conocimiento ---------- */
+  .transfer { border-block: 1px solid var(--line); }
+  .transfer-head { max-width: 900px; margin-bottom: clamp(36px, 5vw, 64px); }
+  .transfer-head h2 { font-size: var(--step-4); letter-spacing: -0.03em; }
+
+  .transfer-grid {
+    display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 40px 72px; align-items: start;
+  }
+  @media (max-width: 920px) { .transfer-grid { grid-template-columns: 1fr; } }
+  .transfer-copy p { max-width: 58ch; }
+  .transfer-lead {
+    font-family: var(--font-display); font-size: var(--step-2); line-height: 1.3;
+    color: var(--ink); letter-spacing: -0.01em;
+    padding-left: 20px; border-left: 3px solid var(--brand);
+    margin-bottom: 28px;
+  }
+
+  .transfer-goal {
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: clamp(24px, 3vw, 36px);
+  }
+  .transfer-goal h3 { font-size: var(--step-1); margin-bottom: 8px; }
+  .transfer-goal ul { list-style: none; margin: 0; padding: 0; }
+  .transfer-goal li {
+    position: relative; padding: 14px 0 14px 28px;
+    border-bottom: 1px solid var(--line); color: var(--text);
+  }
+  .transfer-goal li:last-child { border-bottom: 0; padding-bottom: 0; }
+  .transfer-goal li::before {
+    content: ''; position: absolute; left: 2px; top: 22px;
+    width: 12px; height: 7px;
+    border-left: 2px solid var(--primary); border-bottom: 2px solid var(--primary);
+    transform: rotate(-45deg);
+  }
+
+  .how {
+    list-style: none; margin: clamp(48px, 6vw, 80px) 0 0; padding: 0;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px;
+  }
+  @media (max-width: 980px) { .how { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .how { grid-template-columns: 1fr; gap: 0; } }
+  .how li { padding-top: 20px; border-top: 1px solid var(--line-strong); }
+  @media (max-width: 560px) { .how li { padding-block: 20px; } }
+  .how-n {
+    display: block; margin-bottom: 12px;
+    font-family: var(--font-display); font-weight: 600; font-size: 0.9rem; color: var(--primary);
+  }
+  .how h3 { font-size: 1.1rem; margin-bottom: 8px; }
+  .how p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  /* ---------- Política, misión, visión y valores ---------- */
+  /* .section-head p (global) le gana en especificidad a .eyebrow: se restituye acá. */
+  .rows { border-top: 1px solid var(--line); }
+  .row {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.2fr); gap: 12px 48px;
+    padding-block: 32px; border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 760px) { .row { grid-template-columns: 1fr; padding-block: 24px; } }
+  .row h3 { font-size: var(--step-1); }
+  .row p { max-width: 64ch; }
+  .row div > p:last-child { margin-bottom: 0; }
+
+  .values {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px 24px;
+  }
+  @media (max-width: 760px) { .values { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .values li {
+    padding-left: 16px; border-left: 2px solid var(--brand);
+    font-family: var(--font-display); font-weight: 600; font-size: var(--step-1); color: var(--ink);
+  }
+
+  .pillars { margin: 0 0 1em; padding-left: 1.3em; max-width: 64ch; }
+  .pillars li { padding-left: 6px; margin-bottom: 8px; }
+  .pillars li::marker { font-family: var(--font-display); font-weight: 600; color: var(--primary); }
+  .signed { font-size: var(--step--1); color: var(--muted); }
+
+  /* ---------- ROCS ---------- */
+  .rocs { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 40px 72px; align-items: center; }
+  @media (max-width: 860px) { .rocs { grid-template-columns: 1fr; } }
+  .rocs-copy h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .rocs-copy p:not(.eyebrow) { max-width: 60ch; }
+  .rocs-links { display: flex; flex-wrap: wrap; gap: 12px 28px; margin-top: 8px; }
+
+  .rocs-badge {
+    background: var(--white); border: 1px solid var(--line); border-radius: var(--radius);
+    padding: clamp(24px, 3vw, 32px); position: relative;
+  }
+  .rocs-badge dl { margin: 0; display: grid; }
+  .rocs-badge dl div { display: grid; gap: 2px; padding-block: 12px; border-bottom: 1px solid var(--line); }
+  .rocs-badge dl div:first-child { padding-top: 0; }
+  .rocs-badge dl div:last-child { border-bottom: 0; padding-bottom: 0; }
+  .rocs-badge dt { font-size: var(--step--1); color: var(--muted); }
+  .rocs-badge dd { margin: 0; font-family: var(--font-display); font-weight: 600; color: var(--ink); }
+  .rocs-media { display: flex; flex-wrap: wrap; align-items: center; gap: 24px; }
+
+  /* Política completa, desplegable */
+  .politica summary {
+    list-style: none; cursor: pointer; display: inline-flex; align-items: center; gap: 7px;
+    font-weight: 700; font-size: 1rem; color: var(--primary);
+  }
+  .politica summary::-webkit-details-marker { display: none; }
+  .politica summary::after { content: '+'; font-weight: 400; font-size: 1.3rem; line-height: 1; transition: transform var(--base) var(--ease); }
+  .politica[open] summary::after { transform: rotate(45deg); }
+  .politica summary:hover { color: var(--primary-dark); }
+  .politica[open] summary { margin-bottom: 16px; }
+</style>

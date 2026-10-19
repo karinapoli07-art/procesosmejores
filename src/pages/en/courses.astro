@@ -1,0 +1,299 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import fotoCursos from '../../assets/fotos/cursos.webp';
+import CursoCard from '../../components/CursoCard.astro';
+import { contacto, formularios } from '../../data/sitio-en';
+import { obtenerCursos } from '../../lib/cursos';
+
+const cursos = obtenerCursos('en');
+const sitio = 'https://www.procesosmejores.com';
+
+const caracteristicas = [
+  {
+    titulo: 'Live sessions on Google Meet',
+    texto: 'You take the course remotely, but with real interaction: you can ask questions, discuss cases and learn from others.',
+  },
+  {
+    titulo: 'Case studies',
+    texto: 'Implementation examples and audit exercises. The point is not to memorize requirements, but to understand what evidence an auditor would ask for.',
+  },
+  {
+    titulo: 'Study materials you keep',
+    texto: 'Digital materials to go with the classes and to refer back to later.',
+  },
+  {
+    titulo: 'Final online exam',
+    texto: 'The ISO 9001 and ISO/IEC 27001 internal auditor courses end with an online exam. For the others, the assessment is confirmed for each edition.',
+  },
+];
+
+const preguntas = [
+  {
+    pregunta: 'Do I need prior knowledge?',
+    respuesta: [
+      'It depends on the course. For ISO 14001:2026 you do not. For ISO 9001 and ISO/IEC 27001 some familiarity with management systems helps, but it is not required.',
+    ],
+  },
+  {
+    pregunta: 'I live outside Argentina. Can I take part?',
+    respuesta: [
+      'Yes. Sessions are online, so you can join from any country. Keep in mind that classes are taught in Spanish and times are given in Argentina time (GMT-3).',
+      'There is a US dollar price for people living outside Argentina: write to us before enrolling to ask for it.',
+    ],
+  },
+  {
+    pregunta: 'What if I miss a session?',
+    respuesta: [
+      'The certificate of participation requires attending at least 75% of the sessions. If you already know you will miss one, ask us before enrolling.',
+    ],
+    confirmar: true,
+  },
+  {
+    pregunta: 'How do I enroll and pay?',
+    respuesta: [
+      'The “Enroll” button on each course takes you to a short form (in Spanish). You can pay by bank transfer, Mercado Pago, or credit or debit card, and there are financing options: write to us for the details.',
+    ],
+    confirmarPagos: true,
+  },
+];
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${sitio}/en/` },
+      { '@type': 'ListItem', position: 2, name: 'Courses', item: `${sitio}/en/courses` },
+    ],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'Procesos Mejores courses',
+    itemListElement: cursos.map((c, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: c.titulo,
+      url: `${sitio}/en/courses`,
+    })),
+  },
+];
+---
+<Base
+  title="Live ISO internal auditor courses | Procesos Mejores"
+  description="Live courses on Google Meet, taught in Spanish: ISO 9001, ISO 14001, ISO 45001 and ISO/IEC 27001 internal auditor, and 5S Professional. With case studies and study materials."
+  jsonLd={jsonLd}
+>
+  <PageHeader
+    eyebrow="Training"
+    ilustracion="cursos"
+    foto={fotoCursos}
+    fotoAlt="A person taking notes during a live video class"
+    title="Live internal auditor courses"
+    lead="Live sessions on Google Meet, with case studies and study materials. Courses are taught in Spanish, for professionals from any organization."
+    crumbs={[{ label: 'Courses' }]}
+  >
+    <a class="btn btn--primary" href="#calendario">See upcoming editions</a>
+    <a class="btn btn--ghost" href="#equipos">Training for teams</a>
+  </PageHeader>
+
+  <!-- ============ CALENDARIO ============ -->
+  <section class="section" id="calendario">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Calendar</p>
+        <h2>Upcoming editions</h2>
+        <p>If the course you want has no date yet, join the waiting list and we will let you know.</p>
+      </div>
+      <div class="grid-3">
+        {cursos.map((c) => <CursoCard curso={c} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CÓMO SON ============ -->
+  <section class="section section--soft">
+    <div class="wrap como">
+      <div class="como-intro">
+        <p class="eyebrow">What our courses are like</p>
+        <h2>Training is more than explaining a standard.</h2>
+        <p>
+          We want every participant to understand the standard, discuss it and apply it. That is why courses are
+          live, with groups from different organizations: you learn from the instructor and from your classmates too.
+        </p>
+        <a class="link-arrow" href="/en/testimonials">What past participants say</a>
+      </div>
+
+      <div class="como-detalle">
+        <ul class="rasgos">
+          {caracteristicas.map((c) => (
+            <li>
+              <h3>{c.titulo}</h3>
+              <p>{c.texto}</p>
+            </li>
+          ))}
+        </ul>
+
+        <div class="certificados">
+          <h3>Certificates</h3>
+          <dl>
+            <div>
+              <dt>Participation</dt>
+              <dd>Requires attending at least 75% of the sessions.<!-- A CONFIRMAR: que el 75% aplique a todos los cursos; las fuentes sólo lo documentan para ISO 9001 e ISO/IEC 27001. --></dd>
+            </div>
+            <div>
+              <dt>Completion</dt>
+              <dd>In courses with an exam, requires the minimum attendance and passing the exam.</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ IN COMPANY ============ -->
+  <section class="section" id="equipos">
+    <div class="wrap equipos">
+      <div class="equipos-copy">
+        <p class="eyebrow">In company</p>
+        <h2>Training for your team</h2>
+        <p>
+          A course just for your team, at your company or online, or tailored training on the standards and
+          methods we work with.
+        </p>
+        <!-- A CONFIRMAR: cantidad mínima de participantes y cómo se cotiza una capacitación in company. -->
+        <a class="btn btn--primary" href="/en/contact?servicio=formacion#formulario">Ask about training</a>
+      </div>
+      <ul class="equipos-lista">
+        <li>
+          <h3>Tailored content</h3>
+          <p>We start from what your team already knows and what it needs: interpreting a standard, auditing or improving a process.</p>
+        </li>
+        <li>
+          <h3>With examples from your reality</h3>
+          <p>Exercises can use situations from your own organization.</p>
+        </li>
+        <li>
+          <h3>At your company or online</h3>
+          <p>We arrange the format, dates and times around your team’s availability.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============ PREGUNTAS FRECUENTES ============ -->
+  <section class="section section--soft" id="preguntas">
+    <div class="wrap faq">
+      <div class="faq-intro">
+        <p class="eyebrow">Frequently asked questions</p>
+        <h2>Before you enroll</h2>
+        <p>Any other question? Write to <a href={`mailto:${contacto.email}`}>{contacto.email}</a> or message us on <a href={contacto.whatsapp} target="_blank" rel="noopener">WhatsApp</a>.</p>
+      </div>
+      <div class="faq-lista">
+        {preguntas.map((p) => (
+          <details>
+            <summary>{p.pregunta}</summary>
+            <div class="respuesta">
+              {p.confirmar && <Fragment set:html="<!-- A CONFIRMAR: si los encuentros se graban o cómo se recupera una clase a la que se faltó. -->" />}
+              {p.confirmarPagos && <Fragment set:html="<!-- A CONFIRMAR: que estos medios de pago apliquen a todos los cursos (la fuente es la página del curso ISO 27001). -->" />}
+              {p.respuesta.map((r) => <p>{r}</p>)}
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LISTA DE ESPERA ============ -->
+  <section class="espera">
+    <div class="wrap espera-inner">
+      <div>
+        <h2>Can’t find the date you are looking for?</h2>
+        <p>Join the waiting list and we will let you know when enrollment opens. You can also tell us which course you would like us to add.</p>
+      </div>
+      <div class="espera-acciones">
+        <a class="btn btn--primary" href={formularios.listaDeEspera} target="_blank" rel="noopener">Join the waiting list</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ---------- Encabezado ---------- */
+  .btn--ghost { background: #fff; }
+
+  /* ---------- Calendario ---------- */
+  .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+  @media (max-width: 980px) { .grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 640px) { .grid-3 { grid-template-columns: 1fr; } }
+
+  /* ---------- Cómo son ---------- */
+  .como { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 48px 80px; align-items: start; }
+  @media (max-width: 920px) { .como { grid-template-columns: 1fr; } }
+  .como-intro h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .como-intro p { max-width: 52ch; }
+
+  .rasgos { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .rasgos li { padding-block: 20px; border-bottom: 1px solid var(--line); }
+  .rasgos h3, .certificados h3 { font-size: 1.1rem; margin-bottom: 6px; }
+  .rasgos p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  .certificados {
+    margin-top: 32px; padding: 24px 28px;
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+    border-left: 3px solid var(--brand);
+  }
+  .certificados h3 { margin-bottom: 14px; }
+  .certificados dl { margin: 0; display: grid; gap: 10px; }
+  .certificados dl div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; font-size: 0.97rem; }
+  @media (max-width: 480px) { .certificados dl div { grid-template-columns: 1fr; gap: 2px; } }
+  .certificados dt { font-family: var(--font-display); font-weight: 600; color: var(--ink); }
+  .certificados dd { margin: 0; color: var(--text); }
+
+  /* ---------- In company ---------- */
+  .equipos { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 40px 80px; align-items: start; }
+  @media (max-width: 920px) { .equipos { grid-template-columns: 1fr; } }
+  .equipos-copy h2 { font-size: var(--step-3); margin-bottom: 20px; }
+  .equipos-copy p { max-width: 52ch; }
+  .equipos-copy .btn { margin-top: 8px; }
+  .equipos-lista { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line-strong); }
+  .equipos-lista li { padding-block: 20px; border-bottom: 1px solid var(--line); }
+  .equipos-lista h3 { font-size: 1.1rem; margin-bottom: 6px; }
+  .equipos-lista p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+  /* ---------- Preguntas ---------- */
+  .faq { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 32px 80px; align-items: start; }
+  @media (max-width: 920px) { .faq { grid-template-columns: 1fr; } }
+  .faq-intro h2 { font-size: var(--step-3); margin-bottom: 16px; }
+  .faq-intro p { color: var(--muted); max-width: 40ch; }
+  .faq-lista { border-top: 1px solid var(--line-strong); }
+  details { border-bottom: 1px solid var(--line); }
+  summary {
+    list-style: none; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    padding-block: 20px;
+    font-family: var(--font-display); font-weight: 600; font-size: 1.08rem; color: var(--ink);
+  }
+  summary::-webkit-details-marker { display: none; }
+  summary::after {
+    content: '+'; flex: none;
+    width: 28px; height: 28px; border-radius: 50%;
+    display: grid; place-items: center;
+    border: 1px solid var(--line-strong); background: #fff;
+    font-weight: 400; font-size: 1.1rem; line-height: 1; color: var(--primary);
+  }
+  details[open] summary::after { content: '−'; }
+  summary:hover { color: var(--primary); }
+  .respuesta { padding-bottom: 20px; max-width: 64ch; }
+  .respuesta p { color: var(--text); }
+  .respuesta p:last-child { margin-bottom: 0; }
+
+  /* ---------- Lista de espera ---------- */
+  .espera { padding-block: clamp(56px, 7vw, 96px); background: var(--primary-soft); }
+  .espera-inner { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 28px 56px; align-items: center; }
+  @media (max-width: 860px) { .espera-inner { grid-template-columns: 1fr; } }
+  .espera h2 { font-size: var(--step-3); max-width: 22ch; }
+  .espera p { margin: 16px 0 0; max-width: 58ch; }
+  .espera-acciones { display: flex; flex-wrap: wrap; gap: 12px; }
+</style>

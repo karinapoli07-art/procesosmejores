@@ -15,7 +15,7 @@ export default defineConfig({
   integrations: [
     sitemap({
       // Las páginas de gracias sólo se ven después de enviar el formulario: no van al buscador.
-      filter: (pagina) => !pagina.includes('/gracias') && !pagina.includes('/thank-you'),
+      filter: (pagina) => !pagina.includes('/gracias') && !pagina.includes('/thank-you') && !pagina.includes('/en/404'),
     }),
   ],
 });
