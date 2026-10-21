@@ -5,7 +5,12 @@ export const contacto = {
   telefono: '+54 11 3404-0401',
   telefonoLink: 'tel:+541134040401',
   whatsapp: 'https://wa.me/5491134040401?text=Hola%20Rodrigo%2C%20te%20escribo%20desde%20la%20web%20de%20Procesos%20Mejores.',
-  linkedin: 'https://www.linkedin.com/in/rodmendi/',
+  // Página de la empresa en LinkedIn (pie, contacto y datos para buscadores).
+  linkedin: 'https://www.linkedin.com/company/procesosmejores',
+  // Perfil personal de Rodrigo: sólo en los enlaces de su biografía.
+  linkedinRodrigo: 'https://www.linkedin.com/in/rodmendi/',
+  instagram: 'https://www.instagram.com/procesosmejores/',
+  youtube: 'https://www.youtube.com/@procesosmejores',
 };
 
 // Formularios de Google existentes. REG-006 pregunta qué curso te interesa:

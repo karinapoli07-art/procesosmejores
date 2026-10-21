@@ -42,7 +42,7 @@ const jsonLd = [
       email: contacto.email,
       telephone: contacto.telefono,
       address: { '@type': 'PostalAddress', addressLocality: 'Buenos Aires', addressCountry: 'AR' },
-      sameAs: [contacto.linkedin],
+      sameAs: [contacto.linkedin, contacto.instagram, contacto.youtube],
       contactPoint: {
         '@type': 'ContactPoint',
         contactType: 'customer service',
@@ -110,8 +110,15 @@ const jsonLd = [
               <dt>LinkedIn</dt>
               <dd>
                 <a href={contacto.linkedin} target="_blank" rel="noopener">{linkedinTexto}</a>
-                <span class="hint">Rodrigo Arizmendi, founder.</span>
               </dd>
+            </div>
+            <div>
+              <dt>Instagram</dt>
+              <dd><a href={contacto.instagram} target="_blank" rel="noopener">@procesosmejores</a></dd>
+            </div>
+            <div>
+              <dt>YouTube</dt>
+              <dd><a href={contacto.youtube} target="_blank" rel="noopener">@procesosmejores</a></dd>
             </div>
             <div>
               <dt>Location</dt>

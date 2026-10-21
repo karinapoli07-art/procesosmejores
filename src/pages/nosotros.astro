@@ -69,10 +69,10 @@ const jsonLd = [
         name: 'Rodrigo Arizmendi',
         jobTitle: 'Fundador',
         description: 'Ingeniero electrónico, especialista en seguridad informática, con posgrado en ingeniería gerencial.',
-        sameAs: contacto.linkedin,
+        sameAs: contacto.linkedinRodrigo,
       },
       address: { '@type': 'PostalAddress', addressLocality: 'Buenos Aires', addressCountry: 'AR' },
-      sameAs: [contacto.linkedin],
+      sameAs: [contacto.linkedin, contacto.instagram, contacto.youtube],
     },
   },
   {
@@ -155,7 +155,7 @@ const jsonLd = [
           ))}
         </dl>
 
-        <a class="link-arrow" href={contacto.linkedin} target="_blank" rel="noopener">Perfil de Rodrigo en LinkedIn</a>
+        <a class="link-arrow" href={contacto.linkedinRodrigo} target="_blank" rel="noopener">Perfil de Rodrigo en LinkedIn</a>
       </div>
     </div>
   </section>
