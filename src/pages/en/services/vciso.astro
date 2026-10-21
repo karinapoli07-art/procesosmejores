@@ -34,7 +34,7 @@ const roles = [
   { quien: 'Management', verbo: 'Decides', texto: 'Approves the policy and how much risk it accepts.' },
   { quien: 'The vCISO', verbo: 'Governs', texto: 'Analyzes risks, builds the plan, coordinates and reports.', nosotros: true },
   { quien: 'IT or your provider', verbo: 'Operates', texto: 'Configures and runs the technology.' },
-  { quien: 'Internal audit', verbo: 'Checks', texto: 'Trained people from your team, or an external auditor.' },
+  { quien: 'Internal audit', verbo: 'Checks', texto: 'Trained people from your team, or our consultants, other than the ones who advise you.' },
   { quien: 'Certification body', verbo: 'Certifies', texto: 'If you decide to certify, it audits and issues the certificate.' },
 ];
 
@@ -137,8 +137,8 @@ const jsonLd = [
 
       <div class="limits">
         <p>
-          <strong>Why we do not audit or certify.</strong> If we build the system, reviewing it ourselves would mean
-          checking our own work. We put this in writing in the proposal.
+          <strong>Why we do not certify.</strong> Certification is granted by an independent body, never by the consultant.
+          Internal audits, on the other hand, can be outsourced to us: they are done by consultants other than the ones advising you.
         </p>
         <!-- A CONFIRMAR: si hay un socio técnico para estos servicios. Antes decía «los coordinamos con socios técnicos especializados»; se sacó por no estar confirmado. -->
         <p>
@@ -187,7 +187,7 @@ const jsonLd = [
       <div class="faq">
         <details>
           <summary>How is it different from an in-house CISO?</summary>
-          <p class="answer">The role is the same; the time commitment changes. And even though the support is ongoing, the knowledge stays with your people.</p>
+          <p class="answer">The role is the same; what changes is what the organization pays for the management. We provide the service so you do not need to hire a CISO (Chief Information Security Officer) as a salaried employee.</p>
         </details>
         <details>
           <summary>How many hours a month does it take?</summary>

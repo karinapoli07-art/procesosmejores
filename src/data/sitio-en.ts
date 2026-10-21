@@ -16,7 +16,7 @@ export const servicios = [
     href: '/en/services/iso-management-systems',
     nombre: 'ISO management systems',
     resumen: 'Implementation, maintenance and auditing of management systems.',
-    normas: ['ISO 9001', 'ISO 14001', 'ISO 45001', 'ISO 50001', 'ISO 21001'],
+    normas: ['ISO 9001', 'ISO 27001', 'ISO 42001', 'ISO 14001', 'ISO 45001', 'ISO 50001', 'ISO 21001'],
   },
   {
     id: 'alimentaria',

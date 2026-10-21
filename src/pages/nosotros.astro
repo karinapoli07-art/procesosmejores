@@ -20,11 +20,11 @@ const selloRocs: ImageMetadata | null = null;
 const qrRocs: ImageMetadata | null = null;
 const perfilRocs = '';
 
-// Datos que la biografía no dice. La biografía es el texto de Timbini, textual.
+// Datos que la biografía no dice. La biografía es el texto que mandó Rodrigo el 21/10/2026, textual.
 const recorrido = [
   {
     label: 'Normas',
-    datos: ['ISO 9001, ISO 14001, ISO 45001 (antes OHSAS 18001), ISO 21001, ISO 50001, ISO/IEC 27001, ISO 22000 y FSSC 22000.'],
+    datos: ['ISO 9001, ISO 14001, ISO 45001 (antes OHSAS 18001), ISO 21001, ISO 50001, ISO/IEC 27001, ISO/IEC 42001, ISO 22000 y FSSC 22000.'],
   },
 ];
 
@@ -68,11 +68,11 @@ const jsonLd = [
         '@type': 'Person',
         name: 'Rodrigo Arizmendi',
         jobTitle: 'Fundador',
-        description: 'Ingeniero electrónico con posgrado en ingeniería gerencial.',
-        sameAs: contacto.linkedin,
+        description: 'Ingeniero electrónico, especialista en seguridad informática, con posgrado en ingeniería gerencial.',
+        sameAs: contacto.linkedinRodrigo,
       },
       address: { '@type': 'PostalAddress', addressLocality: 'Buenos Aires', addressCountry: 'AR' },
-      sameAs: [contacto.linkedin],
+      sameAs: [contacto.linkedin, contacto.instagram, contacto.youtube],
     },
   },
   {
@@ -118,24 +118,32 @@ const jsonLd = [
         <p class="eyebrow">Nuestra historia</p>
         <h2>De Toyota Argentina a Procesos Mejores.</h2>
         <p>
-          Rodrigo Arizmendi es ingeniero electrónico y cuenta con un posgrado en Ingeniería Gerencial. Su trayectoria
-          profesional se ha desarrollado en entornos industriales y de gestión, incluyendo su paso por Toyota
-          Argentina, donde consolidó su interés por la mejora continua, la optimización de procesos y el
-          desarrollo de soluciones aplicadas especialmente a pequeñas y medianas empresas.
+          Rodrigo Arizmendi es ingeniero electrónico, especialista en Seguridad Informática y cuenta con un posgrado
+          en Ingeniería Gerencial. Su trayectoria profesional integra la ingeniería, la gestión organizacional y la
+          tecnología, con una mirada orientada a la mejora continua y al desarrollo de soluciones que aporten valor
+          a las organizaciones.
         </p>
         <p>
-          Desde 2012 lidera su propia consultora, desde la cual acompaña a organizaciones de diversos sectores
-          y dimensiones en el diseño, desarrollo y transformación de sus procesos. Su enfoque combina la visión
-          técnica y de gestión con una comprensión integral de las necesidades de cada organización, buscando
-          generar mejoras concretas, sostenibles y alineadas con sus objetivos.
+          Su experiencia incluye su paso por Toyota Argentina, donde profundizó su interés por la excelencia
+          operacional, la optimización de procesos y los sistemas de gestión. Desde 2012 está al frente de Procesos
+          Mejores, consultora desde la cual acompaña a organizaciones de distintos sectores y dimensiones en la
+          implementación, evaluación y mejora de sus sistemas de gestión, combinando el rigor técnico con un enfoque
+          práctico, cercano y adaptado a cada realidad.
         </p>
         <p>
-          A esta experiencia suma una marcada vocación por la formación y el desarrollo de personas. A lo largo
-          de su trayectoria ha diseñado y facilitado experiencias de aprendizaje en instituciones como la UTN
-          Delta, la Escuela Técnica Roberto Rocca y la Escuela Técnica Henry Ford, así como programas de
-          capacitación para empresas y particulares. Su actividad docente incluye también el desarrollo de
-          propuestas formativas a medida, diseñadas para responder a los desafíos específicos de cada
-          organización y contexto.
+          En los últimos años ha profundizado su especialización en seguridad de la información, integrando su
+          experiencia en sistemas de gestión con los desafíos de la ciberseguridad, la protección de la información y
+          la gestión de riesgos tecnológicos. Esta perspectiva le permite abordar tanto los aspectos organizacionales
+          como los técnicos de la seguridad, acompañando a las empresas en el fortalecimiento de sus capacidades y su
+          resiliencia.
+        </p>
+        <p>
+          Su perfil profesional se complementa con una sólida vocación docente y una formación especializada en
+          Educación. A lo largo de su trayectoria ha desarrollado actividades de enseñanza en instituciones como la
+          UTN Delta, la Escuela Técnica Roberto Rocca y la Escuela Técnica Henry Ford, además de diseñar y facilitar
+          programas de capacitación para empresas y profesionales. Su propuesta formativa combina la experiencia
+          profesional con una sólida base pedagógica, privilegiando el aprendizaje práctico y la aplicación de
+          conocimientos a los desafíos reales de cada organización.
         </p>
 
         <dl class="path">
@@ -147,7 +155,7 @@ const jsonLd = [
           ))}
         </dl>
 
-        <a class="link-arrow" href={contacto.linkedin} target="_blank" rel="noopener">Perfil de Rodrigo en LinkedIn</a>
+        <a class="link-arrow" href={contacto.linkedinRodrigo} target="_blank" rel="noopener">Perfil de Rodrigo en LinkedIn</a>
       </div>
     </div>
   </section>
@@ -236,24 +244,31 @@ const jsonLd = [
         <div class="row">
           <h3>Política de la calidad</h3>
           <div>
+            <!-- Texto completo de la política, tal cual el sitio anterior. -->
             <p>
-              Somos una empresa de consultoría y capacitación. Con la consultoría contribuimos a que las organizaciones
-              mejoren sus procesos y crezcan de forma sostenible; con las capacitaciones, a que las personas desarrollen
-              competencias profesionales de valor.
+              Procesos Mejores es una empresa de consultoría y capacitación. Mediante el servicio de consultoría,
+              contribuimos a que las organizaciones mejoren sus procesos de modo tal de favorecerles un crecimiento
+              sostenible. A través de las capacitaciones ofrecidas, buscamos que las personas desarrollen competencias
+              profesionales de valor.
             </p>
             <details class="politica">
               <summary>Leer la política completa</summary>
             <p>
-              Nos comprometemos a cumplir los requisitos aplicables y a mejorar de forma continua nuestro sistema de
-              gestión de la calidad, para perdurar aportando a la sociedad y generar relaciones de beneficio mutuo con
-              clientes y proveedores. Nuestros pilares:
+              Nuestro nombre explica nuestra misión. Trabajamos sobre los individuos y también en los equipos de trabajo.
             </p>
+            <p>
+              Nos comprometemos firmemente a cumplir los requisitos aplicables y a mejorar de forma continua nuestro
+              sistema de gestión de la calidad. Compromisos que asumimos considerándolos imprescindibles para perdurar
+              contribuyendo positivamente a la sociedad mientras generamos negocios de beneficios mutuos para nosotros,
+              nuestros proveedores y nuestros clientes.
+            </p>
+            <p>Trabajamos sobre los siguientes pilares de nuestro sistema de gestión de la calidad:</p>
             <ol class="pillars">
-              <li>Satisfacer a nuestros clientes y ofrecerles más y mejores soluciones.</li>
-              <li>Trabajar en equipo, también con nuestros proveedores: comunicación fluida y evaluación continua de su desempeño.</li>
-              <li>Mejorar nuestro desempeño de forma continua.</li>
+              <li>Buscamos satisfacer a nuestros clientes y ofrecerles más y mejores soluciones.</li>
+              <li>Tenemos el absoluto convencimiento de que los mejores resultados se obtienen trabajando en equipo, motivo por el cual nuestros servicios dependen de otras empresas proveedoras, con las que propiciamos una comunicación eficaz y fluida y a las cuales evaluamos continuamente de modo tal de asegurarnos el desempeño correcto y esperado.</li>
+              <li>Mejoramos nuestro desempeño continuamente.</li>
             </ol>
-            <p class="signed">Síntesis de la política firmada por Rodrigo Arizmendi, fundador, el 13 de enero de 2023.</p>
+            <p class="signed">13 de enero de 2023</p>
             </details>
           </div>
         </div>

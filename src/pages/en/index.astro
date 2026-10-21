@@ -37,11 +37,11 @@ const jsonLd = [
     email: contacto.email,
     telephone: '+54 11 3404-0401',
     foundingDate: '2012',
-    founder: { '@type': 'Person', name: 'Rodrigo Arizmendi', sameAs: contacto.linkedin },
+    founder: { '@type': 'Person', name: 'Rodrigo Arizmendi', sameAs: contacto.linkedinRodrigo },
     areaServed: 'AR',
     address: { '@type': 'PostalAddress', addressLocality: 'Buenos Aires', addressCountry: 'AR' },
-    knowsAbout: ['ISO 9001', 'ISO 14001', 'ISO 45001', 'ISO/IEC 27001', 'ISO 22000', 'FSSC 22000', 'Lean Manufacturing'],
-    sameAs: [contacto.linkedin],
+    knowsAbout: ['ISO 9001', 'ISO 14001', 'ISO 45001', 'ISO/IEC 27001', 'ISO/IEC 42001', 'ISO 22000', 'FSSC 22000', 'Lean Manufacturing'],
+    sameAs: [contacto.linkedin, contacto.instagram, contacto.youtube],
   },
 ];
 ---
@@ -55,10 +55,10 @@ const jsonLd = [
     <div class="wrap hero-grid">
       <div class="hero-copy entrada">
         <p class="eyebrow">Management systems consulting and training</p>
-        <h1>Management systems your team <span>knows how to sustain.</span></h1>
+        <h1>We improve <span>your company's processes.</span></h1>
         <p class="lead">
-          ISO standards, food safety, Lean Manufacturing and information security.
-          We work with your team so the knowledge stays inside your organization.
+          ISO standards, information security, food safety and Lean Manufacturing.
+          We work with your team so that process improvement and know-how stay inside your organization.
         </p>
         <div class="hero-actions">
           <a class="btn btn--primary" href="/en/contact#formulario">Request an initial assessment</a>
@@ -99,7 +99,7 @@ const jsonLd = [
   <section class="facts" aria-label="About Procesos Mejores">
     <ul class="wrap facts-list">
       <li><strong>Since 2012</strong><span>Management systems consulting and training</span></li>
-      <li><strong>Toyota experience</strong><span>The founder worked at Toyota Argentina</span></li>
+      <li><strong>Experience</strong><span>Our know-how is backed by professionals from the automotive industry (Toyota), ISO auditors (IRAM) and information security (Information Security Specialist – UBA)</span></li>
       <li><strong>Live courses</strong><span>On Google Meet, in Spanish, with case studies</span></li>
       <li><strong>Registered in ROCS</strong><span>Registry of Organizations Committed to Sustainability (IRAM)</span></li>
     </ul>
@@ -208,27 +208,35 @@ const jsonLd = [
         <h2>Rodrigo Arizmendi</h2>
         <p class="role">Founder of Procesos Mejores</p>
         <p>
-          He is an electronics engineer with a postgraduate degree in Management Engineering. His professional
-          career has developed in industrial and management environments, including his time at Toyota
-          Argentina, where he consolidated his interest in continuous improvement, process optimization and
-          the development of solutions applied especially to small and medium-sized companies.
+          He is an electronics engineer and an information security specialist, with a postgraduate degree in
+          Management Engineering. His professional career brings together engineering, organizational management
+          and technology, with a focus on continuous improvement and on developing solutions that add value to
+          organizations.
         </p>
         <p>
-          Since 2012 he has led his own consulting firm, through which he supports organizations of different
-          sectors and sizes in the design, development and transformation of their processes. His approach
-          combines a technical and management perspective with a comprehensive understanding of each
-          organization's needs, seeking concrete and sustainable improvements aligned with its objectives.
+          His experience includes his time at Toyota Argentina, where he deepened his interest in operational
+          excellence, process optimization and management systems. Since 2012 he has led Procesos Mejores, the
+          consulting firm through which he supports organizations of different sectors and sizes in implementing,
+          assessing and improving their management systems, combining technical rigor with a practical, close
+          approach adapted to each situation.
         </p>
         <p>
-          To this experience he adds a strong vocation for training and developing people. Throughout his
-          career he has designed and facilitated learning experiences at institutions such as UTN Delta, the
-          Escuela Técnica Roberto Rocca and the Escuela Técnica Henry Ford, as well as training programs for
-          companies and individuals. His teaching work also includes tailored training proposals, designed to
-          respond to the specific challenges of each organization and context.
+          In recent years he has deepened his specialization in information security, bringing his experience in
+          management systems to the challenges of cybersecurity, information protection and technology risk
+          management. This perspective allows him to address both the organizational and the technical aspects of
+          security, helping companies strengthen their capabilities and their resilience.
+        </p>
+        <p>
+          His professional profile is complemented by a strong vocation for teaching and specialized training in
+          Education. Throughout his career he has taught at institutions such as UTN Delta, the Escuela Técnica
+          Roberto Rocca and the Escuela Técnica Henry Ford, and has designed and facilitated training programs for
+          companies and professionals. His approach to training combines professional experience with a solid
+          pedagogical foundation, favoring hands-on learning and the application of knowledge to the real
+          challenges of each organization.
         </p>
         <div class="about-links">
           <a class="link-arrow" href="/en/about">Our story</a>
-          <a class="link-arrow" href={contacto.linkedin} target="_blank" rel="noopener">LinkedIn profile</a>
+          <a class="link-arrow" href={contacto.linkedinRodrigo} target="_blank" rel="noopener">LinkedIn profile</a>
         </div>
       </div>
     </div>

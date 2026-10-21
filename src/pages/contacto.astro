@@ -42,7 +42,7 @@ const jsonLd = [
       email: contacto.email,
       telephone: contacto.telefono,
       address: { '@type': 'PostalAddress', addressLocality: 'Buenos Aires', addressCountry: 'AR' },
-      sameAs: [contacto.linkedin],
+      sameAs: [contacto.linkedin, contacto.instagram, contacto.youtube],
       contactPoint: {
         '@type': 'ContactPoint',
         contactType: 'customer service',
@@ -110,8 +110,15 @@ const jsonLd = [
               <dt>LinkedIn</dt>
               <dd>
                 <a href={contacto.linkedin} target="_blank" rel="noopener">{linkedinTexto}</a>
-                <span class="hint">Rodrigo Arizmendi, fundador.</span>
               </dd>
+            </div>
+            <div>
+              <dt>Instagram</dt>
+              <dd><a href={contacto.instagram} target="_blank" rel="noopener">@procesosmejores</a></dd>
+            </div>
+            <div>
+              <dt>YouTube</dt>
+              <dd><a href={contacto.youtube} target="_blank" rel="noopener">@procesosmejores</a></dd>
             </div>
             <div>
               <dt>Ubicación</dt>
@@ -165,8 +172,8 @@ const jsonLd = [
           <div class="answer">
             <p>
               No hace falta: cada curso con fecha tiene su botón de inscripción en la <a href="/cursos">página de cursos</a>.
-              Si el que te interesa todavía no tiene fecha, anotate en la
-              <a href={formularios.listaDeEspera} target="_blank" rel="noopener">lista de espera</a> y te avisamos cuando abra la inscripción.
+              Si el que te interesa todavía no tiene fecha, anotate en
+              la <a href={formularios.listaDeEspera} target="_blank" rel="noopener">lista de espera</a> y te avisamos cuando abra la inscripción.
             </p>
             <p>
               Si lo que buscás es una capacitación a medida para tu equipo, usá el formulario de esta página
@@ -180,8 +187,8 @@ const jsonLd = [
           <div class="answer">
             <p>
               Los usamos sólo para responder tu consulta y no los vendemos ni los compartimos con terceros sin tu consentimiento, salvo que la ley lo exija. Podés pedirnos
-              en cualquier momento que los corrijamos o los borremos. El detalle está en la
-              <a href="/privacidad">política de privacidad</a>.
+              en cualquier momento que los corrijamos o los borremos. El detalle está en
+              la <a href="/privacidad">política de privacidad</a>.
             </p>
           </div>
         </details>

@@ -64,7 +64,7 @@ export const ui = {
   es: {
     htmlLang: 'es-AR',
     ogLocale: 'es_AR',
-    ogImageAlt: 'Procesos Mejores. Sistemas de gestión que tu equipo sabe sostener.',
+    ogImageAlt: 'Procesos Mejores. Mejoramos los procesos de tu empresa.',
     saltar: 'Saltar al contenido',
     inicio: 'Inicio',
     ubicacion: 'Ubicación',
@@ -91,7 +91,7 @@ export const ui = {
   en: {
     htmlLang: 'en',
     ogLocale: 'en_US',
-    ogImageAlt: 'Procesos Mejores. Management systems your team knows how to sustain.',
+    ogImageAlt: "Procesos Mejores. We improve your company's processes.",
     saltar: 'Skip to content',
     inicio: 'Home',
     ubicacion: 'Breadcrumb',
