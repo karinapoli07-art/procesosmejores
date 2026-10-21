@@ -20,7 +20,7 @@ export const servicios = [
     href: '/servicios/sistemas-de-gestion-iso',
     nombre: 'Sistemas de gestión ISO',
     resumen: 'Implementación, mantenimiento y auditoría de sistemas de gestión.',
-    normas: ['ISO 9001', 'ISO 14001', 'ISO 45001', 'ISO 50001', 'ISO 21001'],
+    normas: ['ISO 9001', 'ISO 27001', 'ISO 42001', 'ISO 14001', 'ISO 45001', 'ISO 50001', 'ISO 21001'],
   },
   {
     id: 'alimentaria',
