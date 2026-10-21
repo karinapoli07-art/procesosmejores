@@ -27,8 +27,8 @@ const otroIdioma = rutaEnOtroIdioma(Astro.url.pathname, lang === 'es' ? 'en' : '
             {t.servicios}
             <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" /></svg>
           </button>
-          <!-- El contenedor arranca pegado al botón: el relleno de arriba hace
-               de puente, así el mouse nunca cruza un hueco sin superficie. -->
+          {/* El contenedor arranca pegado al botón: el relleno de arriba hace
+               de puente, así el mouse nunca cruza un hueco sin superficie. */}
           <div class="sub" id="submenu-servicios">
             <ul>
               {servicios.map((s) => (

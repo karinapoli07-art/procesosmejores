@@ -92,7 +92,7 @@ const jsonLd = [
 ];
 ---
 <Base title={title} description={description} jsonLd={jsonLd}>
-  <!-- A CONFIRMAR: que el acompañamiento llegue hasta la auditoría de certificación (bajada de la cabecera). -->
+  {/* A CONFIRMAR: que el acompañamiento llegue hasta la auditoría de certificación (bajada de la cabecera). */}
   <PageHeader
     eyebrow="Industria de alimentos y bebidas"
     ilustracion="alimentaria"
@@ -106,7 +106,7 @@ const jsonLd = [
     <a class="btn btn--ghost" href="#normas">Ver las normas</a>
   </PageHeader>
 
-  <!-- ============ PARA QUIÉN ES ============ -->
+  {/* ============ PARA QUIÉN ES ============ */}
   <section class="section">
     <div class="wrap">
       <div class="section-head">
@@ -124,7 +124,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <!-- ============ LAS NORMAS ============ -->
+  {/* ============ LAS NORMAS ============ */}
   <section class="section section--soft" id="normas" aria-labelledby="normas-titulo">
     <div class="wrap">
       <div class="section-head">
@@ -132,7 +132,7 @@ const jsonLd = [
         <h2 id="normas-titulo">Se nombran juntas, pero no son lo mismo.</h2>
       </div>
 
-      <!-- Pestañas: el script de abajo las muestra. Sin JavaScript se ven las tres normas una abajo de la otra. -->
+      {/* Pestañas: el script de abajo las muestra. Sin JavaScript se ven las tres normas una abajo de la otra. */}
       <div class="tabs" role="tablist" aria-label="Normas alimentarias" hidden>
         {normas.map((n, i) => (
           <button type="button" role="tab" id={`tab-${n.id}`} aria-controls={n.id} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
@@ -166,15 +166,15 @@ const jsonLd = [
     </div>
   </section>
 
-  <!-- ============ CÓMO TRABAJAMOS ============ -->
+  {/* ============ CÓMO TRABAJAMOS ============ */}
   <section class="section">
     <div class="wrap method">
       <div class="method-intro">
         <p class="eyebrow">Cómo trabajamos</p>
         <h2>En la planta, con la gente que produce.</h2>
         <p>Porque son quienes después sostienen el sistema todos los días.</p>
-        <!-- A CONFIRMAR: si Rodrigo tiene experiencia previa en ISO 22000 y FSSC 22000 (el sitio anterior no lo dice). Si la confirma, puede volver «Tenemos experiencia en ISO 22000 y FSSC 22000, y también en ISO 9001, ISO 14001 e ISO 45001.» -->
-        <!-- A CONFIRMAR: si Rodrigo quiere dar rangos de duración orientativos para BPM, ISO 22000 y FSSC 22000. -->
+        {/* A CONFIRMAR: si Rodrigo tiene experiencia previa en ISO 22000 y FSSC 22000 (el sitio anterior no lo dice). Si la confirma, puede volver «Tenemos experiencia en ISO 22000 y FSSC 22000, y también en ISO 9001, ISO 14001 e ISO 45001.» */}
+        {/* A CONFIRMAR: si Rodrigo quiere dar rangos de duración orientativos para BPM, ISO 22000 y FSSC 22000. */}
         <p class="nota-chica">Si ya tenés ISO 9001 u otro sistema, lo integramos. Los plazos se acuerdan en el diagnóstico.</p>
         <a class="btn btn--primary" href={contactoHref}>Empezar por un diagnóstico</a>
       </div>
@@ -192,7 +192,7 @@ const jsonLd = [
     </div>
   </section>
 
-  <!-- ============ PREGUNTAS FRECUENTES ============ -->
+  {/* ============ PREGUNTAS FRECUENTES ============ */}
   <section class="section section--soft" aria-labelledby="faq-titulo">
     <div class="wrap faq-grid">
       <div class="faq-intro">

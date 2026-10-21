@@ -59,8 +59,8 @@ const textos = {
   netlify-honeypot="bot-field"
 >
   <input type="hidden" name="form-name" value="diagnostico" />
-  <!-- Trampa para robots: oculta del todo y con un nombre que el autocompletado no reconoce.
-       Si llega llena, Netlify descarta el envío. -->
+  {/* Trampa para robots: oculta del todo y con un nombre que el autocompletado no reconoce.
+       Si llega llena, Netlify descarta el envío. */}
   <p hidden aria-hidden="true"><label>{textos.noCompletar} <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
 
   <div class="row">

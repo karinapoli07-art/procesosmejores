@@ -9,9 +9,8 @@ cursos: ["iso-9001"]
 cierre: "¿Querés revisar cómo impacta en tu sistema de gestión?"
 cierreTexto: "Revisamos con tu equipo el análisis de contexto, las partes interesadas y los riesgos, para que el sistema refleje la enmienda en la próxima auditoría."
 orden: 2
+# A CONFIRMAR: fecha de publicación original. Mientras "fecha" esté vacía, la nota no muestra fecha.
 ---
-
-<!-- A CONFIRMAR: fecha de publicación original. Mientras "fecha" esté vacía, la nota no muestra fecha. -->
 
 ISO aprobó una enmienda que incorpora el cambio climático a ISO 9001:2015 y a otras normas ISO de sistemas de gestión. Se publicó en febrero de 2024 y ISO la anunció junto con el IAF (Foro Internacional de Acreditación). En el caso de la calidad, su designación es ISO 9001:2015/Amd 1:2024.
 

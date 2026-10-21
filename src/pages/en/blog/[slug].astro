@@ -76,7 +76,7 @@ const jsonLd = [
 ];
 ---
 <Base title={title} description={nota.descripcion} jsonLd={jsonLd}>
-  <!-- ============ ENCABEZADO ============ -->
+  {/* ============ ENCABEZADO ============ */}
   <header class="nota-head">
     <div class="wrap">
       <nav class="crumbs" aria-label="Breadcrumb">
@@ -104,7 +104,7 @@ const jsonLd = [
     </div>
   </header>
 
-  <!-- ============ CUERPO ============ -->
+  {/* ============ CUERPO ============ */}
   <div class="wrap nota-layout">
     <article class="prose">
       <Content />
@@ -122,7 +122,7 @@ const jsonLd = [
     )}
   </div>
 
-  <!-- ============ RELACIONADO ============ -->
+  {/* ============ RELACIONADO ============ */}
   {(relacionados.length > 0 || cursos.length > 0) && (
     <section class="section section--soft">
       <div class="wrap">
@@ -163,7 +163,7 @@ const jsonLd = [
     </section>
   )}
 
-  <!-- ============ OTRAS NOTAS ============ -->
+  {/* ============ OTRAS NOTAS ============ */}
   {otras.length > 0 && (
     <section class="section otras">
       <div class="wrap">

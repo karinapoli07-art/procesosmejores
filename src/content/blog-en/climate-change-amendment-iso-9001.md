@@ -10,9 +10,8 @@ cursos: ["iso-9001"]
 cierre: "Want to review how it affects your management system?"
 cierreTexto: "We review the context analysis, interested parties and risks with your team, so the system reflects the amendment at the next audit."
 orden: 2
+# A CONFIRMAR: original publication date. While "fecha" is empty, the post shows no date.
 ---
-
-<!-- A CONFIRMAR: original publication date. While "fecha" is empty, the post shows no date. -->
 
 ISO approved an amendment that brings climate change into ISO 9001:2015 and other ISO management system standards. It was published in February 2024 and announced by ISO together with the IAF (International Accreditation Forum). For quality, it is designated ISO 9001:2015/Amd 1:2024.
 
