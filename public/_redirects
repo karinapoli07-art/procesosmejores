@@ -1,3 +1,17 @@
+# Direcciones del sitio anterior: llevan a la página equivalente del sitio nuevo.
+# (Las tildes van codificadas, como las manda el navegador.)
+/p%C3%A1gina-principal                                                    /                                         301
+/un-poco-m%C3%A1s-acerca-nuestro                                          /nosotros                                 301
+/hablan-nuestros-clientes                                                 /testimonios                              301
+/testimonios-ediciones-anteriores-del-curso-de-auditor-interno-iso-9001  /testimonios                              301
+/calendario-de-formaci%C3%B3n-2026                                        /cursos#calendario                        301
+/curso-de-auditor-interno-iso9001-septiembre                              /cursos#iso-9001                          301
+/curso-de-auditor-interno-iso-140012026                                   /cursos#iso-14001-2026                    301
+/curso-de-auditor-interno-iso-270012022                                   /cursos#iso-27001                         301
+/iso-9001-iso-27001                                                       /blog/iso-9001-e-iso-27001                301
+/enmienda-cambio-clim%C3%A1tico-iso-9001                                  /blog/enmienda-cambio-climatico-iso-9001  301
+/pol%C3%ADtica-de-privacidad                                              /privacidad                               301
+
 # Direcciones en inglés que no existen: Netlify muestra la página 404 en inglés.
 # (Las páginas que sí existen tienen prioridad sobre esta regla.)
 /en/*  /en/404/  404
